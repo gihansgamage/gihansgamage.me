@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gihan's Portfolio - gihansgamage.me</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Navigation */
+        nav {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        nav a:hover, nav a.active {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        /* Header */
+        header {
+            text-align: center;
+            padding: 120px 0 80px;
+            color: white;
+        }
+
+        .profile-img {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            margin: 0 auto 2rem;
+            border: 5px solid rgba(255, 255, 255, 0.3);
+            object-fit: cover;
+            transition: transform 0.3s ease;
+            background: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+        }
+
+        .profile-img:hover {
+            transform: scale(1.05);
+        }
+
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .tagline {
+            font-size: 1.3rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+        }
+
+        /* Social Links */
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 3rem;
+        }
+
+        .social-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            text-decoration: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .social-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Sections */
+        .section {
+            display: none;
+            background: rgba(255, 255, 255, 0.95);
+            margin: 2rem 0;
+            padding: 3rem 2rem;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .section.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section h2 {
+            color: #764ba2;
+            margin-bottom: 2rem;
+            font-size: 2.5rem;
+            text-align: center;
+            position: relative;
+        }
+
+        .section h2::after {
+            content: '';
+            display: block;
+            width: 50px;
+            height: 3px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            margin: 1rem auto;
+            border-radius: 2px;
+        }
+
+        /* Photo Gallery */
+        .photo-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .photo-item {
+            position: relative;
+            border-radius: 15px;
+            overflow: hidden;
+            aspect-ratio: 1;
+            background: #f0f0f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            border: 2px dashed #ccc;
+        }
+
+        .photo-item:hover {
+            transform: scale(1.02);
+        }
+
+        .photo-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .upload-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            margin: 1rem 0;
+        }
+
+        .upload-btn:hover {
+            background: #764ba2;
+            transform: translateY(-2px);
+        }
+
+        /* Creations */
+        .creation-category {
+            margin-bottom: 3rem;
+        }
+
+        .creation-category h3 {
+            color: #667eea;
+            margin-bottom: 1rem;
+            font-size: 1.8rem;
+        }
+
+        .creation-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .creation-item {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+            border-left: 4px solid #667eea;
+        }
+
+        .creation-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .creation-item h4 {
+            color: #764ba2;
+            margin-bottom: 0.5rem;
+        }
+
+        .creation-item p {
+            color: #666;
+            margin-bottom: 1rem;
+        }
+
+        .creation-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn:hover {
+            background: #764ba2;
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: #667eea;
+            border: 2px solid #667eea;
+        }
+
+        .btn-secondary:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        /* Forms */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+            color: #764ba2;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            nav ul {
+                flex-wrap: wrap;
+                gap: 1rem;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .social-links {
+                flex-wrap: wrap;
+            }
+
+            .photo-gallery {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            }
+
+            .creation-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal-content {
+            background: white;
+            margin: 5% auto;
+            padding: 2rem;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 600px;
+            position: relative;
+        }
+
+        .close {
+            position: absolute;
+            right: 1rem;
+            top: 1rem;
+            font-size: 2rem;
+            cursor: pointer;
+            color: #999;
+        }
+
+        .close:hover {
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="container">
+            <ul>
+                <li><a href="#" onclick="showSection('home')" class="nav-link active">Home</a></li>
+                <li><a href="#" onclick="showSection('photos')" class="nav-link">Photos</a></li>
+                <li><a href="#" onclick="showSection('creations')" class="nav-link">Creations</a></li>
+                <li><a href="#" onclick="showSection('about')" class="nav-link">About</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- Home Section -->
+        <section id="home" class="section active">
+            <header>
+                <div class="profile-img" id="profileImg">📸</div>
+                <h1>Gihan Sgamage</h1>
+                <p class="tagline">Creative Professional • Content Creator • Designer</p>
+                
+                <div class="social-links">
+                    <a href="#" class="social-btn" id="youtubeLink">📺 YouTube</a>
+                    <a href="#" class="social-btn" id="facebookLink">📘 Facebook</a>
+                    <a href="#" class="social-btn" id="instagramLink">📷 Instagram</a>
+                    <a href="#" class="social-btn" id="githubLink">💻 GitHub</a>
+                    <a href="#" class="social-btn" id="linkedinLink">💼 LinkedIn</a>
+                </div>
+
+                <button class="upload-btn" onclick="openModal('social-modal')">Update Social Links</button>
+            </header>
+        </section>
+
+        <!-- Photos Section -->
+        <section id="photos" class="section">
+            <h2>Photo Gallery</h2>
+            <input type="file" id="photoUpload" accept="image/*" multiple style="display: none;">
+            <button class="upload-btn" onclick="document.getElementById('photoUpload').click()">Upload Photos</button>
+            
+            <div class="photo-gallery" id="photoGallery">
+                <div class="photo-item">
+                    <span>Click "Upload Photos" to add your images</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Creations Section -->
+        <section id="creations" class="section">
+            <h2>My Creations</h2>
+            
+            <button class="upload-btn" onclick="openModal('creation-modal')">Add New Creation</button>
+
+            <div class="creation-category">
+                <h3>🎵 Lyrics</h3>
+                <div class="creation-grid" id="lyricsGrid">
+                    <div class="creation-item">
+                        <h4>Sample Song Title</h4>
+                        <p>Click "Add New Creation" to add your lyrics</p>
+                        <div class="creation-actions">
+                            <button class="btn btn-secondary">View</button>
+                            <button class="btn btn-secondary">Edit</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="creation-category">
+                <h3>🎨 Graphic Designs</h3>
+                <div class="creation-grid" id="designsGrid">
+                    <div class="creation-item">
+                        <h4>Sample Design</h4>
+                        <p>Click "Add New Creation" to add your designs</p>
+                        <div class="creation-actions">
+                            <button class="btn btn-secondary">View</button>
+                            <button class="btn btn-secondary">Edit</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="creation-category">
+                <h3>📝 Publications</h3>
+                <div class="creation-grid" id="publicationsGrid">
+                    <div class="creation-item">
+                        <h4>Sample Publication</h4>
+                        <p>Click "Add New Creation" to add your publications</p>
+                        <div class="creation-actions">
+                            <button class="btn btn-secondary">View</button>
+                            <button class="btn btn-secondary">Edit</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="creation-category">
+                <h3>🎙️ Voice Notes</h3>
+                <div class="creation-grid" id="voiceNotesGrid">
+                    <div class="creation-item">
+                        <h4>Sample Voice Note</h4>
+                        <p>Click "Add New Creation" to add your voice notes</p>
+                        <div class="creation-actions">
+                            <button class="btn btn-secondary">Play</button>
+                            <button class="btn btn-secondary">Edit</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="section">
+            <h2>About Me</h2>
+            <div style="text-align: center; padding: 2rem;">
+                <p style="font-size: 1.2rem; line-height: 1.8; max-width: 600px; margin: 0 auto;">
+                    Welcome to my creative portfolio! I'm a passionate content creator, designer, and storyteller. 
+                    Here you'll find my photography, original lyrics, graphic designs, publications, and voice recordings. 
+                    Each piece represents my journey as a creative professional.
+                </p>
+                <button class="upload-btn" onclick="openModal('about-modal')" style="margin-top: 2rem;">Edit About</button>
+            </div>
+        </section>
+    </div>
+
+    <!-- Social Links Modal -->
+    <div id="social-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('social-modal')">&times;</span>
+            <h2>Update Social Links</h2>
+            <form id="socialForm">
+                <div class="form-group">
+                    <label for="youtube">YouTube Channel URL:</label>
+                    <input type="url" id="youtube" placeholder="https://youtube.com/@yourchannel">
+                </div>
+                <div class="form-group">
+                    <label for="facebook">Facebook Profile URL:</label>
+                    <input type="url" id="facebook" placeholder="https://facebook.com/yourprofile">
+                </div>
+                <div class="form-group">
+                    <label for="instagram">Instagram Profile URL:</label>
+                    <input type="url" id="instagram" placeholder="https://instagram.com/yourusername">
+                </div>
+                <div class="form-group">
+                    <label for="github">GitHub Profile URL:</label>
+                    <input type="url" id="github" placeholder="https://github.com/yourusername">
+                </div>
+                <div class="form-group">
+                    <label for="linkedin">LinkedIn Profile URL:</label>
+                    <input type="url" id="linkedin" placeholder="https://linkedin.com/in/yourprofile">
+                </div>
+                <button type="submit" class="btn">Update Links</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Creation Modal -->
+    <div id="creation-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('creation-modal')">&times;</span>
+            <h2>Add New Creation</h2>
+            <form id="creationForm">
+                <div class="form-group">
+                    <label for="creationType">Type:</label>
+                    <select id="creationType" required>
+                        <option value="">Select type...</option>
+                        <option value="lyrics">Lyrics</option>
+                        <option value="designs">Graphic Design</option>
+                        <option value="publications">Publication</option>
+                        <option value="voiceNotes">Voice Note</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="creationTitle">Title:</label>
+                    <input type="text" id="creationTitle" required>
+                </div>
+                <div class="form-group">
+                    <label for="creationDescription">Description:</label>
+                    <textarea id="creationDescription" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="creationFile">File (optional):</label>
+                    <input type="file" id="creationFile" accept="*/*">
+                </div>
+                <button type="submit" class="btn">Add Creation</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- About Modal -->
+    <div id="about-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('about-modal')">&times;</span>
+            <h2>Edit About Section</h2>
+            <form id="aboutForm">
+                <div class="form-group">
+                    <label for="aboutText">About Me:</label>
+                    <textarea id="aboutText" rows="8">Welcome to my creative portfolio! I'm a passionate content creator, designer, and storyteller. Here you'll find my photography, original lyrics, graphic designs, publications, and voice recordings. Each piece represents my journey as a creative professional.</textarea>
+                </div>
+                <button type="submit" class="btn">Update About</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Data storage
+        let portfolioData = {
+            socialLinks: {
+                youtube: '',
+                facebook: '',
+                instagram: '',
+                github: '',
+                linkedin: ''
+            },
+            photos: [],
+            creations: {
+                lyrics: [],
+                designs: [],
+                publications: [],
+                voiceNotes: []
+            },
+            about: "Welcome to my creative portfolio! I'm a passionate content creator, designer, and storyteller. Here you'll find my photography, original lyrics, graphic designs, publications, and voice recordings. Each piece represents my journey as a creative professional."
+        };
+
+        // Navigation
+        function showSection(sectionId) {
+            // Hide all sections
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Show selected section
+            document.getElementById(sectionId).classList.add('active');
+            
+            // Update navigation
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+            });
+            event.target.classList.add('active');
+        }
+
+        // Modal functions
+        function openModal(modalId) {
+            document.getElementById(modalId).style.display = 'block';
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = 'none';
+            }
+        }
+
+        // Social Links Form
+        document.getElementById('socialForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            portfolioData.socialLinks.youtube = document.getElementById('youtube').value;
+            portfolioData.socialLinks.facebook = document.getElementById('facebook').value;
+            portfolioData.socialLinks.instagram = document.getElementById('instagram').value;
+            portfolioData.socialLinks.github = document.getElementById('github').value;
+            portfolioData.socialLinks.linkedin = document.getElementById('linkedin').value;
+            
+            updateSocialLinks();
+            closeModal('social-modal');
+            alert('Social links updated successfully!');
+        });
+
+        function updateSocialLinks() {
+            const links = portfolioData.socialLinks;
+            if (links.youtube) document.getElementById('youtubeLink').href = links.youtube;
+            if (links.facebook) document.getElementById('facebookLink').href = links.facebook;
+            if (links.instagram) document.getElementById('instagramLink').href = links.instagram;
+            if (links.github) document.getElementById('githubLink').href = links.github;
+            if (links.linkedin) document.getElementById('linkedinLink').href = links.linkedin;
+        }
+
+        // Photo Upload
+        document.getElementById('photoUpload').addEventListener('change', function(e) {
+            const files = Array.from(e.target.files);
+            const gallery = document.getElementById('photoGallery');
+            
+            // Clear placeholder if this is first upload
+            if (portfolioData.photos.length === 0) {
+                gallery.innerHTML = '';
+            }
+            
+            files.forEach(file => {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    portfolioData.photos.push(e.target.result);
+                    
+                    const photoItem = document.createElement('div');
+                    photoItem.className = 'photo-item';
+                    photoItem.innerHTML = `<img src="${e.target.result}" alt="Portfolio Photo">`;
+                    gallery.appendChild(photoItem);
+                };
+                reader.readAsDataURL(file);
+            });
+        });
+
+        // Profile Image Upload
+        document.getElementById('profileImg').addEventListener('click', function() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = 'image/*';
+            input.onchange = function(e) {
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        document.getElementById('profileImg').innerHTML = `<img src="${e.target.result}" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;">`;
+                    };
+                    reader.readAsDataURL(file);
+                }
+            };
+            input.click();
+        });
+
+        // Creation Form
+        document.getElementById('creationForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const type = document.getElementById('creationType').value;
+            const title = document.getElementById('creationTitle').value;
+            const description = document.getElementById('creationDescription').value;
+            const file = document.getElementById('creationFile').files[0];
+            
+            const creation = {
+                id: Date.now(),
+                title: title,
+                description: description,
+                date: new Date().toLocaleDateString()
+            };
+            
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    creation.file = e.target.result;
+                    creation.fileName = file.name;
+                    portfolioData.creations[type].push(creation);
+                    renderCreations(type);
+                };
+                reader.readAsDataURL(file);
+            } else {
+                portfolioData.creations[type].push(creation);
+                renderCreations(type);
+            }
+            
+            closeModal('creation-modal');
+            document.getElementById('creationForm').reset();
+            alert('Creation added successfully!');
+        });
+
+        function renderCreations(type) {
+            const grid = document.getElementById(type + 'Grid');
+            const creations = portfolioData.creations[type];
+            
+            if (creations.length === 0) return;
+            
+            // Clear placeholder
+            grid.innerHTML = '';
+            
+            creations.forEach(creation => {
+                const item = document.createElement('div');
+                item.className = 'creation-item';
+                
+                let actions = `
+                    <button class="btn btn-secondary" onclick="viewCreation('${type}', ${creation.id})">View</button>
+                    <button class="btn btn-secondary" onclick="deleteCreation('${type}', ${creation.id})">Delete</button>
+                `;
+                
+                if (type === 'voiceNotes' && creation.file) {
+                    actions = `
+                        <button class="btn btn-secondary" onclick="playAudio('${creation.file}')">Play</button>
+                        <button class="btn btn-secondary" onclick="deleteCreation('${type}', ${creation.id})">Delete</button>
+                    `;
+                }
+                
+                item.innerHTML = `
+                    <h4>${creation.title}</h4>
+                    <p>${creation.description}</p>
+                    <small>Added: ${creation.date}</small>
+                    <div class="creation-actions" style="margin-top: 1rem;">
+                        ${actions}
+                    </div>
+                `;
+                
+                grid.appendChild(item);
+            });
+        }
+
+        function viewCreation(type, id) {
+            const creation = portfolioData.creations[type].find(c => c.id === id);
+            if (creation) {
+                alert(`Title: ${creation.title}\n\nDescription: ${creation.description}\n\nDate: ${creation.date}`);
+            }
+        }
+
+        function deleteCreation(type, id) {
+            if (confirm('Are you sure you want to delete this creation?')) {
+                portfolioData.creations[type] = portfolioData.creations[type].filter(c => c.id !== id);
+                renderCreations(type);
+            }
+        }
+
+        function playAudio(audioData) {
+            const audio = new Audio(audioData);
+            audio.play();
+        }
+
+        // About Form
+        document.getElementById('aboutForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const aboutText = document.getElementById('aboutText').value;
+            portfolioData.about = aboutText;
+            
+            // Update the about section
+            document.querySelector('#about p').textContent = aboutText;
+            
+            closeModal('about-modal');
+            alert('About section updated successfully!');
+        });
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            updateSocialLinks();
+        });
+    </script>
+</body>
+</html>
