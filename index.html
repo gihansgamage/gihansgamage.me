@@ -115,6 +115,47 @@
             line-height: 1.6;
         }
 
+        /* ─── QUIZ MODAL ────────────────────────────────────── */
+        #quiz-modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(5, 5, 16, 0.95);
+            backdrop-filter: blur(8px);
+            z-index: 99999;
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .quiz-btn {
+            background: #1e1b4b;
+            border: 2px solid #818cf8;
+            color: #fff;
+            padding: 1rem;
+            font-family: 'Press Start 2P', monospace;
+            font-size: .55rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+            line-height: 1.5;
+        }
+        
+        .quiz-btn:hover {
+            background: #4338ca;
+            transform: scale(1.03);
+        }
+
+        .shake {
+            animation: shake 0.4s cubic-bezier(.36,.07,.19,.97) both;
+        }
+
+        @keyframes shake {
+            10%, 90% { transform: translate3d(-2px, 0, 0); }
+            20%, 80% { transform: translate3d(4px, 0, 0); }
+            30%, 50%, 70% { transform: translate3d(-6px, 0, 0); }
+            40%, 60% { transform: translate3d(6px, 0, 0); }
+        }
+
         #portfolio::-webkit-scrollbar {
             display: none;
         }
@@ -1722,6 +1763,18 @@
         </div>
     </div>
 
+    <!-- ═══ QUIZ MODAL OVERLAY ═════════════════════════════ -->
+    <div id="quiz-modal">
+        <div class="gm-box" id="quiz-box" style="transition: border-color 0.2s;">
+            <div class="gm-title" id="quiz-title">SECURITY CHECK</div>
+            <p id="quiz-q" style="font-size: .9rem; color: #e2e8f0; line-height: 1.6; margin-bottom: 2rem; text-align: center; font-family: 'Space Grotesk', sans-serif; font-weight: 700;"></p>
+            <div style="display: flex; flex-direction: column; gap: 1rem;" id="quiz-opts">
+                <!-- Buttons injected by JS -->
+            </div>
+            <button onclick="closeQuizModal()" style="margin-top: 2rem; width: 100%; background: none; border: 2px solid #ef4444; color: #ef4444; padding: .8rem; font-family: 'Press Start 2P', monospace; font-size: .5rem; cursor: pointer; transition: all 0.2s;" onmouseover="this.style.background='#ef4444'; this.style.color='#fff';" onmouseout="this.style.background='none'; this.style.color='#ef4444';">CANCEL <span style="font-size:0.6em; opacity:0.7">[ESC]</span></button>
+        </div>
+    </div>
+
     <!-- ═══ PORTFOLIO ══════════════════════════════════════ -->
     <div id="portfolio">
         <div class="pf-scroll-prog" id="pf-prog"></div>
@@ -2035,7 +2088,7 @@
                         <div class="pf-edu-inst">University of Peradeniya</div>
                         <div class="pf-edu-period">2024 – Present</div>
                         <div class="pf-edu-result-wrap">
-                            <div class="pf-edu-result">GPA 3.37 (Second class upper)</div>
+                            <div class="pf-edu-result">GPA 3.37 (Second Class Upper)</div>
                         </div>
                     </div>
                     <div class="pf-edu pf-reveal">
@@ -2045,7 +2098,7 @@
                         <div class="pf-edu-period">Jan 2012 – Dec 2020</div>
                         <div class="pf-edu-extra">School Prefect Association (2016–2017)</div>
                         <div class="pf-edu-result-wrap">
-                            <div class="pf-edu-result">O/L 9As<br>A/L (B - Combined maths, B - Physics, C - Chemistry)</div>
+                            <div class="pf-edu-result">G.C.E O/L – 9As<br>G.C.E A/L (B – Combined Maths, B – Physics, C – Chemistry)</div>
                         </div>
                     </div>
                     <div class="pf-edu pf-reveal">
@@ -2054,7 +2107,7 @@
                         <div class="pf-edu-inst">R/ Udagama Primary School</div>
                         <div class="pf-edu-period">Jan 2007 – Dec 2011</div>
                         <div class="pf-edu-result-wrap">
-                            <div class="pf-edu-result">Grade 5 scholar - 170 marks</div>
+                            <div class="pf-edu-result">Grade 5 Scholarship Exam – 170 marks</div>
                         </div>
                     </div>
                 </div>
@@ -2287,6 +2340,13 @@
                 if (STATE === 'TITLE') startGame();
                 else if (STATE === 'VICTORY') enterPortfolio();
                 else if (STATE === 'GAME_OVER') document.getElementById('btn-restart').click();
+            }
+
+            const quizModal = document.getElementById('quiz-modal');
+            if (quizModal && quizModal.style.display === 'flex') {
+                if (e.key === '1') checkAnswer(0);
+                if (e.key === '2') checkAnswer(1);
+                if (e.key === 'Escape') closeQuizModal();
             }
         });
         window.addEventListener('keyup', e => { keys[e.key] = false; });
@@ -2847,6 +2907,114 @@
             });
         }
 
+        // ─── QUIZ SYSTEM ───
+        const QUIZ_QUESTIONS = {
+            0: { q: "What university do I attend?", opts: ["University of Peradeniya", "Harvard"], ans: 0 }, // About
+            1: { q: "Which of these is one of my skills?", opts: ["Android Development", "Dancing"], ans: 0 }, // Skills
+            2: { q: "Which of these Android apps did I develop?", opts: ["GPA Master", "Book Master"], ans: 0 }, // Projects
+            3: { q: "Which of these is my YouTube channel?", opts: ["Maths Crew", "PewDiePie"], ans: 0 }, // YouTube
+            4: { q: "Do I volunteer at the STEMUP Educational Foundation?", opts: ["Yes", "No"], ans: 0 }, // Volunteer
+            5: { q: "What is my degree field?", opts: ["Computer Science", "Biology"], ans: 0 } // Education
+        };
+
+        let currentUnlockTarget = -1;
+        let currentCorrectAns = -1;
+        let currentQuestionId = null;
+        const askedQuestions = [];
+
+        window.unlockSection = function (idx) {
+            let questionObj = null;
+            let questionId = null;
+            
+            // Search backwards for the most recently unlocked section
+            for (let i = idx - 1; i >= 0; i--) {
+                if (unlocked.includes(i) && QUIZ_QUESTIONS[i] && !askedQuestions.includes('sec-' + i)) {
+                    questionObj = QUIZ_QUESTIONS[i];
+                    questionId = 'sec-' + i;
+                    break;
+                }
+            }
+
+            // Fallback if no previous sections are unlocked
+            if (!questionObj) {
+                const general = [
+                    { q: "Am I a YouTuber?", opts: ["Yes", "No"], ans: 0 },
+                    { q: "Do I do volunteer work?", opts: ["Yes", "No"], ans: 0 }
+                ];
+                let availableGen = general.map((q, i) => ({...q, id: 'gen-' + i})).filter(q => !askedQuestions.includes(q.id));
+                
+                if (availableGen.length === 0) {
+                    forceUnlockSection(idx);
+                    return;
+                }
+                
+                questionObj = availableGen[Math.floor(Math.random() * availableGen.length)];
+                questionId = questionObj.id;
+            }
+
+            currentUnlockTarget = idx;
+            currentCorrectAns = questionObj.ans;
+            currentQuestionId = questionId;
+
+            const sectionNames = ['ABOUT', 'SKILLS', 'PROJECTS', 'YOUTUBE', 'VOLUNTEER', 'EDUCATION', 'CONTACT'];
+            document.getElementById('quiz-title').textContent = `UNLOCK ${sectionNames[idx]}`;
+            document.getElementById('quiz-q').textContent = questionObj.q;
+            
+            const optsDiv = document.getElementById('quiz-opts');
+            optsDiv.innerHTML = '';
+            
+            // Shuffle choices
+            const shuffled = Math.random() > 0.5;
+            if (shuffled) {
+                currentCorrectAns = 1 - currentCorrectAns; // Flip answer index
+                optsDiv.innerHTML += `<button class="quiz-btn" onclick="checkAnswer(0)">[1] ${questionObj.opts[1]}</button>`;
+                optsDiv.innerHTML += `<button class="quiz-btn" onclick="checkAnswer(1)">[2] ${questionObj.opts[0]}</button>`;
+            } else {
+                optsDiv.innerHTML += `<button class="quiz-btn" onclick="checkAnswer(0)">[1] ${questionObj.opts[0]}</button>`;
+                optsDiv.innerHTML += `<button class="quiz-btn" onclick="checkAnswer(1)">[2] ${questionObj.opts[1]}</button>`;
+            }
+
+            document.getElementById('quiz-box').style.borderColor = '#fff';
+            document.getElementById('quiz-modal').style.display = 'flex';
+        };
+
+        window.closeQuizModal = function() {
+            document.getElementById('quiz-modal').style.display = 'none';
+        };
+
+        window.checkAnswer = function(selectedIdx) {
+            if (selectedIdx === currentCorrectAns) {
+                askedQuestions.push(currentQuestionId);
+                closeQuizModal();
+                forceUnlockSection(currentUnlockTarget);
+                // Celebration sparks on screen
+                for(let i=0; i<30; i++) spawnParticles(window.innerWidth/2, window.innerHeight/2, '#10b981', 8, 6);
+            } else {
+                const box = document.getElementById('quiz-box');
+                box.classList.remove('shake');
+                void box.offsetWidth; // trigger reflow
+                box.classList.add('shake');
+                box.style.borderColor = '#ef4444';
+                setTimeout(() => box.style.borderColor = '#fff', 400);
+            }
+        };
+
+        window.forceUnlockSection = function (idx) {
+            if (!unlocked.includes(idx)) unlocked.push(idx);
+            const sectionIds = ['pf-about', 'pf-skills', 'pf-apps', 'pf-youtube', 'pf-volunteer', 'pf-education', 'pf-contact'];
+            const sectionEl = document.getElementById(sectionIds[idx]);
+            if (sectionEl) {
+                const overlay = sectionEl.querySelector('.pf-locked-overlay');
+                if (overlay) overlay.remove();
+                sectionEl.querySelectorAll('.pf-inner > :not(.pf-hdr)').forEach(el => {
+                    el.style.display = '';
+                    el.classList.remove('vis');
+                    setTimeout(() => el.classList.add('vis'), 100);
+                });
+                sfxUnlock();
+            }
+        };
+
         // ─── GAME MENU LOGIC ───
         const menuSections = [
             { id: 'pf-hero', name: 'Top' },
@@ -2912,18 +3080,6 @@
                 }
             }
         });
-
-        window.unlockSection = function (idx) {
-            if (!unlocked.includes(idx)) unlocked.push(idx);
-            const sectionIds = ['pf-about', 'pf-skills', 'pf-apps', 'pf-youtube', 'pf-volunteer', 'pf-education', 'pf-contact'];
-            const sectionEl = document.getElementById(sectionIds[idx]);
-            if (sectionEl) {
-                const overlay = sectionEl.querySelector('.pf-locked-overlay');
-                if (overlay) overlay.remove();
-                sectionEl.querySelectorAll('.pf-inner > :not(.pf-hdr)').forEach(el => el.style.display = '');
-                sfxUnlock();
-            }
-        };
     </script>
 </body>
 
