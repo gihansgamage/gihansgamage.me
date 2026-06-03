@@ -38,6 +38,7 @@
             width: 100%;
             height: 100%;
             display: block;
+            cursor: crosshair;
         }
 
         /* ─── HUD ───────────────────────────────────────── */
@@ -735,6 +736,7 @@
         .pf-hero-img-wrap {
             flex-shrink: 0;
             position: relative;
+            transition: transform 0.1s ease-out;
         }
 
         .pf-hero-img-wrap::before {
@@ -766,6 +768,12 @@
             z-index: 1;
             border: 4px solid #fff;
             box-shadow: var(--shadow-lg);
+            animation: floatAvatar 6s ease-in-out infinite;
+        }
+
+        @keyframes floatAvatar {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-12px); }
         }
 
         /* About */
@@ -1047,6 +1055,35 @@
             transform: scaleX(1);
         }
 
+        .pf-yt-subs {
+            position: absolute;
+            top: 1.3rem;
+            right: 1.1rem;
+            background: #ef4444;
+            color: #fff;
+            padding: 0.3rem 0.6rem;
+            border-radius: 99px;
+            font-size: 0.65rem;
+            font-weight: 700;
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: all var(--transition);
+        }
+
+        .pf-yt-badge {
+            transition: all var(--transition);
+        }
+
+        .pf-yt:hover .pf-yt-badge {
+            opacity: 0;
+            transform: translateY(10px);
+        }
+
+        .pf-yt:hover .pf-yt-subs {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
         .pf-yt-icon {
             width: 42px;
             height: 42px;
@@ -1259,8 +1296,37 @@
         }
 
         .pf-edu-extra {
-            font-size: .82rem;
+            font-size: .75rem;
             color: var(--text-secondary);
+            font-style: italic;
+        }
+
+        .pf-edu-result-wrap {
+            display: grid;
+            grid-template-rows: 0fr;
+            transition: grid-template-rows var(--transition);
+        }
+
+        .pf-edu:hover .pf-edu-result-wrap {
+            grid-template-rows: 1fr;
+        }
+
+        .pf-edu-result {
+            overflow: hidden;
+            font-size: .8rem;
+            color: var(--text-muted);
+            border-top: 1px dashed var(--border);
+            padding-top: 0;
+            margin-top: 0;
+            opacity: 0;
+            line-height: 1.5;
+            transition: opacity var(--transition), padding-top var(--transition), margin-top var(--transition);
+        }
+
+        .pf-edu:hover .pf-edu-result {
+            opacity: 1;
+            padding-top: .8rem;
+            margin-top: .8rem;
         }
 
         /* Contact */
@@ -1296,7 +1362,7 @@
             box-shadow: var(--shadow-md);
             transform: translateX(5px);
             border-color: var(--accent);
-            background: #f5f4ff;
+            background: rgba(99, 102, 241, 0.08);
         }
 
         .pf-clink-icon {
@@ -1539,7 +1605,7 @@
         <div class="t-sections">
             <span class="t-sec-chip">ABOUT</span>
             <span class="t-sec-chip">SKILLS</span>
-            <span class="t-sec-chip">APPS</span>
+            <span class="t-sec-chip">PROJECTS</span>
             <span class="t-sec-chip">YOUTUBE</span>
             <span class="t-sec-chip">VOLUNTEER</span>
             <span class="t-sec-chip">EDUCATION</span>
@@ -1580,8 +1646,8 @@
             <div class="pf-nav-links">
                 <a href="#pf-about">About</a>
                 <a href="#pf-skills">Skills</a>
-                <a href="#pf-apps">Apps</a>
-                <a href="#pf-education">Education</a>
+                <a href="#pf-apps">Projects</a>
+                <a href="#pf-youtube">YouTube</a>
                 <a href="#pf-contact">Contact</a>
             </div>
         </nav>
@@ -1597,7 +1663,7 @@
                         mobile apps, solving real-world problems, and creating digital content.</p>
                     <div class="pf-hero-actions">
                         <a href="#pf-apps" class="pf-btn pf-btn-primary"><i data-lucide="layout-grid"
-                                style="width:15px;height:15px"></i> View My Apps</a>
+                                style="width:15px;height:15px"></i> View My Projects</a>
                         <a href="#pf-contact" class="pf-btn pf-btn-outline"><i data-lucide="send"
                                 style="width:15px;height:15px"></i> Get in Touch</a>
                     </div>
@@ -1716,39 +1782,61 @@
 
         <div class="pf-divider"></div>
 
-        <!-- Apps -->
+        <!-- Projects -->
         <section id="pf-apps" class="pf-section" style="background:var(--bg-card)">
             <div class="pf-inner">
                 <div class="pf-hdr pf-reveal">
-                    <div class="pf-tag">Projects</div>
-                    <h2 class="pf-title">Android Apps</h2>
-                    <p class="pf-sub">Published on the Google Play Store.</p>
+                    <div class="pf-tag">Portfolio</div>
+                    <h2 class="pf-title">Projects & Apps</h2>
+                    <p class="pf-sub">A collection of web platforms and mobile applications.</p>
                 </div>
                 <div class="pf-apps-grid">
                     <article class="pf-app pf-reveal">
-                        <!-- 📸 Replace with: <img src="pdf-master-screenshot.png" style="width:100%;height:130px;object-fit:cover" /> -->
-                        <div class="pf-app-banner banner-pdf"><i data-lucide="file-text"></i></div>
+                        <div class="pf-app-banner banner-pdf" style="background: linear-gradient(135deg, #dbeafe, #bfdbfe);"><i data-lucide="globe" style="color: #1e3a8a;"></i></div>
                         <div class="pf-app-body">
-                            <div class="pf-app-title">PDF Master</div>
+                            <div class="pf-app-title">Field Visit Management System (FVMS)</div>
+                            <span class="pf-app-tag" style="background: #e0e7ff; color: #4338ca;">Web App</span>
+                            <p class="pf-app-desc">A digital workflow solution for the University of Peradeniya (Student Service Division), designed to automate the approval process for field trips.</p>
+                            <div style="font-size:.75rem; color:var(--text-muted); margin-bottom:.8rem;"><strong>Skills:</strong> TypeScript, Spring Boot</div>
+                        </div>
+                    </article>
+                    <article class="pf-app pf-reveal">
+                        <img src="akshara-screenshot.png" style="width:100%;height:130px;object-fit:cover;background:#1e1b4b;" alt="Akshara Keyboard" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
+                        <div class="pf-app-banner banner-gpa" style="display:none;background: linear-gradient(135deg, #ede9fe, #ddd6fe);"><i data-lucide="keyboard" style="color: #4c1d95;"></i></div>
+                        <div class="pf-app-body">
+                            <div class="pf-app-title">Akshara Keyboard</div>
                             <span class="pf-app-tag">Android</span>
-                            <p class="pf-app-desc">A powerful PDF utility app on the Google Play Store. Manage, view and
-                                work with PDF files on your Android device.</p>
-                            <a href="https://play.google.com/store/apps/details?id=com.pdfmaster.gihansgamage"
-                                target="_blank" rel="noopener" class="pf-app-link">View on Play Store <i
-                                    data-lucide="arrow-right"></i></a>
+                            <p class="pf-app-desc">A specialized Android keyboard for a seamless typing experience for Sinhala, Tamil, and English users, featuring phonetic transliteration and smart word prediction.</p>
+                            <div style="font-size:.75rem; color:var(--text-muted); margin-bottom:.8rem;"><strong>Skills:</strong> Kotlin, Android Studio</div>
                         </div>
                     </article>
                     <article class="pf-app pf-reveal">
                         <img src="gpa-master-screenshot.png" style="width:100%;height:130px;object-fit:cover" />
-                        <div class="pf-app-banner banner-gpa"><i data-lucide="calculator"></i></div>
                         <div class="pf-app-body">
                             <div class="pf-app-title">GPA Master</div>
                             <span class="pf-app-tag">Android</span>
-                            <p class="pf-app-desc">A GPA calculator for students — track academic performance and plan
-                                for better grades easily.</p>
-                            <a href="https://play.google.com/store/apps/details?id=com.gihansgamage.gpamaster"
-                                target="_blank" rel="noopener" class="pf-app-link">View on Play Store <i
-                                    data-lucide="arrow-right"></i></a>
+                            <p class="pf-app-desc">A comprehensive app designed to help university students track, manage, and optimize their academic performance across multiple semesters.</p>
+                            <div style="font-size:.75rem; color:var(--text-muted); margin-bottom:.8rem;"><strong>Skills:</strong> Kotlin, Room, Material Design</div>
+                            <a href="https://play.google.com/store/apps/details?id=com.gihansgamage.gpamaster" target="_blank" rel="noopener" class="pf-app-link">View on Play Store <i data-lucide="arrow-right"></i></a>
+                        </div>
+                    </article>
+                    <article class="pf-app pf-reveal">
+                        <img src="pdf-master-screenshot.png" style="width:100%;height:130px;object-fit:cover" />
+                        <div class="pf-app-body">
+                            <div class="pf-app-title">PDF Master</div>
+                            <span class="pf-app-tag">Android</span>
+                            <p class="pf-app-desc">A versatile and user-friendly PDF app that lets you read, manage, and share your PDF files effortlessly with features like bookmarking and text-to-speech.</p>
+                            <div style="font-size:.75rem; color:var(--text-muted); margin-bottom:.8rem;"><strong>Skills:</strong> Java, Android Studio</div>
+                            <a href="https://play.google.com/store/apps/details?id=com.pdfmaster.gihansgamage" target="_blank" rel="noopener" class="pf-app-link">View on Play Store <i data-lucide="arrow-right"></i></a>
+                        </div>
+                    </article>
+                    <article class="pf-app pf-reveal">
+                        <div class="pf-app-banner banner-pdf" style="background: linear-gradient(135deg, #fce7f3, #fbcfe8);"><i data-lucide="users" style="color: #831843;"></i></div>
+                        <div class="pf-app-body">
+                            <div class="pf-app-title">Society Management System (SMS)</div>
+                            <span class="pf-app-tag" style="background: #e0e7ff; color: #4338ca;">Web App</span>
+                            <p class="pf-app-desc">A web-based platform developed to digitize and simplify the management of university student societies, replacing manual paperwork with a centralized system.</p>
+                            <div style="font-size:.75rem; color:var(--text-muted); margin-bottom:.8rem;"><strong>Skills:</strong> React, TypeScript, Spring Boot</div>
                         </div>
                     </article>
                 </div>
@@ -1767,32 +1855,35 @@
                 </div>
                 <div class="pf-yt-grid">
                     <div class="pf-yt pf-reveal">
-                        <div class="pf-yt-icon"><svg viewBox="0 0 24 24" fill="currentColor">
-                                <path
-                                    d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
-                            </svg></div>
-                        <div class="pf-yt-handle">@mathscrew</div>
-                        <p class="pf-yt-desc">Mathematics educational content and problem-solving guides.</p><a
+                        <div class="pf-yt-subs">50,000+ Subs</div>
+                        <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+                            <img src="mathscrew-logo.png" style="width:48px; height:48px; border-radius:50%; object-fit:cover; border: 2px solid var(--border);" alt="@mathscrew" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'48\' height=\'48\'><rect width=\'48\' height=\'48\' fill=\'%2312123a\'/><text x=\'24\' y=\'24\' fill=\'%23ef4444\' font-family=\'sans-serif\' font-size=\'22\' font-weight=\'bold\' text-anchor=\'middle\' dominant-baseline=\'central\'>M</text></svg>'" />
+                            <div class="pf-yt-badge" style="display:inline-flex; align-items:center; gap:.3rem; font-size:.65rem; font-weight:700; color:#ef4444; background:rgba(239,68,68,.1); padding:.3rem .6rem; border-radius:99px; text-transform:uppercase; letter-spacing:.05em;"><svg viewBox="0 0 24 24" fill="currentColor" style="width:12px; height:12px;"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg> YouTube</div>
+                        </div>
+                        <div class="pf-yt-handle" style="margin-top: .4rem;">Maths Crew</div>
+                        <p class="pf-yt-desc" style="font-size: .75rem; line-height: 1.4;">Maths Crew is an educational YouTube channel in Sri Lanka.<br>✔ Smart Education Studying Tips<br>✔ Motivational Videos<br>✔ Educational related information</p><a
                             href="https://www.youtube.com/@mathscrew" target="_blank" rel="noopener"
                             class="pf-yt-link">Visit Channel <i data-lucide="arrow-right"></i></a>
                     </div>
                     <div class="pf-yt pf-reveal">
-                        <div class="pf-yt-icon"><svg viewBox="0 0 24 24" fill="currentColor">
-                                <path
-                                    d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
-                            </svg></div>
-                        <div class="pf-yt-handle">@gihansgamage</div>
-                        <p class="pf-yt-desc">Personal channel covering tech, apps, and development topics.</p><a
+                        <div class="pf-yt-subs">300+ Subs</div>
+                        <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+                            <img src="gihansgamage-logo.png" style="width:48px; height:48px; border-radius:50%; object-fit:cover; border: 2px solid var(--border);" alt="@gihansgamage" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'48\' height=\'48\'><rect width=\'48\' height=\'48\' fill=\'%2312123a\'/><text x=\'24\' y=\'24\' fill=\'%23ef4444\' font-family=\'sans-serif\' font-size=\'22\' font-weight=\'bold\' text-anchor=\'middle\' dominant-baseline=\'central\'>G</text></svg>'" />
+                            <div class="pf-yt-badge" style="display:inline-flex; align-items:center; gap:.3rem; font-size:.65rem; font-weight:700; color:#ef4444; background:rgba(239,68,68,.1); padding:.3rem .6rem; border-radius:99px; text-transform:uppercase; letter-spacing:.05em;"><svg viewBox="0 0 24 24" fill="currentColor" style="width:12px; height:12px;"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg> YouTube</div>
+                        </div>
+                        <div class="pf-yt-handle" style="margin-top: .4rem;">Gihan S Gamage</div>
+                        <p class="pf-yt-desc" style="font-size: .75rem; line-height: 1.4;">I’m a passionate content creator weaving stories across YouTube, Facebook, TikTok, and Instagram. Join me in the realm of social media experiments and let’s craft engaging narratives together!</p><a
                             href="https://www.youtube.com/@gihansgamage" target="_blank" rel="noopener"
                             class="pf-yt-link">Visit Channel <i data-lucide="arrow-right"></i></a>
                     </div>
                     <div class="pf-yt pf-reveal">
-                        <div class="pf-yt-icon"><svg viewBox="0 0 24 24" fill="currentColor">
-                                <path
-                                    d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
-                            </svg></div>
-                        <div class="pf-yt-handle">@factsbit</div>
-                        <p class="pf-yt-desc">Interesting facts and informational short-form content.</p><a
+                        <div class="pf-yt-subs">300+ Subs</div>
+                        <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+                            <img src="factsbit-logo.png" style="width:48px; height:48px; border-radius:50%; object-fit:cover; border: 2px solid var(--border);" alt="@factsbit" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'48\' height=\'48\'><rect width=\'48\' height=\'48\' fill=\'%2312123a\'/><text x=\'24\' y=\'24\' fill=\'%23ef4444\' font-family=\'sans-serif\' font-size=\'22\' font-weight=\'bold\' text-anchor=\'middle\' dominant-baseline=\'central\'>F</text></svg>'" />
+                            <div class="pf-yt-badge" style="display:inline-flex; align-items:center; gap:.3rem; font-size:.65rem; font-weight:700; color:#ef4444; background:rgba(239,68,68,.1); padding:.3rem .6rem; border-radius:99px; text-transform:uppercase; letter-spacing:.05em;"><svg viewBox="0 0 24 24" fill="currentColor" style="width:12px; height:12px;"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg> YouTube</div>
+                        </div>
+                        <div class="pf-yt-handle" style="margin-top: .4rem;">Facts Bit</div>
+                        <p class="pf-yt-desc" style="font-size: .75rem; line-height: 1.4;">There is a reason for everything in this world to be created, change from second to second, and be destroyed. I'd like to tell you those things in a minute or two on Facts Bit!</p><a
                             href="https://www.youtube.com/@factsbit" target="_blank" rel="noopener"
                             class="pf-yt-link">Visit Channel <i data-lucide="arrow-right"></i></a>
                     </div>
@@ -1850,6 +1941,9 @@
                         <div class="pf-edu-degree">BSc (Hons) in Computer Science</div>
                         <div class="pf-edu-inst">University of Peradeniya</div>
                         <div class="pf-edu-period">2024 – Present</div>
+                        <div class="pf-edu-result-wrap">
+                            <div class="pf-edu-result">GPA 3.37 (Second class upper)</div>
+                        </div>
                     </div>
                     <div class="pf-edu pf-reveal">
                         <div class="pf-edu-icon"><i data-lucide="school"></i></div>
@@ -1857,6 +1951,18 @@
                         <div class="pf-edu-inst">R/ Balangoda Ananda Maithreya Central College</div>
                         <div class="pf-edu-period">Jan 2012 – Dec 2020</div>
                         <div class="pf-edu-extra">School Prefect Association (2016–2017)</div>
+                        <div class="pf-edu-result-wrap">
+                            <div class="pf-edu-result">O/L 9As<br>A/L (B - Combined maths, B - Physics, C - Chemistry)</div>
+                        </div>
+                    </div>
+                    <div class="pf-edu pf-reveal">
+                        <div class="pf-edu-icon"><i data-lucide="graduation-cap"></i></div>
+                        <div class="pf-edu-degree">Primary Education</div>
+                        <div class="pf-edu-inst">R/ Udagama Primary School</div>
+                        <div class="pf-edu-period">Jan 2007 – Dec 2011</div>
+                        <div class="pf-edu-result-wrap">
+                            <div class="pf-edu-result">Grade 5 scholar - 170 marks</div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1937,7 +2043,7 @@
         const SECTIONS = [
             { name: 'ABOUT ME', color: '#6366f1', bg: 'rgba(99,102,241,.15)', icon: '🧑‍💻', brief: 'BSc (Hons) CS undergraduate at University of Peradeniya.\nPassionate about software engineering & digital creativity.\nContent creator · Lyrics writer · Problem solver.' },
             { name: 'SKILLS', color: '#8b5cf6', bg: 'rgba(139,92,246,.15)', icon: '⚡', brief: 'Web Development · Web Design · Android Development\nMobile Apps · SaaS · Database Development\nSoftware Testing · Custom Software · Problem Solving' },
-            { name: 'ANDROID APPS', color: '#3b82f6', bg: 'rgba(59,130,246,.15)', icon: '📱', brief: 'PDF Master — PDF utility app on Google Play Store\nGPA Master — GPA calculator for students\nBoth available on Google Play Store!' },
+            { name: 'PROJECTS', color: '#3b82f6', bg: 'rgba(59,130,246,.15)', icon: '💻', brief: 'Field Visit Management System (Web)\nAkshara Keyboard (Android)\nGPA Master & PDF Master (Android)\nSociety Management System (Web)' },
             { name: 'YOUTUBE', color: '#ef4444', bg: 'rgba(239,68,68,.15)', icon: '▶', brief: '@mathscrew — Mathematics & problem-solving guides\n@gihansgamage — Tech, apps & development content\n@factsbit — Interesting facts & short-form content' },
             { name: 'VOLUNTEER', color: '#10b981', bg: 'rgba(16,185,129,.15)', icon: '🤝', brief: 'Community Lead · STEMUP Educational Foundation\nRuwanwella Public Library · Apr 2026 – Present\nCoordinating learning activities & educational initiatives' },
             { name: 'EDUCATION', color: '#f59e0b', bg: 'rgba(245,158,11,.15)', icon: '🎓', brief: 'BSc (Hons) Computer Science\nUniversity of Peradeniya · 2024 – Present\nR/ Balangoda Ananda Maithreya Central College · 2012–2020' },
@@ -2590,6 +2696,19 @@
                 const p = pf.scrollTop / (pf.scrollHeight - pf.clientHeight);
                 prog.style.transform = `scaleX(${p})`;
             }, { passive: true });
+
+            // Avatar Parallax Effect
+            const avatarWrap = document.querySelector('.pf-hero-img-wrap');
+            if (avatarWrap) {
+                window.addEventListener('mousemove', (e) => {
+                    const x = (e.clientX / window.innerWidth - 0.5) * 30; // Max 15px move
+                    const y = (e.clientY / window.innerHeight - 0.5) * 30;
+                    avatarWrap.style.transform = `translate(${x}px, ${y}px)`;
+                });
+                window.addEventListener('mouseleave', () => {
+                    avatarWrap.style.transform = `translate(0px, 0px)`;
+                });
+            }
 
             // Scroll reveal
             const reveals = pf.querySelectorAll('.pf-reveal');
