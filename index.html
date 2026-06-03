@@ -41,6 +41,87 @@
             cursor: crosshair;
         }
 
+        /* ─── GAME MENU ─────────────────────────────────────── */
+        #game-menu {
+            position: fixed;
+            inset: 0;
+            background: rgba(5, 5, 16, 0.9);
+            backdrop-filter: blur(8px);
+            z-index: 9999;
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .gm-box {
+            background: #050510;
+            border: 4px solid #fff;
+            padding: 2.5rem;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+            font-family: 'Press Start 2P', monospace;
+            text-align: left;
+            min-width: 320px;
+        }
+
+        .gm-title {
+            color: #fcd34d;
+            font-size: .8rem;
+            margin-bottom: 2rem;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: .1em;
+            text-shadow: 2px 2px 0 #b45309;
+        }
+
+        .gm-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+        }
+
+        .gm-item {
+            color: #a5b4fc;
+            font-size: .6rem;
+            text-transform: uppercase;
+            letter-spacing: .05em;
+            display: flex;
+            align-items: center;
+        }
+
+        .gm-item.active {
+            color: #fff;
+            text-shadow: 0 0 8px #818cf8;
+        }
+
+        .gm-cursor {
+            color: #fff;
+            opacity: 0;
+            width: 20px;
+            display: inline-block;
+        }
+
+        .gm-item.active .gm-cursor {
+            opacity: 1;
+        }
+
+        .gm-hint {
+            margin-top: 2rem;
+            font-size: .45rem;
+            color: rgba(255, 255, 255, 0.4);
+            text-align: center;
+            line-height: 1.6;
+        }
+
+        #portfolio::-webkit-scrollbar {
+            display: none;
+        }
+        #portfolio {
+            scrollbar-width: none;
+        }
+
         /* ─── HUD ───────────────────────────────────────── */
         #hud {
             position: fixed;
@@ -1620,14 +1701,25 @@
         <div class="v-title">★ JOURNEY<br />COMPLETE! ★</div>
         <div class="v-sub">PORTFOLIO UNLOCKED</div>
         <div class="v-chips" id="v-chips"></div>
-        <button id="btn-enter">ENTER PORTFOLIO →</button>
+        <button id="btn-enter">ENTER PORTFOLIO →<br><span style="font-size:0.5em; opacity:0.6; display:block; margin-top:8px;">[SPACE / ENTER]</span></button>
     </div>
 
     <!-- ═══ GAME OVER ═════════════════════════════════════ -->
     <div id="game-over">
         <div class="v-title">★ MISSED IT! ★</div>
         <div class="v-sub">YOU MUST ENTER THE NET</div>
-        <button id="btn-restart">TRY AGAIN ↺</button>
+        <button id="btn-restart">TRY AGAIN ↺<br><span style="font-size:0.5em; opacity:0.6; display:block; margin-top:8px;">[SPACE / ENTER]</span></button>
+    </div>
+
+    <!-- ═══ GAME MENU OVERLAY ═════════════════════════════ -->
+    <div id="game-menu">
+        <div class="gm-box">
+            <div class="gm-title">FAST TRAVEL</div>
+            <ul class="gm-list" id="gm-list"></ul>
+            <div class="gm-hint">
+                [↑/↓] SELECT &nbsp;&nbsp; [ENTER] GO<br><br>[ESC/M] CLOSE
+            </div>
+        </div>
     </div>
 
     <!-- ═══ PORTFOLIO ══════════════════════════════════════ -->
@@ -1649,6 +1741,7 @@
                 <a href="#pf-apps">Projects</a>
                 <a href="#pf-youtube">YouTube</a>
                 <a href="#pf-contact">Contact</a>
+                <span style="font-family:'Press Start 2P', monospace; font-size:.4rem; color:var(--accent); margin-left:1rem; cursor:pointer;" onclick="toggleMenu()">[M] MENU</span>
             </div>
         </nav>
 
@@ -2190,7 +2283,11 @@
 
         window.addEventListener('keydown', e => {
             keys[e.key] = true;
-            if ((e.key === ' ' || e.key === 'Enter') && STATE === 'TITLE') startGame();
+            if (e.key === ' ' || e.key === 'Enter') {
+                if (STATE === 'TITLE') startGame();
+                else if (STATE === 'VICTORY') enterPortfolio();
+                else if (STATE === 'GAME_OVER') document.getElementById('btn-restart').click();
+            }
         });
         window.addEventListener('keyup', e => { keys[e.key] = false; });
         window.addEventListener('mousemove', e => { mouseX = e.clientX; });
@@ -2749,6 +2846,72 @@
                 card.addEventListener('mouseleave', () => { card.style.transform = ''; });
             });
         }
+
+        // ─── GAME MENU LOGIC ───
+        const menuSections = [
+            { id: 'pf-hero', name: 'Top' },
+            { id: 'pf-about', name: 'About' },
+            { id: 'pf-skills', name: 'Skills' },
+            { id: 'pf-apps', name: 'Projects' },
+            { id: 'pf-youtube', name: 'YouTube' },
+            { id: 'pf-volunteer', name: 'Community' },
+            { id: 'pf-education', name: 'Education' },
+            { id: 'pf-contact', name: 'Contact' }
+        ];
+
+        let isMenuOpen = false;
+        let menuIndex = 0;
+
+        function renderMenu() {
+            const list = document.getElementById('gm-list');
+            list.innerHTML = '';
+            menuSections.forEach((sec, idx) => {
+                list.innerHTML += `
+                    <li class="gm-item ${idx === menuIndex ? 'active' : ''}">
+                        <span class="gm-cursor">►</span> ${sec.name}
+                    </li>
+                `;
+            });
+        }
+
+        window.toggleMenu = function() {
+            if (STATE !== 'PORTFOLIO') return;
+            isMenuOpen = !isMenuOpen;
+            const gm = document.getElementById('game-menu');
+            if (isMenuOpen) {
+                gm.style.display = 'flex';
+                renderMenu();
+            } else {
+                gm.style.display = 'none';
+            }
+        };
+
+        document.addEventListener('keydown', (e) => {
+            if (STATE !== 'PORTFOLIO') return;
+            
+            if (e.key.toLowerCase() === 'm' || e.key === 'Escape') {
+                toggleMenu();
+            }
+
+            if (isMenuOpen) {
+                if (e.key === 'ArrowDown') {
+                    menuIndex = (menuIndex + 1) % menuSections.length;
+                    renderMenu();
+                    e.preventDefault();
+                } else if (e.key === 'ArrowUp') {
+                    menuIndex = (menuIndex - 1 + menuSections.length) % menuSections.length;
+                    renderMenu();
+                    e.preventDefault();
+                } else if (e.key === 'Enter') {
+                    toggleMenu();
+                    const targetId = menuSections[menuIndex].id;
+                    const targetEl = document.getElementById(targetId);
+                    if (targetEl) {
+                        targetEl.scrollIntoView({ behavior: 'smooth' });
+                    }
+                }
+            }
+        });
 
         window.unlockSection = function (idx) {
             if (!unlocked.includes(idx)) unlocked.push(idx);
