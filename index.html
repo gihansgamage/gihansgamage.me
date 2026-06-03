@@ -158,6 +158,31 @@ html, body { width: 100%; height: 100%; overflow: hidden; background: #050510; }
 }
 #btn-enter:hover { transform: scale(1.07); box-shadow: 0 0 44px rgba(99,102,241,1); }
 
+/* ─── GAME OVER ─────────────────────────────────── */
+#game-over {
+  position: fixed; inset: 0; z-index: 90;
+  display: flex; align-items: center; justify-content: center;
+  flex-direction: column; gap: 1.4rem;
+  background: radial-gradient(ellipse at center, #280a0a 0%, #050510 70%);
+  opacity: 0; visibility: hidden; pointer-events: none;
+  transition: opacity .8s ease, visibility .8s ease;
+}
+#game-over.show { opacity: 1; visibility: visible; pointer-events: all; }
+#game-over .v-title { color: #ef4444; animation: vPulseFail 2s ease-in-out infinite; }
+@keyframes vPulseFail {
+  0%,100% { text-shadow: 0 0 22px rgba(239,68,68,.6); }
+  50%     { text-shadow: 0 0 44px rgba(239,68,68,1), 0 0 80px rgba(239,68,68,.4); }
+}
+#game-over .v-sub { font-family: 'Press Start 2P', monospace; font-size: clamp(.38rem, 1.2vw, .55rem); color: #fca5a5; letter-spacing: .1em; text-align: center; }
+#btn-restart {
+  font-family: 'Press Start 2P', monospace; font-size: clamp(.5rem, 1.5vw, .68rem);
+  padding: .9rem 2rem; border-radius: 10px; border: none; cursor: pointer;
+  background: linear-gradient(135deg, #ef4444, #f97316); color: #fff; letter-spacing: .1em;
+  box-shadow: 0 0 28px rgba(239,68,68,.7);
+  transition: transform .2s, box-shadow .2s;
+}
+#btn-restart:hover { transform: scale(1.07); box-shadow: 0 0 44px rgba(239,68,68,1); }
+
 /* ─── PORTFOLIO ─────────────────────────────────── */
 #portfolio {
   position: fixed; inset: 0; z-index: 200;
@@ -483,6 +508,13 @@ html, body { width: 100%; height: 100%; overflow: hidden; background: #050510; }
   <button id="btn-enter">ENTER PORTFOLIO →</button>
 </div>
 
+<!-- ═══ GAME OVER ═════════════════════════════════════ -->
+<div id="game-over">
+  <div class="v-title">★ MISSED IT! ★</div>
+  <div class="v-sub">YOU MUST ENTER THE NET</div>
+  <button id="btn-restart">TRY AGAIN ↺</button>
+</div>
+
 <!-- ═══ PORTFOLIO ══════════════════════════════════════ -->
 <div id="portfolio">
   <div class="pf-scroll-prog" id="pf-prog"></div>
@@ -722,6 +754,7 @@ resize();
 /* ── WORLD ───────────────────────────────────────────── */
 let platforms = [];
 let ball = { x:0, y:0, vx:0, vy:0, trail:[], onPlat:-1, balTimer:0 };
+let net = { x:0, y:0, w:160 };
 let camY = 0;
 let particles = [];
 let stars = [];
@@ -757,6 +790,8 @@ function initGame() {
   particles = [];
   initStars();
   rebuildPlatforms();
+  const lastPlat = platforms[platforms.length - 1];
+  net = { x: canvas.width / 2, y: lastPlat.y + SPACING * 1.2, w: 180 };
   updateHUD();
 }
 
@@ -852,6 +887,12 @@ canvas.addEventListener('touchmove', e => {
 canvas.addEventListener('touchend', () => { touchActive = false; });
 
 document.getElementById('btn-enter').addEventListener('click', enterPortfolio);
+document.getElementById('btn-restart').addEventListener('click', () => {
+  ensureAudio();
+  document.getElementById('game-over').classList.remove('show');
+  initGame();
+  STATE = 'PLAYING';
+});
 
 /* ── STATE MACHINE ───────────────────────────────────── */
 function startGame() {
@@ -859,6 +900,11 @@ function startGame() {
   STATE = 'PLAYING';
   document.getElementById('title').classList.add('gone');
   initGame();
+}
+
+function triggerGameOver() {
+  STATE = 'GAME_OVER';
+  document.getElementById('game-over').classList.add('show');
 }
 
 function triggerVictory() {
@@ -1008,11 +1054,18 @@ function update() {
   camY += (targetCam - camY) * .07;
   if (camY < 0) camY = 0;
 
-  // ── Game End Condition ──
-  const lastPlat = platforms[platforms.length - 1];
-  if (lastPlat && ball.y > lastPlat.y + 1000) {
-    if (STATE !== 'VICTORY' && STATE !== 'PORTFOLIO') {
-      triggerVictory();
+  // ── Game End Condition (Net) ──
+  if (ball.y > net.y) {
+    if (STATE !== 'VICTORY' && STATE !== 'PORTFOLIO' && STATE !== 'GAME_OVER') {
+      const inNet = ball.x > net.x - net.w/2 && ball.x < net.x + net.w/2;
+      if (inNet) {
+        sfxUnlock();
+        spawnParticles(net.x, net.y - camY, '#f97316', 50, 6);
+        triggerVictory();
+      } else {
+        sfxFail();
+        triggerGameOver();
+      }
     }
   }
 
@@ -1070,6 +1123,41 @@ function draw() {
   ctx.globalAlpha = 1;
 
   if (STATE === 'TITLE' || STATE === 'PORTFOLIO') return;
+
+  // ── Net ──
+  const netSy = net.y - camY;
+  if (netSy > -100 && netSy < H + 100) {
+    ctx.save();
+    ctx.translate(net.x, netSy);
+    // Glow backboard
+    ctx.shadowBlur = 15;
+    ctx.shadowColor = '#f97316';
+    ctx.strokeStyle = '#f97316';
+    ctx.lineWidth = 4;
+    
+    // Hoop ring
+    ctx.beginPath();
+    ctx.ellipse(0, 0, net.w/2, 12, 0, 0, Math.PI * 2);
+    ctx.stroke();
+    
+    // Net mesh
+    ctx.shadowBlur = 0;
+    ctx.strokeStyle = 'rgba(249,115,22,.4)';
+    ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    for (let i = -net.w/2 + 15; i <= net.w/2 - 15; i += 20) {
+      ctx.moveTo(i, 0);
+      ctx.lineTo(i * 0.4, 60);
+    }
+    for (let i = 1; i <= 3; i++) {
+      const wOff = (net.w/2 - 15) * (1 - i*0.2);
+      ctx.moveTo(-wOff, i * 20);
+      ctx.lineTo(wOff, i * 20);
+    }
+    ctx.stroke();
+    
+    ctx.restore();
+  }
 
   // ── Platforms ──
   platforms.forEach(p => {
