@@ -104,42 +104,23 @@ html, body { width: 100%; height: 100%; overflow: hidden; background: #050510; }
   border: 1px solid rgba(99,102,241,.2);
 }
 
-/* ─── SECTION CARD ──────────────────────────────── */
-#scard {
-  position: fixed; bottom: 0; left: 50%; z-index: 80;
-  transform: translateX(-50%) translateY(110%);
-  transition: transform .45s cubic-bezier(.2,.8,.2,1);
-  width: min(580px, 95vw);
+/* ─── LOCKED SECTION UI ─────────────────────────── */
+.pf-locked-overlay {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  padding: 3rem 1rem; text-align: center;
+  background: var(--bg-card); border: 1px dashed var(--border);
+  border-radius: var(--radius); gap: 1.2rem; margin-top: 1rem;
 }
-#scard.up { transform: translateX(-50%) translateY(0); }
-
-.sc-inner {
-  background: rgba(8, 8, 35, 0.97);
-  border: 1px solid rgba(99,102,241,.4);
-  border-bottom: none;
-  border-radius: 20px 20px 0 0;
-  padding: 1.2rem 1.6rem 1.6rem;
-  backdrop-filter: blur(28px);
+.pf-locked-overlay i { width: 40px; height: 40px; color: var(--text-muted); opacity: 0.5; }
+.pf-locked-overlay p { font-family: 'Press Start 2P', monospace; font-size: .5rem; color: var(--text-secondary); line-height: 1.6; }
+.pf-unlock-btn {
+  font-family: 'Press Start 2P', monospace; font-size: .45rem;
+  padding: .7rem 1.2rem; border-radius: 99px; border: none; cursor: pointer;
+  background: linear-gradient(135deg, var(--accent), var(--accent-2)); color: #fff;
+  box-shadow: 0 4px 14px rgba(91,108,248,.25); transition: transform .2s;
+  display: inline-flex; align-items: center; gap: .5rem;
 }
-.sc-bar {
-  width: 38px; height: 4px; border-radius: 2px;
-  background: rgba(99,102,241,.35); margin: 0 auto .9rem;
-}
-.sc-head { display: flex; align-items: center; gap: .8rem; margin-bottom: .7rem; }
-.sc-icon {
-  width: 42px; height: 42px; border-radius: 11px; flex-shrink: 0;
-  display: flex; align-items: center; justify-content: center; font-size: 1.15rem;
-}
-.sc-name {
-  font-family: 'Press Start 2P', monospace;
-  font-size: clamp(.55rem, 1.8vw, .72rem); color: #e0e7ff; letter-spacing: .08em;
-}
-.sc-count { font-family: 'Press Start 2P', monospace; font-size: .38rem; color: #6366f1; margin-top: .35rem; }
-.sc-brief { font-size: clamp(.82rem, 2vw, .92rem); color: #c7d2fe; line-height: 1.78; white-space: pre-line; margin-bottom: .8rem; }
-.sc-pips { display: flex; gap: .35rem; margin-bottom: .5rem; }
-.sc-pip { height: 3px; flex: 1; border-radius: 2px; background: rgba(99,102,241,.12); transition: background .5s, box-shadow .5s; }
-.sc-pip.on { background: #6366f1; box-shadow: 0 0 6px #6366f1; }
-.sc-continue { font-family: 'Press Start 2P', monospace; font-size: .38rem; color: #4338ca; letter-spacing: .06em; animation: blink 1s step-end infinite; }
+.pf-unlock-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(91,108,248,.45); }
 
 /* ─── VICTORY ───────────────────────────────────── */
 #victory {
@@ -349,9 +330,9 @@ html, body { width: 100%; height: 100%; overflow: hidden; background: #050510; }
 .pf-yt::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, #ef4444, #f97316); transform: scaleX(0); transform-origin: left; transition: transform var(--transition); }
 .pf-yt:hover { box-shadow: var(--shadow-md); transform: translateY(-4px); border-color: #fca5a5; }
 .pf-yt:hover::after { transform: scaleX(1); }
-.pf-yt-icon { width: 42px; height: 42px; border-radius: 10px; background: linear-gradient(135deg, #fef2f2, #fee2e2); display: flex; align-items: center; justify-content: center; transition: transform var(--transition); }
-.pf-yt:hover .pf-yt-icon { transform: scale(1.1); }
-.pf-yt-icon i { width: 19px; height: 19px; color: #ef4444; }
+.pf-yt-icon { width: 42px; height: 42px; border-radius: 10px; background: rgba(239, 68, 68, 0.1); display: flex; align-items: center; justify-content: center; transition: transform var(--transition), background var(--transition); }
+.pf-yt:hover .pf-yt-icon { transform: scale(1.1); background: rgba(239, 68, 68, 0.2); }
+.pf-yt-icon i, .pf-yt-icon svg { width: 19px; height: 19px; color: #ef4444; }
 .pf-yt-handle { font-size: .84rem; font-weight: 700; font-family: 'Space Grotesk', sans-serif; }
 .pf-yt-desc { font-size: .8rem; color: var(--text-secondary); line-height: 1.6; flex: 1; }
 .pf-yt-link { font-size: .78rem; font-weight: 600; color: #ef4444; display: inline-flex; align-items: center; gap: .3rem; transition: gap var(--transition); }
@@ -400,9 +381,9 @@ html, body { width: 100%; height: 100%; overflow: hidden; background: #050510; }
   transition: box-shadow var(--transition), transform var(--transition), border-color var(--transition), background var(--transition);
 }
 .pf-clink:hover { box-shadow: var(--shadow-md); transform: translateX(5px); border-color: var(--accent); background: #f5f4ff; }
-.pf-clink-icon { width: 42px; height: 42px; border-radius: 10px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, var(--accent-light), #e0e7ff); transition: transform var(--transition); }
-.pf-clink:hover .pf-clink-icon { transform: scale(1.1) rotate(-5deg); }
-.pf-clink-icon i { width: 19px; height: 19px; color: var(--accent); }
+.pf-clink-icon { width: 42px; height: 42px; border-radius: 10px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; background: var(--bg-card); border: 1px solid var(--border); transition: transform var(--transition), background var(--transition); }
+.pf-clink:hover .pf-clink-icon { transform: scale(1.1) rotate(-5deg); background: rgba(99,102,241,.15); border-color: rgba(99,102,241,.3); }
+.pf-clink-icon i, .pf-clink-icon svg { width: 19px; height: 19px; color: var(--accent); }
 .pf-clink-label { font-size: .72rem; text-transform: uppercase; letter-spacing: .07em; color: var(--text-muted); }
 .pf-clink-value { font-size: .9rem; font-weight: 500; }
 .pf-contact-note {
@@ -492,27 +473,12 @@ html, body { width: 100%; height: 100%; overflow: hidden; background: #050510; }
   </div>
 </div>
 
-<!-- ═══ SECTION CARD ══════════════════════════════════ -->
-<div id="scard">
-  <div class="sc-inner">
-    <div class="sc-bar"></div>
-    <div class="sc-head">
-      <div class="sc-icon" id="sc-icon"></div>
-      <div>
-        <div class="sc-name" id="sc-name"></div>
-        <div class="sc-count" id="sc-count"></div>
-      </div>
-    </div>
-    <div class="sc-brief" id="sc-brief"></div>
-    <div class="sc-pips" id="sc-pips"></div>
-    <div class="sc-continue">▶ SPACE / TAP TO CONTINUE</div>
-  </div>
-</div>
+
 
 <!-- ═══ VICTORY ═══════════════════════════════════════ -->
 <div id="victory">
-  <div class="v-title">★ PORTFOLIO<br/>UNLOCKED! ★</div>
-  <div class="v-sub">ALL 7 SECTIONS DISCOVERED</div>
+  <div class="v-title">★ JOURNEY<br/>COMPLETE! ★</div>
+  <div class="v-sub">PORTFOLIO UNLOCKED</div>
   <div class="v-chips" id="v-chips"></div>
   <button id="btn-enter">ENTER PORTFOLIO →</button>
 </div>
@@ -645,9 +611,9 @@ html, body { width: 100%; height: 100%; overflow: hidden; background: #050510; }
     <div class="pf-inner">
       <div class="pf-hdr pf-reveal"><div class="pf-tag">Content</div><h2 class="pf-title">YouTube Channels</h2><p class="pf-sub">Creating content across three channels.</p></div>
       <div class="pf-yt-grid">
-        <div class="pf-yt pf-reveal"><div class="pf-yt-icon"><i data-lucide="youtube"></i></div><div class="pf-yt-handle">@mathscrew</div><p class="pf-yt-desc">Mathematics educational content and problem-solving guides.</p><a href="https://www.youtube.com/@mathscrew" target="_blank" rel="noopener" class="pf-yt-link">Visit Channel <i data-lucide="arrow-right"></i></a></div>
-        <div class="pf-yt pf-reveal"><div class="pf-yt-icon"><i data-lucide="youtube"></i></div><div class="pf-yt-handle">@gihansgamage</div><p class="pf-yt-desc">Personal channel covering tech, apps, and development topics.</p><a href="https://www.youtube.com/@gihansgamage" target="_blank" rel="noopener" class="pf-yt-link">Visit Channel <i data-lucide="arrow-right"></i></a></div>
-        <div class="pf-yt pf-reveal"><div class="pf-yt-icon"><i data-lucide="youtube"></i></div><div class="pf-yt-handle">@factsbit</div><p class="pf-yt-desc">Interesting facts and informational short-form content.</p><a href="https://www.youtube.com/@factsbit" target="_blank" rel="noopener" class="pf-yt-link">Visit Channel <i data-lucide="arrow-right"></i></a></div>
+        <div class="pf-yt pf-reveal"><div class="pf-yt-icon"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></div><div class="pf-yt-handle">@mathscrew</div><p class="pf-yt-desc">Mathematics educational content and problem-solving guides.</p><a href="https://www.youtube.com/@mathscrew" target="_blank" rel="noopener" class="pf-yt-link">Visit Channel <i data-lucide="arrow-right"></i></a></div>
+        <div class="pf-yt pf-reveal"><div class="pf-yt-icon"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></div><div class="pf-yt-handle">@gihansgamage</div><p class="pf-yt-desc">Personal channel covering tech, apps, and development topics.</p><a href="https://www.youtube.com/@gihansgamage" target="_blank" rel="noopener" class="pf-yt-link">Visit Channel <i data-lucide="arrow-right"></i></a></div>
+        <div class="pf-yt pf-reveal"><div class="pf-yt-icon"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></div><div class="pf-yt-handle">@factsbit</div><p class="pf-yt-desc">Interesting facts and informational short-form content.</p><a href="https://www.youtube.com/@factsbit" target="_blank" rel="noopener" class="pf-yt-link">Visit Channel <i data-lucide="arrow-right"></i></a></div>
       </div>
     </div>
   </section>
@@ -688,8 +654,8 @@ html, body { width: 100%; height: 100%; overflow: hidden; background: #050510; }
         <div class="pf-contact-links pf-reveal">
           <a href="mailto:gsgamage4@gmail.com" class="pf-clink"><div class="pf-clink-icon"><i data-lucide="mail"></i></div><div><div class="pf-clink-label">Email</div><div class="pf-clink-value">gsgamage4@gmail.com</div></div></a>
           <a href="tel:+94764016946" class="pf-clink"><div class="pf-clink-icon"><i data-lucide="phone"></i></div><div><div class="pf-clink-label">Phone</div><div class="pf-clink-value">+94 76 401 6946</div></div></a>
-          <a href="https://www.linkedin.com/in/ggsanjaya" target="_blank" rel="noopener" class="pf-clink"><div class="pf-clink-icon"><i data-lucide="linkedin"></i></div><div><div class="pf-clink-label">LinkedIn</div><div class="pf-clink-value">linkedin.com/in/ggsanjaya</div></div></a>
-          <a href="https://github.com/gihansgamage" target="_blank" rel="noopener" class="pf-clink"><div class="pf-clink-icon"><i data-lucide="github"></i></div><div><div class="pf-clink-label">GitHub</div><div class="pf-clink-value">github.com/gihansgamage</div></div></a>
+          <a href="https://www.linkedin.com/in/ggsanjaya" target="_blank" rel="noopener" class="pf-clink"><div class="pf-clink-icon"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></div><div><div class="pf-clink-label">LinkedIn</div><div class="pf-clink-value">linkedin.com/in/ggsanjaya</div></div></a>
+          <a href="https://github.com/gihansgamage" target="_blank" rel="noopener" class="pf-clink"><div class="pf-clink-icon"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg></div><div><div class="pf-clink-label">GitHub</div><div class="pf-clink-value">github.com/gihansgamage</div></div></a>
         </div>
         <div class="pf-contact-note pf-reveal"><strong>Open to opportunities!</strong><br/><br/>CS undergraduate looking for internships, freelance projects, and collaborative work in web development, mobile apps, and software engineering. If you have something exciting — let's connect!</div>
       </div>
@@ -724,12 +690,12 @@ const SECTIONS = [
 ];
 
 const BALL_R      = 14;
-const GRAVITY     = 0.18;
+const GRAVITY     = 0.085;
 const BOUNCE      = 0.38;
 const PLAT_W      = 270;
 const PLAT_H      = 14;
 const PLAT_R      = 7;
-const SPACING     = 900;    // worldY gap between platforms
+const SPACING     = 420;    // worldY gap between platforms
 const BALANCE_F   = 160;    // frames to balance for unlock (~2.7s)
 const HSPEED      = 5.8;    // max horizontal speed input
 const AIR_DAMP    = 0.993;
@@ -861,7 +827,6 @@ let touchLeft = false;
 window.addEventListener('keydown', e => {
   keys[e.key] = true;
   if ((e.key === ' ' || e.key === 'Enter') && STATE === 'TITLE') startGame();
-  if ((e.key === ' ' || e.key === 'Enter') && STATE === 'CARD') dismissCard();
 });
 window.addEventListener('keyup',   e => { keys[e.key] = false; });
 window.addEventListener('mousemove', e => { mouseX = e.clientX; });
@@ -869,10 +834,8 @@ window.addEventListener('mousemove', e => { mouseX = e.clientX; });
 canvas.addEventListener('click', () => {
   ensureAudio();
   if (STATE === 'TITLE') startGame();
-  else if (STATE === 'CARD') dismissCard();
 });
 document.getElementById('title').addEventListener('click', () => { ensureAudio(); startGame(); });
-document.getElementById('scard').addEventListener('click', dismissCard);
 
 // Touch
 canvas.addEventListener('touchstart', e => {
@@ -880,7 +843,6 @@ canvas.addEventListener('touchstart', e => {
   touchActive = true;
   touchLeft = e.touches[0].clientX < canvas.width / 2;
   if (STATE === 'TITLE') startGame();
-  else if (STATE === 'CARD') dismissCard();
   e.preventDefault();
 }, { passive: false });
 canvas.addEventListener('touchmove', e => {
@@ -897,55 +859,6 @@ function startGame() {
   STATE = 'PLAYING';
   document.getElementById('title').classList.add('gone');
   initGame();
-}
-
-function openCard(idx) {
-  STATE     = 'CARD';
-  cardOpen  = true;
-  cardIdx   = idx;
-  const s   = SECTIONS[idx];
-
-  document.getElementById('sc-icon').textContent  = s.icon;
-  document.getElementById('sc-icon').style.background = s.bg;
-  document.getElementById('sc-name').textContent  = s.name;
-  document.getElementById('sc-count').textContent = `${unlocked.length} / ${SECTIONS.length} SECTIONS UNLOCKED`;
-  document.getElementById('sc-brief').textContent = s.brief;
-
-  // Pips
-  const pipsEl = document.getElementById('sc-pips');
-  pipsEl.innerHTML = '';
-  SECTIONS.forEach((_, i) => {
-    const pip = document.createElement('div');
-    pip.className = 'sc-pip' + (unlocked.includes(i) ? ' on' : '');
-    pipsEl.appendChild(pip);
-  });
-
-  document.getElementById('scard').classList.add('up');
-}
-
-function dismissCard() {
-  if (STATE !== 'CARD') return;
-  document.getElementById('scard').classList.remove('up');
-  cardOpen = false;
-
-  // Remove the platform (fade it out)
-  const p = platforms[cardIdx];
-  if (p) {
-    p.fadeAlpha = 0; // mark for fade-out (handled in update)
-    p.fading = true;
-  }
-
-  // Give ball a little nudge
-  ball.onPlat   = -1;
-  ball.vy       = -3;
-  ball.balTimer = 0;
-
-  if (unlocked.length >= SECTIONS.length) {
-    STATE = 'PLAYING'; // briefly, then victory triggers
-    setTimeout(triggerVictory, 300);
-  } else {
-    STATE = 'PLAYING';
-  }
 }
 
 function triggerVictory() {
@@ -1012,6 +925,7 @@ function update() {
     ball.vx  = Math.max(-HSPEED, Math.min(HSPEED, ball.vx));
     ball.vx *= AIR_DAMP;
     ball.vy += GRAVITY;
+    if (ball.vy > 6) ball.vy = 6; // cap terminal velocity
   } else {
     // On platform — gentler control for balancing
     if (inputLeft  || mLeft)  ball.vx -= .22;
@@ -1042,24 +956,30 @@ function update() {
   // ── Platform collision ──
   let onAny = false;
   platforms.forEach((p, i) => {
-    if (p.fading || p.unlocked) return;
     const halfW = p.w / 2;
     const inX   = ball.x >= p.x - halfW && ball.x <= p.x + halfW;
     const wasAbove = prevY + BALL_R <= p.y;
     const nowBelow = ball.y + BALL_R >= p.y;
 
     if (wasAbove && nowBelow && inX && ball.vy > 0) {
-      ball.y  = p.y - BALL_R;
+      ball.y = p.y - BALL_R;
+      
+      if (!p.unlocked) {
+        // Instant unlock!
+        p.unlocked = true;
+        unlocked.push(i);
+        updateHUD();
+        sfxUnlock();
+        spawnParticles(ball.x, p.y - camY, p.color, 30, 5);
+      }
+      
       const bounceVy = -Math.abs(ball.vy) * BOUNCE;
       if (Math.abs(bounceVy) < 1.5) {
-        // Settle on platform
         ball.vy = 0;
         ball.onPlat = i;
         if (ball.onPlat !== i) sfxLand();
       } else {
         ball.vy = bounceVy;
-        ball.onPlat = -1;
-        spawnParticles(ball.x, p.y - camY, p.color, 10, 4);
         sfxLand();
         p.bounceAnim = 1;
       }
@@ -1068,65 +988,32 @@ function update() {
 
     if (ball.onPlat === i) {
       onAny = true;
-      // Check fall-off
+      // Check fall-off edge
       if (ball.x < p.x - halfW - BALL_R || ball.x > p.x + halfW + BALL_R) {
         ball.onPlat = -1;
         ball.vy = 1;
-        sfxFail();
-        spawnParticles(ball.x, ball.y - camY, '#ef4444', 8, 3);
       }
     }
   });
 
   if (!onAny && ball.onPlat >= 0) ball.onPlat = -1;
 
-  // ── Balance timer ──
-  if (ball.onPlat >= 0) {
-    const p    = platforms[ball.onPlat];
-    const dist = Math.abs(ball.x - p.x);
-    if (dist < p.w * .42) {
-      ball.balTimer++;
-      // Tick sound every 60 frames
-      if (ball.balTimer % 60 === 0) sfxTick();
-    } else {
-      ball.balTimer = Math.max(0, ball.balTimer - 4);
-    }
-
-    if (ball.balTimer >= BALANCE_F && !p.unlocked) {
-      // Unlock this section!
-      p.unlocked = true;
-      unlocked.push(ball.onPlat);
-      updateHUD();
-      sfxUnlock();
-      spawnParticles(ball.x, ball.y - camY, p.color, 30, 5);
-      ball.balTimer = 0;
-      ball.onPlat   = -1;
-      ball.vy = -5;
-      openCard(p.idx);
-    }
-  } else {
-    ball.balTimer = 0;
-  }
-
   // ── Trail ──
   ball.trail.unshift({ x: ball.x, y: ball.y });
   if (ball.trail.length > 22) ball.trail.pop();
 
   // ── Camera ──
-  const targetCam = ball.y - canvas.height * .38;
+  // Show more of the upcoming stage by positioning ball higher on screen
+  const targetCam = ball.y - canvas.height * .20;
   camY += (targetCam - camY) * .07;
   if (camY < 0) camY = 0;
 
-  // ── Respawn if ball falls too far below current target platform ──
-  const nextPlat = platforms.find(p => !p.unlocked && !p.fading);
-  if (nextPlat && ball.y > nextPlat.y + RESPAWN_GAP) {
-    ball.x  = nextPlat.x + (Math.random() - .5) * 120;
-    ball.y  = nextPlat.y - canvas.height * .55;
-    ball.vx = (Math.random() - .5) * 3;
-    ball.vy = 0;
-    ball.onPlat   = -1;
-    ball.balTimer = 0;
-    sfxFail();
+  // ── Game End Condition ──
+  const lastPlat = platforms[platforms.length - 1];
+  if (lastPlat && ball.y > lastPlat.y + 1000) {
+    if (STATE !== 'VICTORY' && STATE !== 'PORTFOLIO') {
+      triggerVictory();
+    }
   }
 
   // ── Particles ──
@@ -1285,42 +1172,7 @@ function draw() {
     ctx.shadowBlur = 0;
   }
 
-  // ── Balance arc ──
-  if (ball.onPlat >= 0 && ball.balTimer > 0) {
-    const progress = Math.min(ball.balTimer / BALANCE_F, 1);
-    const bsy2     = ball.y - camY;
-    const arcR     = BALL_R + 11;
-    const startA   = -Math.PI / 2;
 
-    // Background ring
-    ctx.strokeStyle = 'rgba(99,102,241,.18)';
-    ctx.lineWidth   = 3.5;
-    ctx.beginPath();
-    ctx.arc(ball.x, bsy2, arcR, 0, Math.PI * 2);
-    ctx.stroke();
-
-    // Progress arc
-    const hue = 240 + progress * 80;
-    ctx.strokeStyle = `hsl(${hue}, 85%, ${60 + progress * 25}%)`;
-    ctx.lineWidth   = 3.5;
-    ctx.lineCap     = 'round';
-    ctx.shadowBlur  = 14;
-    ctx.shadowColor = `hsl(${hue}, 85%, 70%)`;
-    ctx.beginPath();
-    ctx.arc(ball.x, bsy2, arcR, startA, startA + Math.PI * 2 * progress);
-    ctx.stroke();
-    ctx.shadowBlur  = 0;
-    ctx.lineCap     = 'butt';
-
-    // Percent text
-    if (progress > .15) {
-      ctx.fillStyle = `hsl(${hue}, 85%, 80%)`;
-      const pfs = Math.min(8, canvas.width * .012);
-      ctx.font = `${pfs}px 'Press Start 2P', monospace`;
-      ctx.textAlign = 'center';
-      ctx.fillText(Math.round(progress * 100) + '%', ball.x, bsy2 + arcR + 14);
-    }
-  }
 
   // ── Particles ──
   particles.forEach(p => {
@@ -1375,16 +1227,7 @@ function draw() {
     }
   }
 
-  // ── "BALANCE!" prompt when near platform ──
-  if (ball.onPlat >= 0 && ball.balTimer < 10) {
-    ctx.fillStyle = '#c7d2fe';
-    const fs = Math.min(9, canvas.width * .013);
-    ctx.font = `${fs}px 'Press Start 2P', monospace`;
-    ctx.textAlign = 'center';
-    ctx.globalAlpha = .7 + .3 * Math.sin(Date.now() / 200);
-    ctx.fillText('BALANCE!', ball.x, ball.y - camY - BALL_R - 26);
-    ctx.globalAlpha = 1;
-  }
+
 
   // ── VICTORY sparks (ongoing) ──
   if (STATE === 'VICTORY') {
@@ -1406,6 +1249,28 @@ requestAnimationFrame(loop);
 /* ── PORTFOLIO SETUP ─────────────────────────────────── */
 function setupPortfolio() {
   lucide.createIcons();
+
+  // Hide missed sections
+  const sectionIds = ['pf-about', 'pf-skills', 'pf-apps', 'pf-youtube', 'pf-volunteer', 'pf-education', 'pf-contact'];
+  sectionIds.forEach((id, idx) => {
+    if (!unlocked.includes(idx)) {
+      const sectionEl = document.getElementById(id);
+      if (sectionEl) {
+        sectionEl.querySelectorAll('.pf-inner > :not(.pf-hdr)').forEach(el => el.style.display = 'none');
+        const overlay = document.createElement('div');
+        overlay.className = 'pf-locked-overlay';
+        overlay.innerHTML = `
+          <i data-lucide="lock"></i>
+          <p>SECTION LOCKED</p>
+          <button class="pf-unlock-btn" onclick="unlockSection(${idx})">
+            <i data-lucide="unlock"></i> UNLOCK ${SECTIONS[idx].name}
+          </button>
+        `;
+        sectionEl.querySelector('.pf-inner').appendChild(overlay);
+        lucide.createIcons();
+      }
+    }
+  });
 
   // Scroll progress bar
   const pf    = document.getElementById('portfolio');
@@ -1454,6 +1319,18 @@ function setupPortfolio() {
     card.addEventListener('mouseleave', () => { card.style.transform = ''; });
   });
 }
+
+window.unlockSection = function(idx) {
+  if (!unlocked.includes(idx)) unlocked.push(idx);
+  const sectionIds = ['pf-about', 'pf-skills', 'pf-apps', 'pf-youtube', 'pf-volunteer', 'pf-education', 'pf-contact'];
+  const sectionEl = document.getElementById(sectionIds[idx]);
+  if (sectionEl) {
+    const overlay = sectionEl.querySelector('.pf-locked-overlay');
+    if (overlay) overlay.remove();
+    sectionEl.querySelectorAll('.pf-inner > :not(.pf-hdr)').forEach(el => el.style.display = '');
+    sfxUnlock();
+  }
+};
 </script>
 </body>
 </html>
