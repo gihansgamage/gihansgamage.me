@@ -56,16 +56,17 @@
         .gm-box {
             background: #050510;
             border: 4px solid #fff;
-            padding: 2.5rem;
+            padding: clamp(1.2rem, 5vw, 2.5rem);
             box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
             font-family: 'Press Start 2P', monospace;
             text-align: left;
-            min-width: 320px;
+            width: 90vw;
+            max-width: 400px;
         }
 
         .gm-title {
             color: #fcd34d;
-            font-size: .8rem;
+            font-size: clamp(.6rem, 4vw, .8rem);
             margin-bottom: 2rem;
             text-align: center;
             text-transform: uppercase;
@@ -84,11 +85,13 @@
 
         .gm-item {
             color: #a5b4fc;
-            font-size: .6rem;
+            font-size: clamp(.45rem, 3.5vw, .6rem);
             text-transform: uppercase;
             letter-spacing: .05em;
             display: flex;
             align-items: center;
+            cursor: pointer;
+            padding: .4rem 0;
         }
 
         .gm-item.active {
@@ -664,6 +667,24 @@
 
         .pf-nav-links a:hover {
             color: var(--accent);
+        }
+
+        .pf-nav-right {
+            display: flex;
+            align-items: center;
+        }
+
+        .pf-nav-menu-btn {
+            font-family: 'Press Start 2P', monospace;
+            font-size: clamp(.4rem, 3vw, .5rem);
+            color: var(--accent);
+            cursor: pointer;
+            margin-left: 1rem;
+            transition: color var(--transition);
+        }
+
+        .pf-nav-menu-btn:hover {
+            color: #fff;
         }
 
         /* Sections */
@@ -1788,13 +1809,15 @@
         <!-- Navbar -->
         <nav class="pf-nav">
             <a href="#pf-hero" class="pf-nav-logo">gihansgamage.me</a>
-            <div class="pf-nav-links">
-                <a href="#pf-about">About</a>
-                <a href="#pf-skills">Skills</a>
-                <a href="#pf-apps">Projects</a>
-                <a href="#pf-youtube">YouTube</a>
-                <a href="#pf-contact">Contact</a>
-                <span style="font-family:'Press Start 2P', monospace; font-size:.4rem; color:var(--accent); margin-left:1rem; cursor:pointer;" onclick="toggleMenu()">[M] MENU</span>
+            <div class="pf-nav-right">
+                <div class="pf-nav-links">
+                    <a href="#pf-about">About</a>
+                    <a href="#pf-skills">Skills</a>
+                    <a href="#pf-apps">Projects</a>
+                    <a href="#pf-youtube">YouTube</a>
+                    <a href="#pf-contact">Contact</a>
+                </div>
+                <span class="pf-nav-menu-btn" onclick="toggleMenu()">[M] MENU</span>
             </div>
         </nav>
 
@@ -3035,12 +3058,22 @@
             list.innerHTML = '';
             menuSections.forEach((sec, idx) => {
                 list.innerHTML += `
-                    <li class="gm-item ${idx === menuIndex ? 'active' : ''}">
+                    <li class="gm-item ${idx === menuIndex ? 'active' : ''}" onclick="selectMenuItem(${idx})" onmouseover="menuIndex=${idx}; renderMenu();">
                         <span class="gm-cursor">►</span> ${sec.name}
                     </li>
                 `;
             });
         }
+
+        window.selectMenuItem = function(idx) {
+            menuIndex = idx;
+            toggleMenu();
+            const targetId = menuSections[menuIndex].id;
+            const targetEl = document.getElementById(targetId);
+            if (targetEl) {
+                targetEl.scrollIntoView({ behavior: 'smooth' });
+            }
+        };
 
         window.toggleMenu = function() {
             if (STATE !== 'PORTFOLIO') return;
@@ -3071,12 +3104,7 @@
                     renderMenu();
                     e.preventDefault();
                 } else if (e.key === 'Enter') {
-                    toggleMenu();
-                    const targetId = menuSections[menuIndex].id;
-                    const targetEl = document.getElementById(targetId);
-                    if (targetEl) {
-                        targetEl.scrollIntoView({ behavior: 'smooth' });
-                    }
+                    selectMenuItem(menuIndex);
                 }
             }
         });
