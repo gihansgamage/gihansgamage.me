@@ -1754,6 +1754,59 @@
             transform: scaleX(0);
             pointer-events: none;
         }
+
+        /* ─── CV CARD ─────────────────────────────────────── */
+        .pf-cv-card {
+            background: var(--bg-subtle);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 2.2rem;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.2rem;
+            margin-top: 3rem;
+            transition: box-shadow var(--transition), transform var(--transition), border-color var(--transition);
+        }
+
+        .pf-cv-card:hover {
+            box-shadow: var(--shadow-md);
+            border-color: rgba(99, 102, 241, 0.4);
+            transform: translateY(-4px);
+        }
+
+        .pf-cv-icon-wrap {
+            background: rgba(99, 102, 241, 0.15);
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent);
+            transition: transform var(--transition);
+        }
+
+        .pf-cv-card:hover .pf-cv-icon-wrap {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .pf-cv-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.3rem;
+        }
+
+        .pf-cv-desc {
+            font-size: 0.93rem;
+            color: var(--text-secondary);
+            max-width: 550px;
+            margin: 0 auto 0.5rem auto;
+            line-height: 1.6;
+        }
     </style>
 </head>
 
@@ -2286,6 +2339,26 @@
                         undergraduate looking for internships, freelance projects, and collaborative work in web
                         development, mobile apps, and software engineering. If you have something exciting — let's
                         connect!</div>
+                </div>
+            </div>
+        </section>
+
+        <div class="pf-divider"></div>
+
+        <!-- Download CV Section -->
+        <section id="pf-cv" class="pf-section">
+            <div class="pf-inner">
+                <div class="pf-cv-card pf-reveal">
+                    <div class="pf-cv-icon-wrap">
+                        <i data-lucide="file-text" style="width: 24px; height: 24px;"></i>
+                    </div>
+                    <div>
+                        <div class="pf-cv-title">Curriculum Vitae</div>
+                        <p class="pf-cv-desc">Download my CV to view my full academic background, detailed skills, and professional experience.</p>
+                    </div>
+                    <a href="GihanSGamage_CV.pdf" onclick="downloadCV(event)" class="pf-btn pf-btn-primary" style="text-decoration: none;">
+                        <i data-lucide="download"></i> Download CV (PDF)
+                    </a>
                 </div>
             </div>
         </section>
@@ -3211,6 +3284,37 @@
                 }
             }
         });
+
+        window.downloadCV = function (e) {
+            e.preventDefault();
+            const cvUrl = 'GihanSGamage_CV.pdf';
+            const filename = 'Gihan_Sanjaya_CV.pdf';
+            
+            fetch(cvUrl)
+                .then(response => {
+                    if (!response.ok) throw new Error('Network response was not ok');
+                    return response.blob();
+                })
+                .then(blob => {
+                    const blobUrl = window.URL.createObjectURL(blob);
+                    const link = document.createElement('a');
+                    link.style.display = 'none';
+                    link.href = blobUrl;
+                    link.download = filename;
+                    document.body.appendChild(link);
+                    link.click();
+                    window.URL.revokeObjectURL(blobUrl);
+                    document.body.removeChild(link);
+                })
+                .catch(err => {
+                    console.warn('Direct blob download failed, falling back to standard link behavior:', err);
+                    const link = document.createElement('a');
+                    link.href = cvUrl;
+                    link.download = filename;
+                    link.target = '_blank';
+                    link.click();
+                });
+        };
     </script>
 </body>
 
