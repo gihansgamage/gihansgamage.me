@@ -3824,7 +3824,10 @@
                 li.addEventListener('click', () => selectMenuItem(idx));
                 li.addEventListener('mouseenter', () => {
                     menuIndex = idx;
-                    renderMenu();
+                    const items = list.querySelectorAll('.gm-item');
+                    items.forEach((item, itemIdx) => {
+                        item.classList.toggle('active', itemIdx === menuIndex);
+                    });
                 });
                 list.appendChild(li);
             });
