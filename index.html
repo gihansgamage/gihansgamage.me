@@ -1520,6 +1520,18 @@
             height: 10px;
         }
 
+        .yt-icon-views {
+            display: none !important;
+        }
+
+        .pf-yt-subs-pill.show-views .yt-icon-subs {
+            display: none !important;
+        }
+
+        .pf-yt-subs-pill.show-views .yt-icon-views {
+            display: inline-block !important;
+        }
+
         .pf-yt-desc {
             font-size: .78rem;
             color: var(--text-secondary);
@@ -2680,11 +2692,15 @@
                             <div class="pf-yt-meta">
                                 <div class="pf-yt-handle">Maths Crew</div>
                                 <div class="pf-yt-subs-pill">
-                                    <svg viewBox="0 0 24 24" fill="currentColor">
+                                    <svg class="yt-icon-subs" viewBox="0 0 24 24" fill="currentColor">
                                         <path
                                             d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
                                     </svg>
-                                    50,000+ Subscribers
+                                    <svg class="yt-icon-views" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                        <circle cx="12" cy="12" r="3"></circle>
+                                    </svg>
+                                    <span class="yt-stat-number" data-subs="53000" data-views="3156588">53,000</span>+ <span class="yt-stat-label">Subscribers</span>
                                 </div>
                             </div>
                         </div>
@@ -2703,11 +2719,15 @@
                             <div class="pf-yt-meta">
                                 <div class="pf-yt-handle">Gihan S Gamage</div>
                                 <div class="pf-yt-subs-pill">
-                                    <svg viewBox="0 0 24 24" fill="currentColor">
+                                    <svg class="yt-icon-subs" viewBox="0 0 24 24" fill="currentColor">
                                         <path
                                             d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
                                     </svg>
-                                    300+ Subscribers
+                                    <svg class="yt-icon-views" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                        <circle cx="12" cy="12" r="3"></circle>
+                                    </svg>
+                                    <span class="yt-stat-number" data-subs="300" data-views="34656">300</span>+ <span class="yt-stat-label">Subscribers</span>
                                 </div>
                             </div>
                         </div>
@@ -2727,11 +2747,15 @@
                             <div class="pf-yt-meta">
                                 <div class="pf-yt-handle">Facts Bit</div>
                                 <div class="pf-yt-subs-pill">
-                                    <svg viewBox="0 0 24 24" fill="currentColor">
+                                    <svg class="yt-icon-subs" viewBox="0 0 24 24" fill="currentColor">
                                         <path
                                             d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
                                     </svg>
-                                    300+ Subscribers
+                                    <svg class="yt-icon-views" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                        <circle cx="12" cy="12" r="3"></circle>
+                                    </svg>
+                                    <span class="yt-stat-number" data-subs="300" data-views="13430">300</span>+ <span class="yt-stat-label">Subscribers</span>
                                 </div>
                             </div>
                         </div>
@@ -4227,6 +4251,66 @@
                     }
                 }, { passive: true });
             }
+        })();
+
+        // YouTube Subscriber & Views Counter animation on hover
+        (function () {
+            function animateCounter(el, start, target, duration = 1200) {
+                let startTimestamp = null;
+
+                if (el.dataset.animationFrameId) {
+                    cancelAnimationFrame(parseInt(el.dataset.animationFrameId, 10));
+                }
+
+                const step = (timestamp) => {
+                    if (!startTimestamp) startTimestamp = timestamp;
+                    const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+
+                    // Easing: easeOutExpo
+                    const easeProgress = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
+                    const currentValue = Math.floor(easeProgress * (target - start) + start);
+
+                    el.textContent = currentValue.toLocaleString();
+
+                    if (progress < 1) {
+                        el.dataset.animationFrameId = requestAnimationFrame(step);
+                    } else {
+                        el.textContent = target.toLocaleString();
+                        delete el.dataset.animationFrameId;
+                    }
+                };
+
+                el.dataset.animationFrameId = requestAnimationFrame(step);
+            }
+
+            document.querySelectorAll('.pf-yt').forEach(card => {
+                const pill = card.querySelector('.pf-yt-subs-pill');
+                const numEl = card.querySelector('.yt-stat-number');
+                const labelEl = card.querySelector('.yt-stat-label');
+
+                if (pill && numEl && labelEl) {
+                    const subsCount = parseInt(numEl.dataset.subs, 10) || 0;
+                    const viewsCount = parseInt(numEl.dataset.views, 10) || 0;
+
+                    // Hover (mouseenter) -> Toggle to Views and count up from 0 to viewsCount
+                    card.addEventListener('mouseenter', () => {
+                        pill.classList.add('show-views');
+                        labelEl.textContent = 'Views';
+                        animateCounter(numEl, 0, viewsCount, 1200);
+                    });
+
+                    // Leave (mouseleave) -> Toggle back to Subscribers instantly
+                    card.addEventListener('mouseleave', () => {
+                        if (numEl.dataset.animationFrameId) {
+                            cancelAnimationFrame(parseInt(numEl.dataset.animationFrameId, 10));
+                            delete numEl.dataset.animationFrameId;
+                        }
+                        pill.classList.remove('show-views');
+                        labelEl.textContent = 'Subscribers';
+                        numEl.textContent = subsCount.toLocaleString();
+                    });
+                }
+            });
         })();
 
         window.closeQuizModal = function () {
