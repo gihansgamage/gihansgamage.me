@@ -401,6 +401,7 @@
             align-items: center;
             justify-content: center;
             padding: 3rem 1rem;
+            min-height: 380px;
             text-align: center;
             background: var(--bg-card);
             border: 1px dashed var(--border);
@@ -3996,6 +3997,11 @@
 
         let isMenuOpen = false;
         let menuIndex = 0;
+        window.isKeyboardNav = false;
+
+        document.addEventListener('mousemove', () => {
+            window.isKeyboardNav = false;
+        });
 
         function renderMenu() {
             const list = document.getElementById('gm-list');
@@ -4006,6 +4012,7 @@
                 li.innerHTML = `<span class="gm-cursor">►</span> ${sec.name}`;
                 li.addEventListener('click', () => selectMenuItem(idx));
                 li.addEventListener('mouseenter', () => {
+                    if (window.isKeyboardNav) return;
                     menuIndex = idx;
                     const items = list.querySelectorAll('.gm-item');
                     items.forEach((item, itemIdx) => {
