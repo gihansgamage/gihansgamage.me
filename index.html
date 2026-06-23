@@ -88,6 +88,7 @@
             overflow-y: auto;
             scrollbar-width: none;
         }
+
         .gm-list::-webkit-scrollbar {
             display: none;
         }
@@ -374,6 +375,25 @@
             border: 1px solid rgba(99, 102, 241, .2);
         }
 
+        /* ─── SKIP TO PORTFOLIO LINK ────────────────────── */
+        .t-skip {
+            position: absolute;
+            bottom: 1rem;
+            right: 1.1rem;
+            font-family: 'Press Start 2P', monospace;
+            font-size: .38rem;
+            color: rgba(255, 255, 255, .22);
+            text-decoration: none;
+            cursor: pointer;
+            letter-spacing: .04em;
+            transition: color .25s;
+            user-select: none;
+        }
+
+        .t-skip:hover {
+            color: rgba(255, 255, 255, .5);
+        }
+
         /* ─── LOCKED SECTION UI ─────────────────────────── */
         .pf-locked-overlay {
             display: flex;
@@ -498,7 +518,7 @@
             font-family: 'Press Start 2P', monospace;
             font-size: clamp(.5rem, 1.5vw, .68rem);
             padding: .9rem 2rem;
-            border-radius: 10px;
+            border-radius: var(--radius);
             border: none;
             cursor: pointer;
             background: linear-gradient(135deg, #6366f1, #8b5cf6);
@@ -565,7 +585,7 @@
             font-family: 'Press Start 2P', monospace;
             font-size: clamp(.5rem, 1.5vw, .68rem);
             padding: .9rem 2rem;
-            border-radius: 10px;
+            border-radius: var(--radius);
             border: none;
             cursor: pointer;
             background: linear-gradient(135deg, #ef4444, #f97316);
@@ -608,7 +628,7 @@
             --shadow-sm: 0 0 10px rgba(99, 102, 241, .2);
             --shadow-md: 0 0 20px rgba(99, 102, 241, .4);
             --shadow-lg: 0 0 40px rgba(99, 102, 241, .6);
-            --radius: 8px;
+            --radius: 14px;
             --radius-sm: 4px;
             --transition: .3s cubic-bezier(.4, 0, .2, 1);
         }
@@ -871,7 +891,7 @@
             align-items: center;
             gap: .45rem;
             padding: .65rem 1.5rem;
-            border-radius: 99px;
+            border-radius: var(--radius);
             font-size: .88rem;
             font-weight: 600;
             border: none;
@@ -955,7 +975,8 @@
 
         /* About */
         #pf-about {
-            background: var(--bg-card);
+            background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(99, 102, 241, .08) 0%, transparent 70%),
+                var(--bg-card);
         }
 
         .pf-about-grid {
@@ -983,16 +1004,43 @@
             align-items: flex-start;
             gap: .9rem;
             padding: .9rem 1.1rem;
-            border-radius: var(--radius-sm);
-            background: var(--bg-subtle);
-            border: 1px solid var(--border);
-            transition: box-shadow var(--transition), transform var(--transition), border-color var(--transition);
+            border-radius: var(--radius);
+            background: linear-gradient(145deg, rgba(99, 102, 241, .06) 0%, var(--bg-subtle) 60%);
+            border: 1px solid rgba(99, 102, 241, .18);
+            position: relative;
+            overflow: hidden;
+            transition: box-shadow .3s, transform .3s, border-color .3s;
+        }
+
+        .pf-meta-item::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 0% 0%, rgba(99, 102, 241, .12) 0%, transparent 65%);
+            pointer-events: none;
+        }
+
+        .pf-meta-item::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #6366f1, #818cf8, #6366f1);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform .35s ease;
         }
 
         .pf-meta-item:hover {
-            box-shadow: var(--shadow-md);
-            transform: translateX(5px);
-            border-color: var(--accent);
+            box-shadow: 0 6px 24px rgba(99, 102, 241, .18), 0 2px 8px rgba(0, 0, 0, .2);
+            transform: translateX(4px);
+            border-color: rgba(99, 102, 241, .4);
+        }
+
+        .pf-meta-item:hover::after {
+            transform: scaleX(1);
         }
 
         .pf-meta-icon {
@@ -1027,7 +1075,8 @@
 
         /* Skills */
         #pf-skills {
-            background: var(--bg);
+            background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(139, 92, 246, .08) 0%, transparent 70%),
+                var(--bg);
         }
 
         .pf-skills-grid {
@@ -1041,33 +1090,43 @@
             align-items: center;
             gap: .8rem;
             padding: .9rem 1.1rem;
-            border-radius: var(--radius-sm);
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            box-shadow: var(--shadow-sm);
-            cursor: default;
+            border-radius: var(--radius);
+            background: linear-gradient(145deg, rgba(139, 92, 246, .07) 0%, var(--bg-card) 60%);
+            border: 1px solid rgba(139, 92, 246, .18);
             position: relative;
             overflow: hidden;
-            transition: box-shadow var(--transition), transform var(--transition), border-color var(--transition);
+            transition: box-shadow .3s, transform .3s, border-color .3s;
         }
 
         .pf-skill::before {
             content: '';
             position: absolute;
             inset: 0;
-            background: linear-gradient(135deg, var(--accent-light), transparent);
-            opacity: 0;
-            transition: opacity var(--transition);
+            background: radial-gradient(circle at 0% 0%, rgba(139, 92, 246, .13) 0%, transparent 65%);
+            pointer-events: none;
+        }
+
+        .pf-skill::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #8b5cf6, #a78bfa, #8b5cf6);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform .35s ease;
         }
 
         .pf-skill:hover {
-            box-shadow: var(--shadow-md);
+            box-shadow: 0 6px 24px rgba(139, 92, 246, .2), 0 2px 8px rgba(0, 0, 0, .2);
             transform: translateY(-3px);
-            border-color: var(--accent);
+            border-color: rgba(139, 92, 246, .4);
         }
 
-        .pf-skill:hover::before {
-            opacity: 1;
+        .pf-skill:hover::after {
+            transform: scaleX(1);
         }
 
         .pf-skill-dot {
@@ -1087,7 +1146,8 @@
 
         /* Apps */
         #pf-apps {
-            background: var(--bg-card);
+            background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(59, 130, 246, .08) 0%, transparent 70%),
+                var(--bg-card);
         }
 
         .pf-apps-grid {
@@ -1098,17 +1158,34 @@
 
         .pf-app {
             border-radius: var(--radius);
-            border: 1px solid var(--border);
-            background: var(--bg);
+            border: 1px solid rgba(59, 130, 246, .15);
+            background: linear-gradient(145deg, rgba(59, 130, 246, .06) 0%, var(--bg) 60%);
             overflow: hidden;
-            box-shadow: var(--shadow-sm);
-            transition: box-shadow var(--transition), transform var(--transition), border-color var(--transition);
+            position: relative;
+            transition: box-shadow .3s, transform .3s, border-color .3s;
+        }
+
+        .pf-app::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #3b82f6, #60a5fa, #3b82f6);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform .35s ease;
         }
 
         .pf-app:hover {
-            box-shadow: var(--shadow-lg);
+            box-shadow: 0 8px 30px rgba(59, 130, 246, .2), 0 2px 8px rgba(0, 0, 0, .3);
             transform: translateY(-5px);
-            border-color: rgba(91, 108, 248, .3);
+            border-color: rgba(59, 130, 246, .4);
+        }
+
+        .pf-app:hover::after {
+            transform: scaleX(1);
         }
 
         .pf-app-banner {
@@ -1168,15 +1245,21 @@
             display: inline-flex;
             align-items: center;
             gap: .4rem;
-            font-size: .84rem;
-            font-weight: 600;
-            color: var(--accent);
-            transition: gap var(--transition), color var(--transition);
+            font-size: .78rem;
+            font-weight: 700;
+            color: #fff;
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+            padding: .45rem .95rem;
+            border-radius: var(--radius);
+            align-self: flex-start;
+            transition: gap .25s, transform .25s, box-shadow .25s;
+            box-shadow: 0 3px 12px rgba(59, 130, 246, .3);
         }
 
         .pf-app-link:hover {
-            gap: .7rem;
-            color: var(--accent-2);
+            gap: .6rem;
+            transform: translateX(2px);
+            box-shadow: 0 5px 20px rgba(59, 130, 246, .5);
         }
 
         .pf-app-link i {
@@ -1184,29 +1267,176 @@
             height: 14px;
         }
 
-        /* YouTube */
+        /* ─── YouTube Section ──────────────────────────────────────── */
         #pf-youtube {
-            background: var(--bg);
+            background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(239, 68, 68, .09) 0%, transparent 70%),
+                var(--bg);
         }
 
+        /* Featured video */
+        .yt-featured {
+            margin-bottom: 2.8rem;
+        }
+
+        .yt-featured-label {
+            display: inline-flex;
+            align-items: center;
+            gap: .5rem;
+            font-size: .7rem;
+            font-weight: 700;
+            letter-spacing: .08em;
+            text-transform: uppercase;
+            color: #ef4444;
+            background: rgba(239, 68, 68, .1);
+            border: 1px solid rgba(239, 68, 68, .25);
+            border-radius: 99px;
+            padding: .35rem .85rem;
+            margin-bottom: 1rem;
+        }
+
+        .yt-featured-label svg {
+            width: 14px;
+            height: 14px;
+            flex-shrink: 0;
+        }
+
+        /* Thumbnail player (replaces iframe when embedding is disabled) */
+        .yt-thumb-player {
+            display: block;
+            position: relative;
+            width: 100%;
+            max-width: 420px;
+            margin: 0 auto;
+            border-radius: var(--radius);
+            overflow: hidden;
+            cursor: pointer;
+            text-decoration: none;
+            border: 1px solid rgba(239, 68, 68, .15);
+            background: linear-gradient(145deg, rgba(239, 68, 68, .06) 0%, var(--bg-card) 60%);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, .3);
+            transition: box-shadow .3s, transform .3s, border-color .3s;
+        }
+
+        .yt-thumb-player::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 0% 0%, rgba(239, 68, 68, .12) 0%, transparent 65%);
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        .yt-thumb-player::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #ef4444, #f97316, #ef4444);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform .35s ease;
+            z-index: 2;
+        }
+
+        .yt-thumb-player:hover {
+            box-shadow: 0 8px 30px rgba(239, 68, 68, .2), 0 2px 8px rgba(0, 0, 0, .3);
+            transform: translateY(-5px);
+            border-color: rgba(239, 68, 68, .4);
+        }
+
+        .yt-thumb-player:hover::after {
+            transform: scaleX(1);
+        }
+
+        .yt-thumb-player img {
+            display: block;
+            width: 100%;
+            aspect-ratio: 16/9;
+            object-fit: cover;
+            border-radius: calc(var(--radius) - 1px);
+        }
+
+        .yt-scrim {
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, .25);
+            transition: background .3s;
+            z-index: 1;
+            border-radius: calc(var(--radius) - 1px);
+        }
+
+        .yt-thumb-player:hover .yt-scrim {
+            background: rgba(0, 0, 0, .15);
+        }
+
+        .yt-play-btn {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 3;
+            pointer-events: none;
+        }
+
+        .yt-play-btn svg {
+            width: 64px;
+            height: 64px;
+            filter: drop-shadow(0 4px 16px rgba(0, 0, 0, .5));
+            transition: transform .25s ease, filter .25s ease;
+        }
+
+        .yt-thumb-player:hover .yt-play-btn svg {
+            transform: scale(1.12);
+            filter: drop-shadow(0 6px 24px rgba(239, 68, 68, .7));
+        }
+
+        .yt-watch-label {
+            position: absolute;
+            bottom: .75rem;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 3;
+            font-size: .65rem;
+            font-weight: 700;
+            letter-spacing: .08em;
+            color: #fff;
+            background: rgba(0, 0, 0, .55);
+            backdrop-filter: blur(4px);
+            border-radius: 99px;
+            padding: .3rem .9rem;
+            white-space: nowrap;
+            pointer-events: none;
+        }
+
+        /* Channel cards */
         .pf-yt-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
-            gap: 1.1rem;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.2rem;
         }
 
         .pf-yt {
-            border-radius: var(--radius-sm);
-            border: 1px solid var(--border);
-            background: var(--bg-card);
-            padding: 1.3rem 1.1rem;
-            box-shadow: var(--shadow-sm);
+            border-radius: var(--radius);
+            border: 1px solid rgba(239, 68, 68, .15);
+            background: linear-gradient(145deg, rgba(239, 68, 68, .06) 0%, var(--bg-card) 60%);
+            padding: 1.5rem 1.3rem 1.2rem;
             display: flex;
             flex-direction: column;
-            gap: .55rem;
+            gap: .7rem;
             position: relative;
             overflow: hidden;
-            transition: box-shadow var(--transition), transform var(--transition), border-color var(--transition);
+            transition: box-shadow .3s, transform .3s, border-color .3s;
+        }
+
+        .pf-yt::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 0% 0%, rgba(239, 68, 68, .12) 0%, transparent 65%);
+            pointer-events: none;
         }
 
         .pf-yt::after {
@@ -1215,100 +1445,107 @@
             bottom: 0;
             left: 0;
             right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, #ef4444, #f97316);
+            height: 2px;
+            background: linear-gradient(90deg, #ef4444, #f97316, #ef4444);
             transform: scaleX(0);
             transform-origin: left;
-            transition: transform var(--transition);
+            transition: transform .35s ease;
         }
 
         .pf-yt:hover {
-            box-shadow: var(--shadow-md);
-            transform: translateY(-4px);
-            border-color: #fca5a5;
+            box-shadow: 0 8px 30px rgba(239, 68, 68, .2), 0 2px 8px rgba(0, 0, 0, .3);
+            transform: translateY(-5px);
+            border-color: rgba(239, 68, 68, .4);
         }
 
         .pf-yt:hover::after {
             transform: scaleX(1);
         }
 
-        .pf-yt-subs {
-            position: absolute;
-            top: 1.3rem;
-            right: 1.1rem;
-            background: #ef4444;
-            color: #fff;
-            padding: 0.3rem 0.6rem;
-            border-radius: 99px;
-            font-size: 0.65rem;
-            font-weight: 700;
-            opacity: 0;
-            transform: translateY(-10px);
-            transition: all var(--transition);
-        }
-
-        .pf-yt-badge {
-            transition: all var(--transition);
-        }
-
-        .pf-yt:hover .pf-yt-badge {
-            opacity: 0;
-            transform: translateY(10px);
-        }
-
-        .pf-yt:hover .pf-yt-subs {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .pf-yt-icon {
-            width: 42px;
-            height: 42px;
-            border-radius: 10px;
-            background: rgba(239, 68, 68, 0.1);
+        /* Card header row */
+        .pf-yt-header {
             display: flex;
             align-items: center;
-            justify-content: center;
-            transition: transform var(--transition), background var(--transition);
+            gap: .85rem;
         }
 
-        .pf-yt:hover .pf-yt-icon {
-            transform: scale(1.1);
-            background: rgba(239, 68, 68, 0.2);
+        .pf-yt-avatar {
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid rgba(239, 68, 68, .4);
+            box-shadow: 0 0 12px rgba(239, 68, 68, .2);
+            flex-shrink: 0;
+            transition: box-shadow .3s, border-color .3s;
         }
 
-        .pf-yt-icon i,
-        .pf-yt-icon svg {
-            width: 19px;
-            height: 19px;
-            color: #ef4444;
+        .pf-yt:hover .pf-yt-avatar {
+            border-color: #ef4444;
+            box-shadow: 0 0 20px rgba(239, 68, 68, .45);
+        }
+
+        .pf-yt-meta {
+            display: flex;
+            flex-direction: column;
+            gap: .2rem;
+            min-width: 0;
         }
 
         .pf-yt-handle {
-            font-size: .84rem;
+            font-size: .88rem;
             font-weight: 700;
             font-family: 'Space Grotesk', sans-serif;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .pf-yt-subs-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: .28rem;
+            font-size: .62rem;
+            font-weight: 700;
+            color: #ef4444;
+            background: rgba(239, 68, 68, .12);
+            border: 1px solid rgba(239, 68, 68, .2);
+            border-radius: 99px;
+            padding: .2rem .55rem;
+            width: fit-content;
+        }
+
+        .pf-yt-subs-pill svg {
+            width: 10px;
+            height: 10px;
         }
 
         .pf-yt-desc {
-            font-size: .8rem;
+            font-size: .78rem;
             color: var(--text-secondary);
-            line-height: 1.6;
+            line-height: 1.65;
             flex: 1;
         }
 
         .pf-yt-link {
-            font-size: .78rem;
-            font-weight: 600;
-            color: #ef4444;
             display: inline-flex;
             align-items: center;
-            gap: .3rem;
-            transition: gap var(--transition);
+            gap: .4rem;
+            font-size: .75rem;
+            font-weight: 700;
+            color: #fff;
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            padding: .5rem 1rem;
+            border-radius: var(--radius);
+            align-self: flex-start;
+            transition: gap .25s, transform .25s, box-shadow .25s;
+            box-shadow: 0 3px 12px rgba(239, 68, 68, .3);
         }
 
         .pf-yt-link:hover {
-            gap: .55rem;
+            gap: .6rem;
+            transform: translateX(2px);
+            box-shadow: 0 5px 20px rgba(239, 68, 68, .5);
         }
 
         .pf-yt-link i {
@@ -1318,7 +1555,8 @@
 
         /* Volunteer */
         #pf-volunteer {
-            background: var(--bg-card);
+            background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(16, 185, 129, .08) 0%, transparent 70%),
+                var(--bg-card);
         }
 
         .pf-timeline {
@@ -1364,18 +1602,45 @@
         }
 
         .pf-tl-content {
-            background: var(--bg-subtle);
-            border: 1px solid var(--border);
-            border-radius: var(--radius-sm);
+            background: linear-gradient(145deg, rgba(16, 185, 129, .07) 0%, var(--bg-subtle) 60%);
+            border: 1px solid rgba(16, 185, 129, .18);
+            border-radius: var(--radius);
             padding: 1.1rem 1.3rem;
             flex: 1;
-            transition: box-shadow var(--transition), transform var(--transition), border-color var(--transition);
+            position: relative;
+            overflow: hidden;
+            transition: box-shadow .3s, transform .3s, border-color .3s;
+        }
+
+        .pf-tl-content::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 0% 0%, rgba(16, 185, 129, .1) 0%, transparent 65%);
+            pointer-events: none;
+        }
+
+        .pf-tl-content::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #10b981, #34d399, #10b981);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform .35s ease;
         }
 
         .pf-tl-content:hover {
-            box-shadow: var(--shadow-md);
+            box-shadow: 0 6px 24px rgba(16, 185, 129, .18), 0 2px 8px rgba(0, 0, 0, .2);
             transform: translateX(4px);
-            border-color: var(--accent);
+            border-color: rgba(16, 185, 129, .4);
+        }
+
+        .pf-tl-content:hover::after {
+            transform: scaleX(1);
         }
 
         .pf-tl-role {
@@ -1406,7 +1671,8 @@
 
         /* Education */
         #pf-education {
-            background: var(--bg);
+            background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(245, 158, 11, .08) 0%, transparent 70%),
+                var(--bg-card);
         }
 
         .pf-edu-grid {
@@ -1416,29 +1682,44 @@
         }
 
         .pf-edu {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
+            background: linear-gradient(145deg, rgba(245, 158, 11, .07) 0%, var(--bg-card) 60%);
+            border: 1px solid rgba(245, 158, 11, .18);
             border-radius: var(--radius);
             padding: 1.5rem;
-            box-shadow: var(--shadow-sm);
             position: relative;
             overflow: hidden;
-            transition: box-shadow var(--transition), transform var(--transition);
+            transition: box-shadow .3s, transform .3s, border-color .3s;
         }
 
         .pf-edu::before {
             content: '';
             position: absolute;
-            top: 0;
+            inset: 0;
+            background: radial-gradient(circle at 0% 0%, rgba(245, 158, 11, .1) 0%, transparent 65%);
+            pointer-events: none;
+        }
+
+        .pf-edu::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
             left: 0;
             right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, var(--accent), var(--accent-2));
+            height: 2px;
+            background: linear-gradient(90deg, #f59e0b, #fbbf24, #f59e0b);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform .35s ease;
         }
 
         .pf-edu:hover {
-            box-shadow: var(--shadow-lg);
+            box-shadow: 0 8px 30px rgba(245, 158, 11, .2), 0 2px 8px rgba(0, 0, 0, .25);
             transform: translateY(-4px);
+            border-color: rgba(245, 158, 11, .4);
+        }
+
+        .pf-edu:hover::after {
+            transform: scaleX(1);
         }
 
         .pf-edu-icon {
@@ -1508,7 +1789,8 @@
 
         /* Contact */
         #pf-contact {
-            background: var(--bg-card);
+            background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(6, 182, 212, .08) 0%, transparent 70%),
+                var(--bg);
         }
 
         .pf-contact-grid {
@@ -1529,17 +1811,43 @@
             align-items: center;
             gap: .9rem;
             padding: .9rem 1.1rem;
-            border-radius: var(--radius-sm);
-            background: var(--bg-subtle);
-            border: 1px solid var(--border);
-            transition: box-shadow var(--transition), transform var(--transition), border-color var(--transition), background var(--transition);
+            border-radius: var(--radius);
+            background: linear-gradient(145deg, rgba(6, 182, 212, .07) 0%, var(--bg-subtle) 60%);
+            border: 1px solid rgba(6, 182, 212, .18);
+            position: relative;
+            overflow: hidden;
+            transition: box-shadow .3s, transform .3s, border-color .3s;
+        }
+
+        .pf-clink::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 0% 0%, rgba(6, 182, 212, .1) 0%, transparent 65%);
+            pointer-events: none;
+        }
+
+        .pf-clink::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #06b6d4, #22d3ee, #06b6d4);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform .35s ease;
         }
 
         .pf-clink:hover {
-            box-shadow: var(--shadow-md);
+            box-shadow: 0 6px 24px rgba(6, 182, 212, .18), 0 2px 8px rgba(0, 0, 0, .2);
             transform: translateX(5px);
-            border-color: var(--accent);
-            background: rgba(99, 102, 241, 0.08);
+            border-color: rgba(6, 182, 212, .4);
+        }
+
+        .pf-clink:hover::after {
+            transform: scaleX(1);
         }
 
         .pf-clink-icon {
@@ -1807,6 +2115,152 @@
             margin: 0 auto 0.5rem auto;
             line-height: 1.6;
         }
+
+        /* ─── Certifications Section ────────────────────────────────── */
+        #pf-licenses {
+            background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(236, 72, 153, .08) 0%, transparent 70%),
+                var(--bg);
+        }
+
+        .cert-carousel-container {
+            position: relative;
+            max-width: 760px;
+            margin: 2.2rem auto 0;
+            padding: 0 45px;
+            transition: max-width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .cert-carousel-track-wrapper {
+            overflow: hidden;
+            border-radius: var(--radius);
+            position: relative;
+            transition: height 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        .cert-carousel-track {
+            display: flex;
+            align-items: center;
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            width: 100%;
+            height: 100%;
+        }
+
+        .cert-slide {
+            width: 70%;
+            min-width: 70%;
+            height: 100%;
+            flex-shrink: 0;
+            box-sizing: border-box;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 24px 16px;
+            transition: transform 0.5s ease, opacity 0.5s ease;
+            opacity: 0.35;
+            transform: scale(0.85);
+        }
+
+        .cert-slide.active {
+            opacity: 1;
+            transform: scale(1.0);
+        }
+
+        .cert-card {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            border: 2px solid transparent;
+            border-radius: var(--radius);
+            background: linear-gradient(var(--bg), var(--bg)) padding-box,
+                        linear-gradient(135deg, #ec4899, #818cf8) border-box;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            transition: box-shadow 0.3s ease, transform 0.3s ease;
+            overflow: hidden;
+        }
+
+        .cert-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: block;
+            border-radius: calc(var(--radius) - 2px);
+            transition: transform 0.3s ease;
+        }
+
+        .cert-card:hover {
+            box-shadow: 0 15px 35px rgba(236, 72, 153, 0.25), 0 5px 15px rgba(0, 0, 0, 0.4);
+            transform: scale(1.02);
+        }
+
+        .cert-card:hover img {
+            transform: scale(1.03);
+        }
+
+        /* Controls */
+        .cert-prev-btn,
+        .cert-next-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            border: 1px solid rgba(236, 72, 153, .25);
+            background: rgba(18, 18, 58, 0.85);
+            backdrop-filter: blur(8px);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            z-index: 10;
+        }
+
+        .cert-prev-btn {
+            left: -10px;
+        }
+
+        .cert-next-btn {
+            right: -10px;
+        }
+
+        .cert-prev-btn:hover,
+        .cert-next-btn:hover {
+            background: #ec4899;
+            color: #fff;
+            box-shadow: 0 0 15px rgba(236, 72, 153, .5);
+            border-color: #ec4899;
+            transform: translateY(-50%) scale(1.08);
+        }
+
+        .cert-indicators {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 1.2rem;
+        }
+
+        .cert-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(236, 72, 153, .3);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .cert-dot.active {
+            background: #ec4899;
+            width: 20px;
+            border-radius: 4px;
+            box-shadow: 0 0 8px rgba(236, 72, 153, .6);
+        }
     </style>
 </head>
 
@@ -1838,9 +2292,11 @@
             <span class="t-sec-chip">PROJECTS</span>
             <span class="t-sec-chip">YOUTUBE</span>
             <span class="t-sec-chip">VOLUNTEER</span>
+            <span class="t-sec-chip">LICENSES</span>
             <span class="t-sec-chip">EDUCATION</span>
             <span class="t-sec-chip">CONTACT</span>
         </div>
+        <span class="t-skip" id="btn-skip-portfolio">skip to portfolio →</span>
     </div>
 
 
@@ -1942,7 +2398,7 @@
         <div class="pf-divider"></div>
 
         <!-- About -->
-        <section id="pf-about" class="pf-section" style="background:var(--bg-card)">
+        <section id="pf-about" class="pf-section">
             <div class="pf-inner">
                 <div class="pf-hdr pf-reveal">
                     <div class="pf-tag">About</div>
@@ -2047,7 +2503,7 @@
         <div class="pf-divider"></div>
 
         <!-- Projects -->
-        <section id="pf-apps" class="pf-section" style="background:var(--bg-card)">
+        <section id="pf-apps" class="pf-section">
             <div class="pf-inner">
                 <div class="pf-hdr pf-reveal">
                     <div class="pf-tag">Portfolio</div>
@@ -2056,28 +2512,35 @@
                 </div>
                 <div class="pf-apps-grid">
                     <article class="pf-app pf-reveal">
-                        <img src="chocolate-eggs-lms-screenshot.png" style="width:100%;height:130px;object-fit:cover" alt="Chocolate Eggs LMS" />
+                        <img src="chocolate-eggs-lms-screenshot.png" style="width:100%;height:130px;object-fit:cover"
+                            alt="Chocolate Eggs LMS" />
                         <div class="pf-app-body">
                             <div class="pf-app-title">Chocolate Eggs LMS</div>
                             <span class="pf-app-tag" style="background: #e0e7ff; color: #4338ca;">Web App</span>
-                            <p class="pf-app-desc">A multi-platform Learning Management System for children, parents, teachers, and administrators. Implemented role-based access, academic content, quizzes, grading, and safety alert features.</p>
+                            <p class="pf-app-desc">A multi-platform Learning Management System for children, parents,
+                                teachers, and administrators. Implemented role-based access, academic content, quizzes,
+                                grading, and safety alert features.</p>
                             <div style="font-size:.75rem; color:var(--text-muted); margin-bottom:.8rem;">
-                                <strong>Skills:</strong> Laravel, Vue.js, REST API</div>
+                                <strong>Skills:</strong> Laravel, Vue.js, REST API
+                            </div>
                         </div>
                     </article>
                     <article class="pf-app pf-reveal">
-                        <img src="fvms-screenshot.png" style="width:100%;height:130px;object-fit:cover" alt="Field Visit Management System (FVMS)" />
+                        <img src="fvms-screenshot.png" style="width:100%;height:130px;object-fit:cover"
+                            alt="Field Visit Management System (FVMS)" />
                         <div class="pf-app-body">
                             <div class="pf-app-title">Field Visit Management System (FVMS)</div>
                             <span class="pf-app-tag" style="background: #e0e7ff; color: #4338ca;">Web App</span>
                             <p class="pf-app-desc">A digital workflow solution for the University of Peradeniya (Student
                                 Service Division), designed to automate the approval process for field trips.</p>
                             <div style="font-size:.75rem; color:var(--text-muted); margin-bottom:.8rem;">
-                                <strong>Skills:</strong> TypeScript, Spring Boot</div>
+                                <strong>Skills:</strong> TypeScript, Spring Boot
+                            </div>
                         </div>
                     </article>
                     <article class="pf-app pf-reveal">
-                        <img src="akshara-screenshot.png" style="width:100%;height:130px;object-fit:cover" alt="Akshara Keyboard" />
+                        <img src="akshara-screenshot.png" style="width:100%;height:130px;object-fit:cover"
+                            alt="Akshara Keyboard" />
                         <div class="pf-app-body">
                             <div class="pf-app-title">Akshara Keyboard</div>
                             <span class="pf-app-tag">Android</span>
@@ -2085,7 +2548,8 @@
                                 Sinhala, Tamil, and English users, featuring phonetic transliteration and smart word
                                 prediction.</p>
                             <div style="font-size:.75rem; color:var(--text-muted); margin-bottom:.8rem;">
-                                <strong>Skills:</strong> Kotlin, Android Studio</div>
+                                <strong>Skills:</strong> Kotlin, Android Studio
+                            </div>
                         </div>
                     </article>
                     <article class="pf-app pf-reveal">
@@ -2096,7 +2560,8 @@
                             <p class="pf-app-desc">A comprehensive app designed to help university students track,
                                 manage, and optimize their academic performance across multiple semesters.</p>
                             <div style="font-size:.75rem; color:var(--text-muted); margin-bottom:.8rem;">
-                                <strong>Skills:</strong> Kotlin, Room, Material Design</div>
+                                <strong>Skills:</strong> Kotlin, Room, Material Design
+                            </div>
                             <a href="https://play.google.com/store/apps/details?id=com.gihansgamage.gpamaster"
                                 target="_blank" rel="noopener" class="pf-app-link">View on Play Store <i
                                     data-lucide="arrow-right"></i></a>
@@ -2110,14 +2575,16 @@
                             <p class="pf-app-desc">A versatile and user-friendly PDF app that lets you read, manage, and
                                 share your PDF files effortlessly with features like bookmarking and text-to-speech.</p>
                             <div style="font-size:.75rem; color:var(--text-muted); margin-bottom:.8rem;">
-                                <strong>Skills:</strong> Java, Android Studio</div>
+                                <strong>Skills:</strong> Java, Android Studio
+                            </div>
                             <a href="https://play.google.com/store/apps/details?id=com.pdfmaster.gihansgamage"
                                 target="_blank" rel="noopener" class="pf-app-link">View on Play Store <i
                                     data-lucide="arrow-right"></i></a>
                         </div>
                     </article>
                     <article class="pf-app pf-reveal">
-                        <img src="sms-screenshot.png" style="width:100%;height:130px;object-fit:cover" alt="Society Management System (SMS)" />
+                        <img src="sms-screenshot.png" style="width:100%;height:130px;object-fit:cover"
+                            alt="Society Management System (SMS)" />
                         <div class="pf-app-body">
                             <div class="pf-app-title">Society Management System (SMS)</div>
                             <span class="pf-app-tag" style="background: #e0e7ff; color: #4338ca;">Web App</span>
@@ -2125,7 +2592,8 @@
                                 management of university student societies, replacing manual paperwork with a
                                 centralized system.</p>
                             <div style="font-size:.75rem; color:var(--text-muted); margin-bottom:.8rem;">
-                                <strong>Skills:</strong> React, TypeScript, Spring Boot</div>
+                                <strong>Skills:</strong> React, TypeScript, Spring Boot
+                            </div>
                         </div>
                     </article>
                 </div>
@@ -2137,75 +2605,114 @@
         <!-- YouTube -->
         <section id="pf-youtube" class="pf-section">
             <div class="pf-inner">
+
                 <div class="pf-hdr pf-reveal">
                     <div class="pf-tag">Content</div>
                     <h2 class="pf-title">YouTube Channels</h2>
-                    <p class="pf-sub">Creating content across three channels.</p>
+                    <p class="pf-sub">Creating engaging content across three channels — education, tech &amp; facts.</p>
                 </div>
+
+                <!-- Featured Video -->
+                <div class="yt-featured pf-reveal">
+                    <div class="yt-featured-label">
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path
+                                d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+                        </svg>
+                        Latest from @mathscrew
+                    </div>
+                    <a class="yt-thumb-player" href="https://youtu.be/L0JRylyGG8o" target="_blank" rel="noopener"
+                        aria-label="Watch latest Maths Crew video on YouTube">
+                        <div class="yt-scrim"></div>
+                        <img src="https://img.youtube.com/vi/L0JRylyGG8o/maxresdefault.jpg"
+                            alt="Latest Maths Crew video thumbnail"
+                            onerror="this.src='https://img.youtube.com/vi/L0JRylyGG8o/hqdefault.jpg'" />
+                        <div class="yt-play-btn">
+                            <!-- YouTube official play icon -->
+                            <svg viewBox="0 0 68 48" xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55c-2.93.78-4.63 3.26-5.42 6.19C.06 13.05 0 24 0 24s.06 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C67.94 34.95 68 24 68 24s-.06-10.95-1.48-16.26z"
+                                    fill="#ef4444" />
+                                <path d="M45 24 27 14v20" fill="#fff" />
+                            </svg>
+                        </div>
+                        <span class="yt-watch-label">Watch on YouTube ↗</span>
+                    </a>
+                </div>
+
+                <!-- Channel Cards -->
                 <div class="pf-yt-grid">
+
+                    <!-- Maths Crew -->
                     <div class="pf-yt pf-reveal">
-                        <div class="pf-yt-subs">50,000+ Subs</div>
-                        <div style="display:flex; justify-content:space-between; align-items:flex-start;">
-                            <img src="mathscrew-logo.png"
-                                style="width:48px; height:48px; border-radius:50%; object-fit:cover; border: 2px solid var(--border);"
-                                alt="@mathscrew"
-                                onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'48\' height=\'48\'><rect width=\'48\' height=\'48\' fill=\'%2312123a\'/><text x=\'24\' y=\'24\' fill=\'%23ef4444\' font-family=\'sans-serif\' font-size=\'22\' font-weight=\'bold\' text-anchor=\'middle\' dominant-baseline=\'central\'>M</text></svg>'" />
-                            <div class="pf-yt-badge"
-                                style="display:inline-flex; align-items:center; gap:.3rem; font-size:.65rem; font-weight:700; color:#ef4444; background:rgba(239,68,68,.1); padding:.3rem .6rem; border-radius:99px; text-transform:uppercase; letter-spacing:.05em;">
-                                <svg viewBox="0 0 24 24" fill="currentColor" style="width:12px; height:12px;">
-                                    <path
-                                        d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
-                                </svg> YouTube</div>
+                        <div class="pf-yt-header">
+                            <img class="pf-yt-avatar" src="mathscrew-logo.png" alt="Maths Crew"
+                                onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'52\' height=\'52\'><rect width=\'52\' height=\'52\' rx=\'26\' fill=\'%231a0a0a\'/><text x=\'26\' y=\'26\' fill=\'%23ef4444\' font-family=\'sans-serif\' font-size=\'24\' font-weight=\'bold\' text-anchor=\'middle\' dominant-baseline=\'central\'>M</text></svg>'">
+                            <div class="pf-yt-meta">
+                                <div class="pf-yt-handle">Maths Crew</div>
+                                <div class="pf-yt-subs-pill">
+                                    <svg viewBox="0 0 24 24" fill="currentColor">
+                                        <path
+                                            d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+                                    </svg>
+                                    50,000+ Subscribers
+                                </div>
+                            </div>
                         </div>
-                        <div class="pf-yt-handle" style="margin-top: .4rem;">Maths Crew</div>
-                        <p class="pf-yt-desc" style="font-size: .75rem; line-height: 1.4;">Maths Crew is an educational
-                            YouTube channel in Sri Lanka.<br>✔ Smart Education Studying Tips<br>✔ Motivational
-                            Videos<br>✔ Educational related information</p><a href="https://www.youtube.com/@mathscrew"
-                            target="_blank" rel="noopener" class="pf-yt-link">Visit Channel <i
-                                data-lucide="arrow-right"></i></a>
+                        <p class="pf-yt-desc">Educational YouTube channel in Sri Lanka covering Smart Study Tips,
+                            Motivational Videos &amp; Educational content to help students excel.</p>
+                        <a href="https://www.youtube.com/@mathscrew" target="_blank" rel="noopener" class="pf-yt-link">
+                            Visit Channel <i data-lucide="arrow-right"></i>
+                        </a>
                     </div>
+
+                    <!-- Gihan S Gamage -->
                     <div class="pf-yt pf-reveal">
-                        <div class="pf-yt-subs">300+ Subs</div>
-                        <div style="display:flex; justify-content:space-between; align-items:flex-start;">
-                            <img src="gihansgamage-logo.png"
-                                style="width:48px; height:48px; border-radius:50%; object-fit:cover; border: 2px solid var(--border);"
-                                alt="@gihansgamage"
-                                onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'48\' height=\'48\'><rect width=\'48\' height=\'48\' fill=\'%2312123a\'/><text x=\'24\' y=\'24\' fill=\'%23ef4444\' font-family=\'sans-serif\' font-size=\'22\' font-weight=\'bold\' text-anchor=\'middle\' dominant-baseline=\'central\'>G</text></svg>'" />
-                            <div class="pf-yt-badge"
-                                style="display:inline-flex; align-items:center; gap:.3rem; font-size:.65rem; font-weight:700; color:#ef4444; background:rgba(239,68,68,.1); padding:.3rem .6rem; border-radius:99px; text-transform:uppercase; letter-spacing:.05em;">
-                                <svg viewBox="0 0 24 24" fill="currentColor" style="width:12px; height:12px;">
-                                    <path
-                                        d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
-                                </svg> YouTube</div>
+                        <div class="pf-yt-header">
+                            <img class="pf-yt-avatar" src="gihansgamage-logo.png" alt="Gihan S Gamage"
+                                onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'52\' height=\'52\'><rect width=\'52\' height=\'52\' rx=\'26\' fill=\'%231a0a0a\'/><text x=\'26\' y=\'26\' fill=\'%23ef4444\' font-family=\'sans-serif\' font-size=\'24\' font-weight=\'bold\' text-anchor=\'middle\' dominant-baseline=\'central\'>G</text></svg>'">
+                            <div class="pf-yt-meta">
+                                <div class="pf-yt-handle">Gihan S Gamage</div>
+                                <div class="pf-yt-subs-pill">
+                                    <svg viewBox="0 0 24 24" fill="currentColor">
+                                        <path
+                                            d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+                                    </svg>
+                                    300+ Subscribers
+                                </div>
+                            </div>
                         </div>
-                        <div class="pf-yt-handle" style="margin-top: .4rem;">Gihan S Gamage</div>
-                        <p class="pf-yt-desc" style="font-size: .75rem; line-height: 1.4;">I’m a passionate content
-                            creator weaving stories across YouTube, Facebook, TikTok, and Instagram. Join me in the
-                            realm of social media experiments and let’s craft engaging narratives together!</p><a
-                            href="https://www.youtube.com/@gihansgamage" target="_blank" rel="noopener"
-                            class="pf-yt-link">Visit Channel <i data-lucide="arrow-right"></i></a>
+                        <p class="pf-yt-desc">Content creator across YouTube, Facebook, TikTok &amp; Instagram —
+                            crafting social experiments, tech content &amp; engaging narratives.</p>
+                        <a href="https://www.youtube.com/@gihansgamage" target="_blank" rel="noopener"
+                            class="pf-yt-link">
+                            Visit Channel <i data-lucide="arrow-right"></i>
+                        </a>
                     </div>
+
+                    <!-- Facts Bit -->
                     <div class="pf-yt pf-reveal">
-                        <div class="pf-yt-subs">300+ Subs</div>
-                        <div style="display:flex; justify-content:space-between; align-items:flex-start;">
-                            <img src="factsbit-logo.png"
-                                style="width:48px; height:48px; border-radius:50%; object-fit:cover; border: 2px solid var(--border);"
-                                alt="@factsbit"
-                                onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'48\' height=\'48\'><rect width=\'48\' height=\'48\' fill=\'%2312123a\'/><text x=\'24\' y=\'24\' fill=\'%23ef4444\' font-family=\'sans-serif\' font-size=\'22\' font-weight=\'bold\' text-anchor=\'middle\' dominant-baseline=\'central\'>F</text></svg>'" />
-                            <div class="pf-yt-badge"
-                                style="display:inline-flex; align-items:center; gap:.3rem; font-size:.65rem; font-weight:700; color:#ef4444; background:rgba(239,68,68,.1); padding:.3rem .6rem; border-radius:99px; text-transform:uppercase; letter-spacing:.05em;">
-                                <svg viewBox="0 0 24 24" fill="currentColor" style="width:12px; height:12px;">
-                                    <path
-                                        d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
-                                </svg> YouTube</div>
+                        <div class="pf-yt-header">
+                            <img class="pf-yt-avatar" src="factsbit-logo.png" alt="Facts Bit"
+                                onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'52\' height=\'52\'><rect width=\'52\' height=\'52\' rx=\'26\' fill=\'%231a0a0a\'/><text x=\'26\' y=\'26\' fill=\'%23ef4444\' font-family=\'sans-serif\' font-size=\'24\' font-weight=\'bold\' text-anchor=\'middle\' dominant-baseline=\'central\'>F</text></svg>'">
+                            <div class="pf-yt-meta">
+                                <div class="pf-yt-handle">Facts Bit</div>
+                                <div class="pf-yt-subs-pill">
+                                    <svg viewBox="0 0 24 24" fill="currentColor">
+                                        <path
+                                            d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+                                    </svg>
+                                    300+ Subscribers
+                                </div>
+                            </div>
                         </div>
-                        <div class="pf-yt-handle" style="margin-top: .4rem;">Facts Bit</div>
-                        <p class="pf-yt-desc" style="font-size: .75rem; line-height: 1.4;">There is a reason for
-                            everything in this world to be created, change from second to second, and be destroyed. I'd
-                            like to tell you those things in a minute or two on Facts Bit!</p><a
-                            href="https://www.youtube.com/@factsbit" target="_blank" rel="noopener"
-                            class="pf-yt-link">Visit Channel <i data-lucide="arrow-right"></i></a>
+                        <p class="pf-yt-desc">Everything has a reason to exist, change, and fade — told in a minute or
+                            two. Bite-sized fascinating facts about the world around us.</p>
+                        <a href="https://www.youtube.com/@factsbit" target="_blank" rel="noopener" class="pf-yt-link">
+                            Visit Channel <i data-lucide="arrow-right"></i>
+                        </a>
                     </div>
+
                 </div>
             </div>
         </section>
@@ -2213,7 +2720,7 @@
         <div class="pf-divider"></div>
 
         <!-- Volunteer -->
-        <section id="pf-volunteer" class="pf-section" style="background:var(--bg-card)">
+        <section id="pf-volunteer" class="pf-section">
             <div class="pf-inner">
                 <div class="pf-hdr pf-reveal">
                     <div class="pf-tag">Community</div>
@@ -2240,6 +2747,38 @@
                             <p class="pf-tl-desc">Supported educational programs and community outreach as a general
                                 volunteer.</p>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="pf-divider"></div>
+
+        <!-- Licenses & Certifications -->
+        <section id="pf-licenses" class="pf-section">
+            <div class="pf-inner">
+                <div class="pf-hdr pf-reveal">
+                    <div class="pf-tag">Credentials</div>
+                    <h2 class="pf-title">Licenses & Certifications</h2>
+                    <p class="pf-sub">Verifiable professional certifications and course accomplishments.</p>
+                </div>
+
+                <div class="cert-carousel-container pf-reveal" onmouseenter="stopCertAutoSlide()" onmouseleave="startCertAutoSlide()">
+                    <div class="cert-carousel-track-wrapper">
+                        <div class="cert-carousel-track" id="cert-track">
+                            <!-- Populated dynamically via JS -->
+                        </div>
+                    </div>
+
+                    <button class="cert-prev-btn" onclick="prevCertSlide()" aria-label="Previous slide">
+                        <i data-lucide="chevron-left"></i>
+                    </button>
+                    <button class="cert-next-btn" onclick="nextCertSlide()" aria-label="Next slide">
+                        <i data-lucide="chevron-right"></i>
+                    </button>
+
+                    <div class="cert-indicators" id="cert-indicators">
+                        <!-- Populated dynamically via JS -->
                     </div>
                 </div>
             </div>
@@ -2291,7 +2830,7 @@
         <div class="pf-divider"></div>
 
         <!-- Contact -->
-        <section id="pf-contact" class="pf-section" style="background:var(--bg-card)">
+        <section id="pf-contact" class="pf-section">
             <div class="pf-inner">
                 <div class="pf-hdr pf-reveal">
                     <div class="pf-tag">Connect</div>
@@ -2354,9 +2893,11 @@
                     </div>
                     <div>
                         <div class="pf-cv-title">Curriculum Vitae</div>
-                        <p class="pf-cv-desc">Download my CV to view my full academic background, detailed skills, and professional experience.</p>
+                        <p class="pf-cv-desc">Download my CV to view my full academic background, detailed skills, and
+                            professional experience.</p>
                     </div>
-                    <a href="GihanSGamage_CV.pdf" onclick="downloadCV(event)" class="pf-btn pf-btn-primary" style="text-decoration: none;">
+                    <a href="GihanSGamage_CV.pdf" onclick="downloadCV(event)" class="pf-btn pf-btn-primary"
+                        style="text-decoration: none;">
                         <i data-lucide="download"></i> Download CV (PDF)
                     </a>
                 </div>
@@ -2386,19 +2927,20 @@
             { name: 'PROJECTS', color: '#3b82f6', bg: 'rgba(59,130,246,.15)', icon: '💻', brief: 'Chocolate Eggs LMS (Web)\nField Visit Management System (Web)\nAkshara Keyboard (Android)\nGPA Master & PDF Master (Android)\nSociety Management System (Web)' },
             { name: 'YOUTUBE', color: '#ef4444', bg: 'rgba(239,68,68,.15)', icon: '▶', brief: '@mathscrew — Mathematics & problem-solving guides\n@gihansgamage — Tech, apps & development content\n@factsbit — Interesting facts & short-form content' },
             { name: 'VOLUNTEER', color: '#10b981', bg: 'rgba(16,185,129,.15)', icon: '🤝', brief: 'Community Lead · STEMUP Educational Foundation\nRuwanwella Public Library · Apr 2026 – Present\nCoordinating learning activities & educational initiatives' },
+            { name: 'LICENSES', color: '#ec4899', bg: 'rgba(236,72,153,.15)', icon: '📜', brief: 'Licenses & Certifications\nProfessional credentials & course completions' },
             { name: 'EDUCATION', color: '#f59e0b', bg: 'rgba(245,158,11,.15)', icon: '🎓', brief: 'BSc (Hons) Computer Science\nUniversity of Peradeniya · 2024 – Present\nR/ Balangoda Ananda Maithreya Central College · 2012–2020' },
             { name: 'CONTACT', color: '#06b6d4', bg: 'rgba(6,182,212,.15)', icon: '✉', brief: 'gsgamage4@gmail.com\n+94 76 401 6946\nlinkedin.com/in/ggsanjaya\ngithub.com/gihansgamage' },
         ];
 
         const BALL_R = 14;
-        const GRAVITY = 0.085;
+        const GRAVITY = 0.11;
         const BOUNCE = 0.38;
         const PLAT_W = 270;
         const PLAT_H = 14;
         const PLAT_R = 7;
         const SPACING = 420;    // worldY gap between platforms
         const BALANCE_F = 160;    // frames to balance for unlock (~2.7s)
-        const HSPEED = 5.8;    // max horizontal speed input
+        const HSPEED = 6.8;    // max horizontal speed input
         const AIR_DAMP = 0.993;
         const PLAT_FRIC = 0.88;   // friction when on platform
         const RESPAWN_GAP = 700;    // how far below platform before respawn
@@ -2430,7 +2972,7 @@
 
         function rebuildPlatforms() {
             const W = canvas.width;
-            const xPos = [.5, .35, .65, .50, .35, .65, .50];
+            const xPos = [.5, .35, .65, .50, .35, .65, .50, .35];
             platforms = SECTIONS.map((s, i) => ({
                 idx: i,
                 x: W * xPos[i],
@@ -2530,14 +3072,15 @@
 
         window.addEventListener('keydown', e => {
             keys[e.key] = true;
+            const quizModal = document.getElementById('quiz-modal');
+            const isQuizOpen = quizModal && quizModal.style.display === 'flex';
             if (e.key === ' ' || e.key === 'Enter') {
-                if (STATE === 'TITLE') startGame();
+                if (STATE === 'TITLE' && !isQuizOpen) startGame();
                 else if (STATE === 'VICTORY') enterPortfolio();
                 else if (STATE === 'GAME_OVER') document.getElementById('btn-restart').click();
             }
 
-            const quizModal = document.getElementById('quiz-modal');
-            if (quizModal && quizModal.style.display === 'flex') {
+            if (isQuizOpen) {
                 if (e.key === '1') checkAnswer(0);
                 if (e.key === '2') checkAnswer(1);
                 if (e.key === 'Escape') closeQuizModal();
@@ -2567,6 +3110,19 @@
         canvas.addEventListener('touchend', () => { touchActive = false; });
 
         document.getElementById('btn-enter').addEventListener('click', enterPortfolio);
+        document.getElementById('btn-skip-portfolio').addEventListener('click', function (e) {
+            e.stopPropagation(); // prevent the title click → startGame from firing
+            // Unlock every section
+            unlocked = SECTIONS.map((_, i) => i);
+            // Hide the title screen immediately (no game)
+            document.getElementById('title').classList.add('gone');
+            STATE = 'PORTFOLIO';
+            setTimeout(() => {
+                const pf = document.getElementById('portfolio');
+                pf.classList.add('show');
+                setupPortfolio();
+            }, 300);
+        });
         document.getElementById('btn-restart').addEventListener('click', () => {
             ensureAudio();
             document.getElementById('game-over').classList.remove('show');
@@ -2646,17 +3202,17 @@
 
             if (ball.onPlat < 0) {
                 // In air
-                if (inputLeft || mLeft) ball.vx -= .38;
-                if (inputRight || mRight) ball.vx += .38;
+                if (inputLeft || mLeft) ball.vx -= .45;
+                if (inputRight || mRight) ball.vx += .45;
                 ball.vx = Math.max(-HSPEED, Math.min(HSPEED, ball.vx));
                 ball.vx *= AIR_DAMP;
                 ball.vy += GRAVITY;
-                if (ball.vy > 6) ball.vy = 6; // cap terminal velocity
+                if (ball.vy > 8) ball.vy = 8; // cap terminal velocity
             } else {
                 // On platform — gentler control for balancing
-                if (inputLeft || mLeft) ball.vx -= .22;
-                if (inputRight || mRight) ball.vx += .22;
-                ball.vx = Math.max(-4, Math.min(4, ball.vx));
+                if (inputLeft || mLeft) ball.vx -= .25;
+                if (inputRight || mRight) ball.vx += .25;
+                ball.vx = Math.max(-4.5, Math.min(4.5, ball.vx));
                 ball.vx *= PLAT_FRIC;
                 ball.vy = 0;
                 ball.y = platforms[ball.onPlat].y - BALL_R; // keep on surface
@@ -2669,12 +3225,12 @@
 
             // ── Wall bounces ──
             if (ball.x - BALL_R < 0) {
-                ball.x = BALL_R; ball.vx = Math.abs(ball.vx) * .72;
+                ball.x = BALL_R; ball.vx = Math.abs(ball.vx) * .75;
                 spawnParticles(BALL_R, ball.y - camY, '#818cf8', 5, 3);
                 sfxBounce();
             }
             if (ball.x + BALL_R > canvas.width) {
-                ball.x = canvas.width - BALL_R; ball.vx = -Math.abs(ball.vx) * .72;
+                ball.x = canvas.width - BALL_R; ball.vx = -Math.abs(ball.vx) * .75;
                 spawnParticles(canvas.width - BALL_R, ball.y - camY, '#818cf8', 5, 3);
                 sfxBounce();
             }
@@ -2717,7 +3273,7 @@
                     // Check fall-off edge
                     if (ball.x < p.x - halfW - BALL_R || ball.x > p.x + halfW + BALL_R) {
                         ball.onPlat = -1;
-                        ball.vy = 1;
+                        ball.vy = 1.2;
                     }
                 }
             });
@@ -3016,10 +3572,11 @@
 
         /* ── PORTFOLIO SETUP ─────────────────────────────────── */
         function setupPortfolio() {
+            renderCertificates();
             lucide.createIcons();
 
             // Hide missed sections
-            const sectionIds = ['pf-about', 'pf-skills', 'pf-apps', 'pf-youtube', 'pf-volunteer', 'pf-education', 'pf-contact'];
+            const sectionIds = ['pf-about', 'pf-skills', 'pf-apps', 'pf-youtube', 'pf-volunteer', 'pf-licenses', 'pf-education', 'pf-contact'];
             sectionIds.forEach((id, idx) => {
                 if (!unlocked.includes(idx)) {
                     const sectionEl = document.getElementById(id);
@@ -3105,10 +3662,11 @@
         const QUIZ_QUESTIONS = {
             0: { q: "What university do I attend?", opts: ["University of Peradeniya", "Harvard"], ans: 0 }, // About
             1: { q: "Which of these is one of my skills?", opts: ["Android Development", "Dancing"], ans: 0 }, // Skills
-            2: { q: "Which of these Android apps did I develop?", opts: ["GPA Master", "Book Master"], ans: 0 }, // Projects
+            2: { q: "Which is my country?", opts: ["Sri Lanka", "German"], ans: 0 }, // Projects (Portfolio section)
             3: { q: "Which of these is my YouTube channel?", opts: ["Maths Crew", "PewDiePie"], ans: 0 }, // YouTube
             4: { q: "Do I volunteer at the STEMUP Educational Foundation?", opts: ["Yes", "No"], ans: 0 }, // Volunteer
-            5: { q: "What is my degree field?", opts: ["Computer Science", "Biology"], ans: 0 } // Education
+            5: { q: "Does this portfolio include a Licenses & Certifications section?", opts: ["Yes", "No"], ans: 0 }, // Licenses
+            6: { q: "What is my degree field?", opts: ["Computer Science", "Biology"], ans: 0 } // Education
         };
 
         let currentUnlockTarget = -1;
@@ -3150,7 +3708,7 @@
             currentCorrectAns = questionObj.ans;
             currentQuestionId = questionId;
 
-            const sectionNames = ['ABOUT', 'SKILLS', 'PROJECTS', 'YOUTUBE', 'VOLUNTEER', 'EDUCATION', 'CONTACT'];
+            const sectionNames = ['ABOUT', 'SKILLS', 'PROJECTS', 'YOUTUBE', 'VOLUNTEER', 'LICENSES', 'EDUCATION', 'CONTACT'];
             document.getElementById('quiz-title').textContent = `UNLOCK ${sectionNames[idx]}`;
             document.getElementById('quiz-q').textContent = questionObj.q;
 
@@ -3195,7 +3753,7 @@
 
         window.forceUnlockSection = function (idx) {
             if (!unlocked.includes(idx)) unlocked.push(idx);
-            const sectionIds = ['pf-about', 'pf-skills', 'pf-apps', 'pf-youtube', 'pf-volunteer', 'pf-education', 'pf-contact'];
+            const sectionIds = ['pf-about', 'pf-skills', 'pf-apps', 'pf-youtube', 'pf-volunteer', 'pf-licenses', 'pf-education', 'pf-contact'];
             const sectionEl = document.getElementById(sectionIds[idx]);
             if (sectionEl) {
                 const overlay = sectionEl.querySelector('.pf-locked-overlay');
@@ -3217,6 +3775,7 @@
             { id: 'pf-apps', name: 'Projects' },
             { id: 'pf-youtube', name: 'YouTube' },
             { id: 'pf-volunteer', name: 'Community' },
+            { id: 'pf-licenses', name: 'Licenses' },
             { id: 'pf-education', name: 'Education' },
             { id: 'pf-contact', name: 'Contact' }
         ];
@@ -3228,12 +3787,19 @@
             const list = document.getElementById('gm-list');
             list.innerHTML = '';
             menuSections.forEach((sec, idx) => {
-                list.innerHTML += `
-                    <li class="gm-item ${idx === menuIndex ? 'active' : ''}" onclick="selectMenuItem(${idx})" onpointerenter="if(!window.isKeyboardNav){ menuIndex=${idx}; renderMenu(); }">
-                        <span class="gm-cursor">►</span> ${sec.name}
-                    </li>
-                `;
+                const li = document.createElement('li');
+                li.className = 'gm-item' + (idx === menuIndex ? ' active' : '');
+                li.innerHTML = `<span class="gm-cursor">►</span> ${sec.name}`;
+                li.addEventListener('click', () => selectMenuItem(idx));
+                li.addEventListener('mouseenter', () => {
+                    menuIndex = idx;
+                    renderMenu();
+                });
+                list.appendChild(li);
             });
+            // Scroll active item into view within the list
+            const activeEl = list.querySelector('.gm-item.active');
+            if (activeEl) activeEl.scrollIntoView({ block: 'nearest' });
         }
 
         window.selectMenuItem = function (idx) {
@@ -3258,8 +3824,7 @@
             }
         };
 
-        window.isKeyboardNav = false;
-        document.addEventListener('mousemove', () => { window.isKeyboardNav = false; });
+
 
         document.addEventListener('keydown', (e) => {
             if (STATE !== 'PORTFOLIO') return;
@@ -3289,7 +3854,7 @@
             e.preventDefault();
             const cvUrl = 'GihanSGamage_CV.pdf';
             const filename = 'Gihan_Sanjaya_CV.pdf';
-            
+
             fetch(cvUrl)
                 .then(response => {
                     if (!response.ok) throw new Error('Network response was not ok');
@@ -3314,6 +3879,164 @@
                     link.target = '_blank';
                     link.click();
                 });
+        };
+
+        // ─── CERTIFICATES CAROUSEL LOGIC ───
+        let currentCertIndex = 0;
+
+        window.renderCertificates = function () {
+            const track = document.getElementById('cert-track');
+            const indicators = document.getElementById('cert-indicators');
+            if (!track || !indicators) return;
+
+            const imgs = [
+                'certificate/1.png',
+                'certificate/2.png',
+                'certificate/3.png',
+                'certificate/4.png',
+                'certificate/5.png'
+            ];
+
+            track.innerHTML = '';
+            indicators.innerHTML = '';
+
+            imgs.forEach((src, idx) => {
+                const slide = document.createElement('div');
+                slide.className = 'cert-slide' + (idx === 0 ? ' active' : '');
+
+                const card = document.createElement('div');
+                card.className = 'cert-card';
+
+                const img = document.createElement('img');
+                img.src = src;
+                img.alt = `Certificate ${idx + 1}`;
+                img.onerror = function () {
+                    this.onerror = null;
+                    this.src = `data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='800' height='600'><rect width='800' height='600' fill='%23050510' rx='10'/><text x='400' y='260' fill='%23ec4899' font-family='sans-serif' font-size='30' font-weight='bold' text-anchor='middle'>VERIFIABLE CREDENTIAL</text><text x='400' y='320' fill='%23ffffff' font-family='sans-serif' font-size='18' text-anchor='middle'>Placeholder: ${src}</text><text x='400' y='370' fill='%23818cf8' font-family='sans-serif' font-size='14' text-anchor='middle'>Upload images to the "certificate" folder to display here</text></svg>`;
+                };
+
+                card.appendChild(img);
+                slide.appendChild(card);
+                track.appendChild(slide);
+
+                const dot = document.createElement('span');
+                dot.className = 'cert-dot' + (idx === 0 ? ' active' : '');
+                dot.onclick = () => setCertSlide(idx);
+                indicators.appendChild(dot);
+            });
+
+            currentCertIndex = 0;
+            updateCertCarousel();
+            window.startCertAutoSlide();
+        };
+
+        let certAutoSlideInterval = null;
+
+        window.startCertAutoSlide = function () {
+            window.stopCertAutoSlide();
+            certAutoSlideInterval = setInterval(() => {
+                window.nextCertSlide();
+            }, 4000);
+        };
+
+        window.stopCertAutoSlide = function () {
+            if (certAutoSlideInterval) {
+                clearInterval(certAutoSlideInterval);
+                certAutoSlideInterval = null;
+            }
+        };
+
+        window.resetCertAutoSlide = function () {
+            const container = document.querySelector('.cert-carousel-container');
+            if (container && container.matches(':hover')) {
+                window.stopCertAutoSlide();
+            } else {
+                window.startCertAutoSlide();
+            }
+        };
+
+        window.updateCertCarousel = function () {
+            const track = document.getElementById('cert-track');
+            const dots = document.querySelectorAll('.cert-dot');
+            if (!track) return;
+            
+            const slideWidthPercent = 70; // each slide is 70% wide
+            const centerOffset = (100 - slideWidthPercent) / 2; // 15% centering offset
+            track.style.transform = `translateX(calc(${centerOffset}% - ${currentCertIndex * slideWidthPercent}%))`;
+            dots.forEach((dot, idx) => {
+                dot.classList.toggle('active', idx === currentCertIndex);
+            });
+
+            // Toggle active state for each slide queue item
+            Array.from(track.children).forEach((slide, idx) => {
+                slide.classList.toggle('active', idx === currentCertIndex);
+            });
+
+            // Dynamically adjust sizes according to active certificate image (prevent scaling up beyond natural size)
+            const activeSlide = track.children[currentCertIndex];
+            if (activeSlide) {
+                const img = activeSlide.querySelector('img');
+                if (img) {
+                    const adjust = () => {
+                        const imgW = img.naturalWidth || 800;
+                        const imgH = img.naturalHeight || 600;
+                        
+                        const container = document.querySelector('.cert-carousel-container');
+                        const wrapper = document.querySelector('.cert-carousel-track-wrapper');
+                        if (container && wrapper) {
+                            const maxCardW = 550;
+                            const maxCardH = 420;
+                            
+                            // Scale down if image is larger than max card layout bounds, but don't scale up if smaller
+                            let scale = 1;
+                            if (imgW > maxCardW || imgH > maxCardH) {
+                                scale = Math.min(maxCardW / imgW, maxCardH / imgH);
+                            }
+                            
+                            const targetCardW = imgW * scale;
+                            const targetCardH = imgH * scale;
+                            const wrapperW = targetCardW / 0.7; // since each slide is 70% of wrapper width
+                            
+                            container.style.maxWidth = `${wrapperW + 90}px`;
+                            wrapper.style.height = `${targetCardH + 48}px`; // dynamic height (adding 48px vertical padding)
+                        }
+                    };
+
+                    if (img.complete && img.naturalWidth > 0) {
+                        adjust();
+                    } else {
+                        img.onload = adjust;
+                    }
+                }
+            }
+        };
+
+        window.prevCertSlide = function () {
+            const track = document.getElementById('cert-track');
+            const totalSlides = track ? track.children.length : 0;
+            if (totalSlides === 0) return;
+            currentCertIndex = (currentCertIndex - 1 + totalSlides) % totalSlides;
+            updateCertCarousel();
+            window.resetCertAutoSlide();
+        };
+
+        window.nextCertSlide = function () {
+            const track = document.getElementById('cert-track');
+            const totalSlides = track ? track.children.length : 0;
+            if (totalSlides === 0) return;
+            currentCertIndex = (currentCertIndex + 1) % totalSlides;
+            updateCertCarousel();
+            window.resetCertAutoSlide();
+        };
+
+        window.setCertSlide = function (idx) {
+            currentCertIndex = idx;
+            updateCertCarousel();
+            window.resetCertAutoSlide();
+        };
+
+        window.closeQuizModal = function () {
+            document.getElementById('quiz-modal').style.display = 'none';
         };
     </script>
 </body>
