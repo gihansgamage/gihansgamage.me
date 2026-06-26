@@ -2029,6 +2029,165 @@
             color: var(--text-primary);
         }
 
+        /* ─── CONTACT FORM ──────────────────────────────── */
+        .pf-contact-form {
+            background: var(--bg-subtle);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 1.8rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+            transition: box-shadow var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .pf-contact-form::before {
+            content: '';
+            position: absolute;
+            top: -40px;
+            right: -40px;
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(6, 182, 212, .12), transparent 70%);
+            pointer-events: none;
+        }
+
+        .pf-contact-form:hover {
+            box-shadow: 0 0 28px rgba(6, 182, 212, .15);
+        }
+
+        .pf-form-title {
+            font-family: 'Press Start 2P', monospace;
+            font-size: .55rem;
+            color: var(--accent);
+            letter-spacing: .08em;
+            text-transform: uppercase;
+            margin-bottom: .3rem;
+        }
+
+        .pf-form-group {
+            display: flex;
+            flex-direction: column;
+            gap: .4rem;
+        }
+
+        .pf-form-label {
+            font-size: .75rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: .06em;
+        }
+
+        .pf-form-input,
+        .pf-form-textarea {
+            width: 100%;
+            background: var(--bg-card);
+            border: 1.5px solid var(--border);
+            border-radius: 10px;
+            padding: .75rem 1rem;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: .9rem;
+            color: var(--text-primary);
+            outline: none;
+            transition: border-color .25s, box-shadow .25s;
+            resize: none;
+        }
+
+        .pf-form-input::placeholder,
+        .pf-form-textarea::placeholder {
+            color: rgba(129, 140, 248, .35);
+        }
+
+        .pf-form-input:focus,
+        .pf-form-textarea:focus {
+            border-color: #06b6d4;
+            box-shadow: 0 0 0 3px rgba(6, 182, 212, .12);
+        }
+
+        .pf-form-textarea {
+            min-height: 110px;
+        }
+
+        .pf-form-submit {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: .55rem;
+            padding: .85rem 1.5rem;
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
+            background: linear-gradient(135deg, #06b6d4, #6366f1);
+            color: #fff;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: .9rem;
+            font-weight: 700;
+            letter-spacing: .03em;
+            transition: transform .2s, box-shadow .2s, opacity .2s;
+            box-shadow: 0 4px 18px rgba(6, 182, 212, .3);
+        }
+
+        .pf-form-submit:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 28px rgba(6, 182, 212, .45);
+        }
+
+        .pf-form-submit:disabled {
+            opacity: .65;
+            cursor: not-allowed;
+        }
+
+        .pf-form-submit .btn-spinner {
+            width: 16px;
+            height: 16px;
+            border: 2px solid rgba(255, 255, 255, .35);
+            border-top-color: #fff;
+            border-radius: 50%;
+            animation: spin .7s linear infinite;
+            display: none;
+        }
+
+        .pf-form-submit.loading .btn-spinner {
+            display: block;
+        }
+
+        .pf-form-submit.loading .btn-label {
+            display: none;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .pf-form-msg {
+            display: none;
+            padding: .75rem 1rem;
+            border-radius: 8px;
+            font-size: .85rem;
+            font-weight: 500;
+            text-align: center;
+        }
+
+        .pf-form-msg.success {
+            display: block;
+            background: rgba(16, 185, 129, .12);
+            border: 1px solid rgba(16, 185, 129, .3);
+            color: #10b981;
+        }
+
+        .pf-form-msg.error {
+            display: block;
+            background: rgba(239, 68, 68, .12);
+            border: 1px solid rgba(239, 68, 68, .3);
+            color: #f87171;
+        }
+
         /* Footer */
         .pf-footer {
             text-align: center;
@@ -3110,10 +3269,36 @@
                             </div>
                         </a>
                     </div>
-                    <div class="pf-contact-note pf-reveal"><strong>Open to opportunities!</strong><br /><br />CS
-                        undergraduate looking for internships, freelance projects, and collaborative work in web
-                        development, mobile apps, and software engineering. If you have something exciting — let's
-                        connect!</div>
+                    <!-- Contact Form (powered by Formspree) -->
+                    <form id="pf-contact-form" class="pf-contact-form pf-reveal"
+                        action="https://formspree.io/f/xwvdovle" method="POST">
+                        <div class="pf-form-title">Send a Message ✉</div>
+
+                        <div class="pf-form-group">
+                            <label class="pf-form-label" for="cf-name">Name</label>
+                            <input id="cf-name" class="pf-form-input" type="text" name="name"
+                                placeholder="Your full name" required autocomplete="name" />
+                        </div>
+
+                        <div class="pf-form-group">
+                            <label class="pf-form-label" for="cf-email">Gmail / Email</label>
+                            <input id="cf-email" class="pf-form-input" type="email" name="email"
+                                placeholder="you@gmail.com" required autocomplete="email" />
+                        </div>
+
+                        <div class="pf-form-group">
+                            <label class="pf-form-label" for="cf-message">Message</label>
+                            <textarea id="cf-message" class="pf-form-textarea" name="message"
+                                placeholder="What would you like to talk about?" required></textarea>
+                        </div>
+
+                        <button id="cf-submit" type="submit" class="pf-form-submit">
+                            <span class="btn-spinner"></span>
+                            <span class="btn-label">Send Message</span>
+                        </button>
+
+                        <div id="cf-msg" class="pf-form-msg"></div>
+                    </form>
                 </div>
             </div>
         </section>
@@ -4266,7 +4451,7 @@
                 'certificate/8.png',
                 'certificate/9.png',
                 'certificate/10.png'
-                
+
             ];
 
             track.innerHTML = '';
@@ -4509,6 +4694,49 @@
         window.closeQuizModal = function () {
             document.getElementById('quiz-modal').style.display = 'none';
         };
+
+        /* ── Contact Form (Formspree AJAX) ─────────────────────── */
+        (function () {
+            const form = document.getElementById('pf-contact-form');
+            if (!form) return;
+
+            form.addEventListener('submit', async function (e) {
+                e.preventDefault();
+
+                const btn = document.getElementById('cf-submit');
+                const msg = document.getElementById('cf-msg');
+
+                // Show loading state
+                btn.classList.add('loading');
+                btn.disabled = true;
+                msg.className = 'pf-form-msg';
+                msg.textContent = '';
+
+                try {
+                    const data = new FormData(form);
+                    const res = await fetch(form.action, {
+                        method: 'POST',
+                        body: data,
+                        headers: { 'Accept': 'application/json' }
+                    });
+
+                    if (res.ok) {
+                        msg.className = 'pf-form-msg success';
+                        msg.textContent = '✓ Message sent! I\'ll get back to you soon.';
+                        form.reset();
+                    } else {
+                        const json = await res.json();
+                        throw new Error(json.error || 'Submission failed');
+                    }
+                } catch (err) {
+                    msg.className = 'pf-form-msg error';
+                    msg.textContent = '✗ Oops! ' + (err.message || 'Something went wrong. Please try again.');
+                } finally {
+                    btn.classList.remove('loading');
+                    btn.disabled = false;
+                }
+            });
+        })();
     </script>
 </body>
 
