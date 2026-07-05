@@ -29,7 +29,7 @@
             width: 100%;
             height: 100%;
             overflow: hidden;
-            background: #050510;
+            background: radial-gradient(circle at center, #0c0d2b 0%, #060718 100%);
         }
 
         /* ─── CANVAS ────────────────────────────────────── */
@@ -46,7 +46,7 @@
         #game-menu {
             position: fixed;
             inset: 0;
-            background: rgba(5, 5, 16, 0.9);
+            background: rgba(10, 11, 34, 0.9);
             backdrop-filter: blur(8px);
             z-index: 9999;
             display: none;
@@ -55,7 +55,7 @@
         }
 
         .gm-box {
-            background: #050510;
+            background: linear-gradient(135deg, #12143e, #0a0b22);
             border: 4px solid #fff;
             padding: clamp(1.2rem, 5vw, 2.5rem);
             box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
@@ -133,7 +133,7 @@
         #quiz-modal {
             position: fixed;
             inset: 0;
-            background: rgba(5, 5, 16, 0.95);
+            background: rgba(10, 11, 34, 0.95);
             backdrop-filter: blur(8px);
             z-index: 99999;
             display: none;
@@ -226,8 +226,8 @@
             width: 11px;
             height: 11px;
             border-radius: 50%;
-            background: #12123a;
-            border: 1.5px solid #2e2b7a;
+            background: #191b52;
+            border: 1.5px solid #3b37a6;
             transition: background .4s, box-shadow .4s;
         }
 
@@ -239,7 +239,7 @@
         #hud-ctrl {
             font-family: 'Press Start 2P', monospace;
             font-size: .38rem;
-            color: #2e2b7a;
+            color: #3b37a6;
             letter-spacing: .06em;
             text-align: right;
             line-height: 2;
@@ -255,7 +255,7 @@
             justify-content: center;
             flex-direction: column;
             gap: 1.6rem;
-            background: radial-gradient(ellipse at 50% 40%, #0e0e30 0%, #050510 70%);
+            background: radial-gradient(ellipse at 50% 40%, #15184a 0%, #0a0b22 70%);
             transition: opacity .7s ease, visibility .7s ease;
         }
 
@@ -456,7 +456,7 @@
             justify-content: center;
             flex-direction: column;
             gap: 1.4rem;
-            background: radial-gradient(ellipse at center, #0a0a28 0%, #050510 70%);
+            background: radial-gradient(ellipse at center, #111142 0%, #0a0b22 70%);
             opacity: 0;
             visibility: hidden;
             pointer-events: none;
@@ -545,7 +545,7 @@
             justify-content: center;
             flex-direction: column;
             gap: 1.4rem;
-            background: radial-gradient(ellipse at center, #280a0a 0%, #050510 70%);
+            background: radial-gradient(ellipse at center, #421111 0%, #0a0b22 70%);
             opacity: 0;
             visibility: hidden;
             pointer-events: none;
@@ -609,18 +609,19 @@
             z-index: 200;
             overflow-y: auto;
             overflow-x: hidden;
+            scroll-behavior: smooth;
             opacity: 0;
             visibility: hidden;
             transform: translateY(24px);
             transition: opacity .8s ease, visibility .8s ease, transform .8s ease;
-            background: #050510;
+            background: linear-gradient(to bottom, #0a0b22 0%, #070718 100%);
             font-family: 'Space Grotesk', sans-serif;
             color: #e0e7ff;
             line-height: 1.65;
-            --bg: #050510;
-            --bg-card: #0e0e30;
-            --bg-subtle: #12123a;
-            --border: #2e2b7a;
+            --bg: #0a0b22;
+            --bg-card: #12143e;
+            --bg-subtle: #191b52;
+            --border: #3b37a6;
             --accent: #6366f1;
             --accent-2: #8b5cf6;
             --accent-light: rgba(99, 102, 241, .2);
@@ -686,11 +687,20 @@
             align-items: center;
             justify-content: space-between;
             padding: 0 5%;
-            height: 60px;
-            background: rgba(14, 14, 48, 0.9);
+            height: 64px;
+            background: linear-gradient(180deg, rgba(22, 24, 74, 0.85) 0%, rgba(18, 20, 62, 0.75) 100%);
             backdrop-filter: blur(16px);
-            border-bottom: 1px solid var(--border);
-            box-shadow: var(--shadow-sm);
+            border-bottom: 1px solid rgba(59, 55, 166, 0.3);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+            transition: top var(--transition), height var(--transition), background var(--transition), border-color var(--transition), box-shadow var(--transition);
+        }
+
+        .pf-nav.scrolled {
+            top: 0;
+            height: 52px;
+            background: linear-gradient(180deg, rgba(14, 15, 46, 0.95) 0%, rgba(10, 11, 34, 0.9) 100%);
+            border-bottom: 1px solid rgba(99, 102, 241, 0.5);
+            box-shadow: 0 8px 32px rgba(99, 102, 241, 0.15), 0 4px 10px rgba(0, 0, 0, 0.3);
         }
 
         .pf-nav-logo {
@@ -700,22 +710,48 @@
             background: linear-gradient(135deg, var(--accent), var(--accent-2));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            transition: transform var(--transition), text-shadow var(--transition);
+            display: inline-block;
+        }
+
+        .pf-nav-logo:hover {
+            transform: scale(1.05) rotate(-2deg);
+            filter: drop-shadow(0 0 8px rgba(99, 102, 241, 0.6));
         }
 
         .pf-nav-links {
             display: flex;
             gap: 1.8rem;
+            position: relative;
+            align-items: center;
         }
 
         .pf-nav-links a {
             font-size: .84rem;
             font-weight: 500;
             color: var(--text-secondary);
-            transition: color var(--transition);
+            transition: color var(--transition), transform var(--transition);
+            padding: 0.35rem 0.85rem;
+            border-radius: 20px;
+            position: relative;
+            z-index: 2;
         }
 
-        .pf-nav-links a:hover {
-            color: var(--accent);
+        .pf-nav-links a:hover,
+        .pf-nav-links a.active {
+            color: #fff;
+        }
+
+        .pf-nav-indicator {
+            position: absolute;
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.22) 0%, rgba(139, 92, 246, 0.22) 100%);
+            border: 1.5px solid rgba(99, 102, 241, 0.4);
+            box-shadow: 0 0 14px rgba(99, 102, 241, 0.25);
+            border-radius: 20px;
+            z-index: 1;
+            transition: all 0.35s cubic-bezier(0.25, 1, 0.5, 1);
+            pointer-events: none;
+            opacity: 0;
         }
 
         .pf-nav-right {
@@ -791,6 +827,7 @@
             padding: 80px 5% 50px;
             position: relative;
             overflow: hidden;
+            background: linear-gradient(180deg, var(--bg) 0%, var(--bg-card) 100%);
         }
 
         #pf-hero::before {
@@ -1071,8 +1108,8 @@
 
         /* About */
         #pf-about {
-            background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(99, 102, 241, .08) 0%, transparent 70%),
-                var(--bg-card);
+            background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(99, 102, 241, .12) 0%, transparent 70%),
+                linear-gradient(180deg, var(--bg-card) 0%, var(--bg) 100%);
         }
 
         .pf-about-grid {
@@ -1171,8 +1208,8 @@
 
         /* Skills */
         #pf-skills {
-            background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(139, 92, 246, .08) 0%, transparent 70%),
-                var(--bg);
+            background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(139, 92, 246, .12) 0%, transparent 70%),
+                linear-gradient(180deg, var(--bg) 0%, var(--bg-card) 100%);
         }
 
         .pf-skills-grid {
@@ -1242,8 +1279,8 @@
 
         /* Apps */
         #pf-apps {
-            background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(59, 130, 246, .08) 0%, transparent 70%),
-                var(--bg-card);
+            background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(59, 130, 246, .12) 0%, transparent 70%),
+                linear-gradient(180deg, var(--bg-card) 0%, var(--bg) 100%);
         }
 
         .pf-apps-grid {
@@ -1365,8 +1402,8 @@
 
         /* ─── YouTube Section ──────────────────────────────────────── */
         #pf-youtube {
-            background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(239, 68, 68, .09) 0%, transparent 70%),
-                var(--bg);
+            background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(239, 68, 68, .12) 0%, transparent 70%),
+                linear-gradient(180deg, var(--bg) 0%, var(--bg-card) 100%);
         }
 
         /* Featured video */
@@ -1663,8 +1700,8 @@
 
         /* Volunteer */
         #pf-volunteer {
-            background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(16, 185, 129, .08) 0%, transparent 70%),
-                var(--bg-card);
+            background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(16, 185, 129, .12) 0%, transparent 70%),
+                linear-gradient(180deg, var(--bg-card) 0%, var(--bg) 100%);
         }
 
         .pf-timeline {
@@ -1779,8 +1816,8 @@
 
         /* Education */
         #pf-education {
-            background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(245, 158, 11, .08) 0%, transparent 70%),
-                var(--bg-card);
+            background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(245, 158, 11, .12) 0%, transparent 70%),
+                linear-gradient(180deg, var(--bg-card) 0%, var(--bg) 100%);
         }
 
         .pf-edu-grid {
@@ -1897,8 +1934,12 @@
 
         /* Contact */
         #pf-contact {
-            background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(6, 182, 212, .08) 0%, transparent 70%),
-                var(--bg);
+            background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(6, 182, 212, .12) 0%, transparent 70%),
+                linear-gradient(180deg, var(--bg) 0%, var(--bg-card) 100%);
+        }
+
+        #pf-cv {
+            background: linear-gradient(180deg, var(--bg-card) 0%, var(--bg) 100%);
         }
 
         .pf-contact-grid {
@@ -2487,8 +2528,8 @@
 
         /* ─── Certifications Section ────────────────────────────────── */
         #pf-licenses {
-            background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(236, 72, 153, .08) 0%, transparent 70%),
-                var(--bg);
+            background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(236, 72, 153, .12) 0%, transparent 70%),
+                linear-gradient(180deg, var(--bg) 0%, var(--bg-card) 100%);
         }
 
         .cert-carousel-container {
@@ -2755,6 +2796,7 @@
             <a href="#pf-hero" class="pf-nav-logo">gihansgamage.online</a>
             <div class="pf-nav-right">
                 <div class="pf-nav-links">
+                    <div class="pf-nav-indicator"></div>
                     <a href="#pf-about">About</a>
                     <a href="#pf-skills">Skills</a>
                     <a href="#pf-apps">Projects</a>
@@ -3813,8 +3855,8 @@
 
             // Background gradient
             const bg = ctx.createLinearGradient(0, 0, 0, H);
-            bg.addColorStop(0, '#05050f');
-            bg.addColorStop(1, '#0a0a20');
+            bg.addColorStop(0, '#0a0b22');
+            bg.addColorStop(1, '#0e1033');
             ctx.fillStyle = bg;
             ctx.fillRect(0, 0, W, H);
 
@@ -4838,6 +4880,105 @@
                 };
                 requestAnimationFrame(step);
             }
+        })();
+
+        /* ── PORTFOLIO NAV INTERACTION & SCROLLSPY ────────────────── */
+        (function () {
+            const pf = document.getElementById('portfolio');
+            if (!pf) return;
+
+            const nav = pf.querySelector('.pf-nav');
+            const navLinks = pf.querySelectorAll('.pf-nav-links a');
+            const indicator = pf.querySelector('.pf-nav-indicator');
+            const sections = Array.from(navLinks).map(link => {
+                const targetId = link.getAttribute('href');
+                return targetId ? pf.querySelector(targetId) : null;
+            });
+
+            function updateIndicator(target) {
+                if (!target || !indicator) {
+                    if (indicator) indicator.style.opacity = '0';
+                    return;
+                }
+                const rect = target.getBoundingClientRect();
+                const parentRect = target.parentElement.getBoundingClientRect();
+                indicator.style.left = `${rect.left - parentRect.left}px`;
+                indicator.style.width = `${rect.width}px`;
+                indicator.style.height = `${rect.height}px`;
+                indicator.style.top = `${rect.top - parentRect.top}px`;
+                indicator.style.opacity = '1';
+            }
+
+            // Move indicator on hover
+            navLinks.forEach(link => {
+                link.addEventListener('mouseenter', () => {
+                    updateIndicator(link);
+                });
+                link.addEventListener('mouseleave', () => {
+                    const activeLink = pf.querySelector('.pf-nav-links a.active');
+                    if (activeLink) {
+                        updateIndicator(activeLink);
+                    } else {
+                        updateIndicator(null);
+                    }
+                });
+            });
+
+            // Scrollspy active state detection & Nav bar shrinking
+            function onScroll() {
+                // Nav bar scroll state
+                if (pf.scrollTop > 50) {
+                    nav.classList.add('scrolled');
+                } else {
+                    nav.classList.remove('scrolled');
+                }
+
+                // Scrollspy
+                let currentActive = null;
+                const scrollPos = pf.scrollTop + 120; // offset for nav bar
+
+                sections.forEach((section, idx) => {
+                    if (section && section.offsetTop <= scrollPos) {
+                        currentActive = navLinks[idx];
+                    }
+                });
+
+                // Clear previous active
+                navLinks.forEach(link => link.classList.remove('active'));
+
+                if (currentActive) {
+                    currentActive.classList.add('active');
+                    // update indicator if not currently hovered
+                    const isHoveringAny = Array.from(navLinks).some(link => link.matches(':hover'));
+                    if (!isHoveringAny) {
+                        updateIndicator(currentActive);
+                    }
+                } else {
+                    updateIndicator(null);
+                }
+            }
+
+            pf.addEventListener('scroll', onScroll, { passive: true });
+            
+            // Listen for resize to update indicator positioning
+            window.addEventListener('resize', () => {
+                const activeLink = pf.querySelector('.pf-nav-links a.active');
+                if (activeLink) {
+                    updateIndicator(activeLink);
+                }
+            });
+
+            // Observe when portfolio shown to initialize scrollspy
+            const observer = new MutationObserver((mutations) => {
+                mutations.forEach((mutation) => {
+                    if (mutation.attributeName === 'class') {
+                        if (pf.classList.contains('show')) {
+                            setTimeout(onScroll, 100);
+                        }
+                    }
+                });
+            });
+            observer.observe(pf, { attributes: true });
         })();
     </script>
 </body>
