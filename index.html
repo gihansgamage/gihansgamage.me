@@ -703,6 +703,13 @@
             box-shadow: 0 8px 32px rgba(99, 102, 241, 0.15), 0 4px 10px rgba(0, 0, 0, 0.3);
         }
 
+        .pf-nav-logo-wrapper {
+            display: inline-flex;
+            align-items: center;
+            min-width: 270px;
+            height: 100%;
+        }
+
         .pf-nav-logo {
             font-family: 'Press Start 2P', monospace;
             font-size: .6rem;
@@ -714,8 +721,7 @@
             display: inline-block;
         }
 
-        .pf-nav-logo:hover {
-            transform: scale(1.05) rotate(-2deg);
+        .pf-nav-logo-wrapper:hover .pf-nav-logo {
             filter: drop-shadow(0 0 8px rgba(99, 102, 241, 0.6));
         }
 
@@ -2401,6 +2407,10 @@
             .pf-nav-links {
                 display: none;
             }
+
+            .pf-nav-logo-wrapper {
+                min-width: auto;
+            }
         }
 
         @media (max-width: 480px) {
@@ -2793,7 +2803,9 @@
 
         <!-- Navbar -->
         <nav class="pf-nav">
-            <a href="#pf-hero" class="pf-nav-logo">gihansgamage.online</a>
+            <div class="pf-nav-logo-wrapper">
+                <a href="#pf-hero" class="pf-nav-logo">gihansgamage.online</a>
+            </div>
             <div class="pf-nav-right">
                 <div class="pf-nav-links">
                     <div class="pf-nav-indicator"></div>
@@ -4894,6 +4906,44 @@
                 const targetId = link.getAttribute('href');
                 return targetId ? pf.querySelector(targetId) : null;
             });
+
+            // Logo typewriter effect on hover
+            const logoWrapper = pf.querySelector('.pf-nav-logo-wrapper');
+            const logo = pf.querySelector('.pf-nav-logo');
+            if (logoWrapper && logo) {
+                let logoAnimId = null;
+                let logoTimeoutId = null;
+                const fullText = 'print("gihansgamage.online")';
+                const outputText = 'gihansgamage.online';
+
+                logoWrapper.addEventListener('mouseenter', () => {
+                    clearInterval(logoAnimId);
+                    clearTimeout(logoTimeoutId);
+                    let curIndex = 0;
+                    logo.textContent = '_';
+
+                    logoAnimId = setInterval(() => {
+                        if (curIndex < fullText.length) {
+                            logo.textContent = fullText.slice(0, curIndex + 1) + '_';
+                            curIndex++;
+                        } else {
+                            clearInterval(logoAnimId);
+                            logo.textContent = fullText;
+                            logoTimeoutId = setTimeout(() => {
+                                logo.textContent = outputText;
+                                logo.style.filter = 'drop-shadow(0 0 12px rgba(99, 102, 241, 0.9))';
+                            }, 300);
+                        }
+                    }, 35);
+                });
+
+                logoWrapper.addEventListener('mouseleave', () => {
+                    clearInterval(logoAnimId);
+                    clearTimeout(logoTimeoutId);
+                    logo.textContent = outputText;
+                    logo.style.filter = '';
+                });
+            }
 
             function updateIndicator(target) {
                 if (!target || !indicator) {
