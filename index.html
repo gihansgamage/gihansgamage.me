@@ -2219,6 +2219,36 @@
             color: var(--accent);
         }
 
+        .pf-footer-counter {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            margin: 0.8rem 0;
+            padding: 0.35rem 0.8rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            font-size: 0.72rem;
+            color: var(--text-secondary);
+            transition: all var(--transition);
+            box-shadow: var(--shadow-sm);
+            cursor: pointer;
+        }
+
+        .pf-footer-counter:hover {
+            border-color: var(--accent);
+            color: var(--text-primary);
+            box-shadow: var(--shadow-md);
+            transform: translateY(-1px);
+        }
+
+        .pf-footer-counter svg,
+        .pf-footer-counter i {
+            width: 13px;
+            height: 13px;
+            color: var(--accent);
+        }
+
         /* Blob bg for portfolio */
         .pf-blob-bg {
             position: fixed;
@@ -3327,6 +3357,10 @@
 
         <footer class="pf-footer">
             <p>© 2026 <span>Gihan S Gamage</span>. Portfolio unlocked the fun way.</p>
+            <div class="pf-footer-counter" title="Total page views">
+                <i data-lucide="eye"></i>
+                <span id="portfolio-view-count">...</span> views
+            </div>
             <div class="pf-footer-links">
                 <a href="https://github.com/gihansgamage" target="_blank" rel="noopener">GitHub</a>
                 <a href="https://www.linkedin.com/in/ggsanjaya" target="_blank" rel="noopener">LinkedIn</a>
@@ -4741,6 +4775,51 @@
                     btn.disabled = false;
                 }
             });
+        })();
+
+        /* ── PORTFOLIO VIEW COUNTER ──────────────────────────── */
+        (function () {
+            const counterEl = document.getElementById('portfolio-view-count');
+            if (!counterEl) return;
+
+            const isVisited = sessionStorage.getItem('portfolio_visited');
+            const baseUrl = 'https://api.counterapi.dev/v1/gihansgamage.me/portfolio';
+            const url = isVisited ? `${baseUrl}/` : `${baseUrl}/up`;
+
+            fetch(url)
+                .then(res => {
+                    if (!res.ok) throw new Error('API request failed');
+                    return res.json();
+                })
+                .then(data => {
+                    const count = data.count || 0;
+                    if (!isVisited) {
+                        sessionStorage.setItem('portfolio_visited', 'true');
+                    }
+                    // Animate the counter smoothly
+                    animateValue(counterEl, 0, count, 1500);
+                })
+                .catch(err => {
+                    console.error('Error fetching view count:', err);
+                    counterEl.textContent = '---';
+                });
+
+            function animateValue(el, start, target, duration) {
+                let startTimestamp = null;
+                const step = (timestamp) => {
+                    if (!startTimestamp) startTimestamp = timestamp;
+                    const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+                    const easeProgress = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
+                    const currentValue = Math.floor(easeProgress * (target - start) + start);
+                    el.textContent = currentValue.toLocaleString();
+                    if (progress < 1) {
+                        requestAnimationFrame(step);
+                    } else {
+                        el.textContent = target.toLocaleString();
+                    }
+                };
+                requestAnimationFrame(step);
+            }
         })();
     </script>
 </body>
