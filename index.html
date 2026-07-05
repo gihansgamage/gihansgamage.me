@@ -2609,10 +2609,7 @@
         }
 
         .cert-indicators {
-            display: flex;
-            justify-content: center;
-            gap: 0.5rem;
-            margin-top: 1.2rem;
+            display: none;
         }
 
         .cert-dot {
@@ -4512,7 +4509,8 @@
                 'certificate/12.png',
                 'certificate/13.png',
                 'certificate/14.png',
-                'certificate/15.png'
+                'certificate/15.png',
+                'certificate/16.png'
 
             ];
 
@@ -4538,10 +4536,7 @@
                 slide.appendChild(card);
                 track.appendChild(slide);
 
-                const dot = document.createElement('span');
-                dot.className = 'cert-dot' + (idx === 0 ? ' active' : '');
-                dot.onclick = () => setCertSlide(idx);
-                indicators.appendChild(dot);
+                // Do not render pagination dots for many certificates
             });
 
             currentCertIndex = 0;
