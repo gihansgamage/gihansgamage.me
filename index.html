@@ -1697,158 +1697,133 @@
             pointer-events: none;
         }
 
-        /* Channel cards */
-        .pf-yt-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 1.2rem;
+        /* YouTube Channels Hub */
+        .yt-icons-hub {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 3.5rem;
+            margin: 2.2rem 0 1rem 0;
+            flex-wrap: wrap;
         }
 
-        .pf-yt {
-            border-radius: var(--radius);
-            border: 1px solid rgba(239, 68, 68, .15);
-            background: linear-gradient(145deg, rgba(239, 68, 68, .06) 0%, var(--bg-card) 60%);
-            padding: 1.5rem 1.3rem 1.2rem;
+        .yt-icon-item {
             display: flex;
             flex-direction: column;
-            gap: .7rem;
-            position: relative;
-            overflow: hidden;
-            transition: box-shadow .3s, transform .3s, border-color .3s;
-        }
-
-        .pf-yt::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: radial-gradient(circle at 0% 0%, rgba(239, 68, 68, .12) 0%, transparent 65%);
-            pointer-events: none;
-        }
-
-        .pf-yt::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 2px;
-            background: linear-gradient(90deg, #ef4444, #f97316, #ef4444);
-            transform: scaleX(0);
-            transform-origin: left;
+            align-items: center;
+            cursor: pointer;
             transition: transform .35s ease;
+            position: relative;
+            padding: .5rem;
+            text-decoration: none;
+            color: inherit;
         }
 
-        .pf-yt:hover {
-            box-shadow: 0 8px 30px rgba(239, 68, 68, .2), 0 2px 8px rgba(0, 0, 0, .3);
-            transform: translateY(-5px);
-            border-color: rgba(239, 68, 68, .4);
+        .yt-icon-item:hover {
+            transform: translateY(-6px);
         }
 
-        .pf-yt:hover::after {
-            transform: scaleX(1);
-        }
-
-        /* Card header row */
-        .pf-yt-header {
+        .yt-logo-wrap {
+            position: relative;
+            width: 84px;
+            height: 84px;
             display: flex;
             align-items: center;
-            gap: .85rem;
+            justify-content: center;
+            border-radius: 50%;
         }
 
-        .pf-yt-avatar {
-            width: 52px;
-            height: 52px;
+        .yt-logo-img {
+            width: 72px;
+            height: 72px;
             border-radius: 50%;
             object-fit: cover;
-            border: 2px solid rgba(239, 68, 68, .4);
-            box-shadow: 0 0 12px rgba(239, 68, 68, .2);
-            flex-shrink: 0;
-            transition: box-shadow .3s, border-color .3s;
+            border: 3px solid #ef4444;
+            position: relative;
+            z-index: 2;
+            box-shadow: 0 0 20px rgba(239, 68, 68, 0.4);
+            transition: border-color .35s, box-shadow .35s, transform .35s;
         }
 
-        .pf-yt:hover .pf-yt-avatar {
-            border-color: #ef4444;
-            box-shadow: 0 0 20px rgba(239, 68, 68, .45);
+        .yt-icon-item:hover .yt-logo-img {
+            border-color: #ff0000;
+            box-shadow: 0 0 32px rgba(255, 0, 0, 0.9), 0 0 12px rgba(255, 255, 255, 0.9);
+            transform: scale(1.08);
         }
 
-        .pf-yt-meta {
-            display: flex;
-            flex-direction: column;
-            gap: .2rem;
-            min-width: 0;
+        /* Slow Blinking Concentric Rings Animation (4.2s duration) */
+        .yt-ring {
+            position: absolute;
+            inset: -6px;
+            border-radius: 50%;
+            border: 2px solid rgba(239, 68, 68, 0.75);
+            animation: ytRingBlink 4.2s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+            pointer-events: none;
+            z-index: 1;
         }
 
-        .pf-yt-handle {
-            font-size: .88rem;
-            font-weight: 700;
+        .yt-ring:nth-child(2) {
+            animation-delay: 1.4s;
+        }
+
+        .yt-ring:nth-child(3) {
+            animation-delay: 2.8s;
+        }
+
+        @keyframes ytRingBlink {
+            0% {
+                transform: scale(0.85);
+                opacity: 0.95;
+                border-color: rgba(239, 68, 68, 0.9);
+            }
+            50% {
+                opacity: 0.45;
+                border-color: rgba(244, 63, 94, 0.55);
+            }
+            100% {
+                transform: scale(1.68);
+                opacity: 0;
+                border-color: rgba(239, 68, 68, 0);
+            }
+        }
+
+        .yt-icon-name {
             font-family: 'Space Grotesk', sans-serif;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .pf-yt-subs-pill {
-            display: inline-flex;
-            align-items: center;
-            gap: .28rem;
-            font-size: .62rem;
-            font-weight: 700;
-            color: #ef4444;
-            background: rgba(239, 68, 68, .12);
-            border: 1px solid rgba(239, 68, 68, .2);
-            border-radius: 99px;
-            padding: .2rem .55rem;
-            width: fit-content;
-        }
-
-        .pf-yt-subs-pill svg {
-            width: 10px;
-            height: 10px;
-        }
-
-        .yt-icon-views {
-            display: none !important;
-        }
-
-        .pf-yt-subs-pill.show-views .yt-icon-subs {
-            display: none !important;
-        }
-
-        .pf-yt-subs-pill.show-views .yt-icon-views {
-            display: inline-block !important;
-        }
-
-        .pf-yt-desc {
-            font-size: .78rem;
-            color: var(--text-secondary);
-            line-height: 1.65;
-            flex: 1;
-        }
-
-        .pf-yt-link {
-            display: inline-flex;
-            align-items: center;
-            gap: .4rem;
-            font-size: .75rem;
+            font-size: .95rem;
             font-weight: 700;
             color: #fff;
-            background: linear-gradient(135deg, #ef4444, #dc2626);
-            padding: .5rem 1rem;
-            border-radius: var(--radius);
-            align-self: flex-start;
-            transition: gap .25s, transform .25s, box-shadow .25s;
-            box-shadow: 0 3px 12px rgba(239, 68, 68, .3);
+            margin-top: .75rem;
+            text-align: center;
         }
 
-        .pf-yt-link:hover {
-            gap: .6rem;
-            transform: translateX(2px);
-            box-shadow: 0 5px 20px rgba(239, 68, 68, .5);
+        .yt-icon-subs {
+            font-size: .75rem;
+            color: #ef4444;
+            background: rgba(239, 68, 68, 0.12);
+            padding: .18rem .65rem;
+            border-radius: 99px;
+            border: 1px solid rgba(239, 68, 68, 0.25);
+            margin-top: .3rem;
+            font-weight: 600;
+            transition: all .25s ease;
         }
 
-        .pf-yt-link i {
-            width: 12px;
-            height: 12px;
+        .yt-icon-subs .views-text {
+            display: none;
+        }
+
+        .yt-icon-item:hover .yt-icon-subs {
+            background: rgba(6, 182, 212, 0.15);
+            color: #22d3ee;
+            border-color: rgba(6, 182, 212, 0.35);
+        }
+
+        .yt-icon-item:hover .yt-icon-subs .subs-text {
+            display: none;
+        }
+
+        .yt-icon-item:hover .yt-icon-subs .views-text {
+            display: inline;
         }
 
         /* Volunteer */
@@ -3409,7 +3384,7 @@
                 <div class="pf-hdr pf-reveal">
                     <div class="pf-tag">Content</div>
                     <h2 class="pf-title">YouTube Channels</h2>
-                    <p class="pf-sub">Creating engaging content across three channels — education, tech &amp; facts.</p>
+                    <p class="pf-sub">Click any channel logo to visit directly on YouTube.</p>
                 </div>
 
                 <!-- Featured Video -->
@@ -3428,7 +3403,6 @@
                             alt="Latest Maths Crew video thumbnail"
                             onerror="this.src='https://img.youtube.com/vi/L0JRylyGG8o/hqdefault.jpg'" />
                         <div class="yt-play-btn">
-                            <!-- YouTube official play icon -->
                             <svg viewBox="0 0 68 48" xmlns="http://www.w3.org/2000/svg">
                                 <path
                                     d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55c-2.93.78-4.63 3.26-5.42 6.19C.06 13.05 0 24 0 24s.06 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C67.94 34.95 68 24 68 24s-.06-10.95-1.48-16.26z"
@@ -3440,98 +3414,57 @@
                     </a>
                 </div>
 
-                <!-- Channel Cards -->
-                <div class="pf-yt-grid">
-
-                    <!-- Maths Crew -->
-                    <div class="pf-yt pf-reveal">
-                        <div class="pf-yt-header">
-                            <img class="pf-yt-avatar" src="mathscrew-logo.png" alt="Maths Crew"
-                                onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'52\' height=\'52\'><rect width=\'52\' height=\'52\' rx=\'26\' fill=\'%231a0a0a\'/><text x=\'26\' y=\'26\' fill=\'%23ef4444\' font-family=\'sans-serif\' font-size=\'24\' font-weight=\'bold\' text-anchor=\'middle\' dominant-baseline=\'central\'>M</text></svg>'">
-                            <div class="pf-yt-meta">
-                                <div class="pf-yt-handle">Maths Crew</div>
-                                <div class="pf-yt-subs-pill">
-                                    <svg class="yt-icon-subs" viewBox="0 0 24 24" fill="currentColor">
-                                        <path
-                                            d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
-                                    </svg>
-                                    <svg class="yt-icon-views" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                                        <circle cx="12" cy="12" r="3"></circle>
-                                    </svg>
-                                    <span class="yt-stat-number" data-subs="54000" data-views="3249872">54,000</span>+
-                                    <span class="yt-stat-label">Subscribers</span>
-                                </div>
-                            </div>
+                <!-- Channel Icons Hub (Direct Channel Links with Counter Up Views) -->
+                <div class="yt-icons-hub pf-reveal">
+                    <!-- Channel 1: Maths Crew -->
+                    <a href="https://www.youtube.com/@mathscrew" target="_blank" rel="noopener" class="yt-icon-item" title="Visit @mathscrew on YouTube" data-target-views="3256173 ">
+                        <div class="yt-logo-wrap">
+                            <span class="yt-ring"></span>
+                            <span class="yt-ring"></span>
+                            <span class="yt-ring"></span>
+                            <img src="mathscrew-logo.png" alt="Maths Crew" class="yt-logo-img"
+                                onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'72\' height=\'72\'><rect width=\'72\' height=\'72\' rx=\'36\' fill=\'%231a0a0a\'/><text x=\'36\' y=\'36\' fill=\'%23ef4444\' font-family=\'sans-serif\' font-size=\'28\' font-weight=\'bold\' text-anchor=\'middle\' dominant-baseline=\'central\'>M</text></svg>'">
                         </div>
-                        <p class="pf-yt-desc">Educational YouTube channel in Sri Lanka covering Smart Study Tips,
-                            Motivational Videos &amp; Educational content to help students excel.</p>
-                        <a href="https://www.youtube.com/@mathscrew" target="_blank" rel="noopener" class="pf-yt-link">
-                            Visit Channel <i data-lucide="arrow-right"></i>
-                        </a>
-                    </div>
-
-                    <!-- Gihan S Gamage -->
-                    <div class="pf-yt pf-reveal">
-                        <div class="pf-yt-header">
-                            <img class="pf-yt-avatar" src="gihansgamage-logo.png" alt="Gihan S Gamage"
-                                onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'52\' height=\'52\'><rect width=\'52\' height=\'52\' rx=\'26\' fill=\'%231a0a0a\'/><text x=\'26\' y=\'26\' fill=\'%23ef4444\' font-family=\'sans-serif\' font-size=\'24\' font-weight=\'bold\' text-anchor=\'middle\' dominant-baseline=\'central\'>G</text></svg>'">
-                            <div class="pf-yt-meta">
-                                <div class="pf-yt-handle">Gihan S Gamage</div>
-                                <div class="pf-yt-subs-pill">
-                                    <svg class="yt-icon-subs" viewBox="0 0 24 24" fill="currentColor">
-                                        <path
-                                            d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
-                                    </svg>
-                                    <svg class="yt-icon-views" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                                        <circle cx="12" cy="12" r="3"></circle>
-                                    </svg>
-                                    <span class="yt-stat-number" data-subs="300" data-views="34656">300</span>+ <span
-                                        class="yt-stat-label">Subscribers</span>
-                                </div>
-                            </div>
+                        <div class="yt-icon-name">Maths Crew</div>
+                        <div class="yt-icon-subs">
+                            <span class="subs-text">54K+ Subs</span>
+                            <span class="views-text"><span class="yt-views-counter">0</span> Views</span>
                         </div>
-                        <p class="pf-yt-desc">Content creator across YouTube, Facebook, TikTok &amp; Instagram —
-                            crafting social experiments, tech content &amp; engaging narratives.</p>
-                        <a href="https://www.youtube.com/@gihansgamage" target="_blank" rel="noopener"
-                            class="pf-yt-link">
-                            Visit Channel <i data-lucide="arrow-right"></i>
-                        </a>
-                    </div>
+                    </a>
 
-                    <!-- Facts Bit -->
-                    <div class="pf-yt pf-reveal">
-                        <div class="pf-yt-header">
-                            <img class="pf-yt-avatar" src="factsbit-logo.png" alt="Facts Bit"
-                                onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'52\' height=\'52\'><rect width=\'52\' height=\'52\' rx=\'26\' fill=\'%231a0a0a\'/><text x=\'26\' y=\'26\' fill=\'%23ef4444\' font-family=\'sans-serif\' font-size=\'24\' font-weight=\'bold\' text-anchor=\'middle\' dominant-baseline=\'central\'>F</text></svg>'">
-                            <div class="pf-yt-meta">
-                                <div class="pf-yt-handle">Facts Bit</div>
-                                <div class="pf-yt-subs-pill">
-                                    <svg class="yt-icon-subs" viewBox="0 0 24 24" fill="currentColor">
-                                        <path
-                                            d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
-                                    </svg>
-                                    <svg class="yt-icon-views" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                                        <circle cx="12" cy="12" r="3"></circle>
-                                    </svg>
-                                    <span class="yt-stat-number" data-subs="300" data-views="13430">300</span>+ <span
-                                        class="yt-stat-label">Subscribers</span>
-                                </div>
-                            </div>
+                    <!-- Channel 2: Gihan S Gamage -->
+                    <a href="https://www.youtube.com/@gihansgamage" target="_blank" rel="noopener" class="yt-icon-item" title="Visit @gihansgamage on YouTube" data-target-views="34656">
+                        <div class="yt-logo-wrap">
+                            <span class="yt-ring"></span>
+                            <span class="yt-ring"></span>
+                            <span class="yt-ring"></span>
+                            <img src="gihansgamage-logo.png" alt="Gihan S Gamage" class="yt-logo-img"
+                                onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'72\' height=\'72\'><rect width=\'72\' height=\'72\' rx=\'36\' fill=\'%231a0a0a\'/><text x=\'36\' y=\'36\' fill=\'%23ef4444\' font-family=\'sans-serif\' font-size=\'28\' font-weight=\'bold\' text-anchor=\'middle\' dominant-baseline=\'central\'>G</text></svg>'">
                         </div>
-                        <p class="pf-yt-desc">Everything has a reason to exist, change, and fade — told in a minute or
-                            two. Bite-sized fascinating facts about the world around us.</p>
-                        <a href="https://www.youtube.com/@factsbit" target="_blank" rel="noopener" class="pf-yt-link">
-                            Visit Channel <i data-lucide="arrow-right"></i>
-                        </a>
-                    </div>
+                        <div class="yt-icon-name">Gihan S Gamage</div>
+                        <div class="yt-icon-subs">
+                            <span class="subs-text">300+ Subs</span>
+                            <span class="views-text"><span class="yt-views-counter">0</span> Views</span>
+                        </div>
+                    </a>
 
+                    <!-- Channel 3: Facts Bit -->
+                    <a href="https://www.youtube.com/@factsbit" target="_blank" rel="noopener" class="yt-icon-item" title="Visit @factsbit on YouTube" data-target-views="13430">
+                        <div class="yt-logo-wrap">
+                            <span class="yt-ring"></span>
+                            <span class="yt-ring"></span>
+                            <span class="yt-ring"></span>
+                            <img src="factsbit-logo.png" alt="Facts Bit" class="yt-logo-img"
+                                onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'72\' height=\'72\'><rect width=\'72\' height=\'72\' rx=\'36\' fill=\'%231a0a0a\'/><text x=\'36\' y=\'36\' fill=\'%23ef4444\' font-family=\'sans-serif\' font-size=\'28\' font-weight=\'bold\' text-anchor=\'middle\' dominant-baseline=\'central\'>F</text></svg>'">
+                        </div>
+                        <div class="yt-icon-name">Facts Bit</div>
+                        <div class="yt-icon-subs">
+                            <span class="subs-text">300+ Subs</span>
+                            <span class="views-text"><span class="yt-views-counter">0</span> Views</span>
+                        </div>
+                    </a>
                 </div>
+
             </div>
         </section>
 
@@ -4501,6 +4434,44 @@
                 });
                 card.addEventListener('mouseleave', () => { card.style.transform = ''; });
             });
+
+            // YouTube Counter-up animation on hover
+            pf.querySelectorAll('.yt-icon-item').forEach(item => {
+                let animId = null;
+                item.addEventListener('mouseenter', () => {
+                    const counterEl = item.querySelector('.yt-views-counter');
+                    if (!counterEl) return;
+
+                    const targetViews = parseInt(item.getAttribute('data-target-views') || '0', 10);
+                    const finalLabel = item.getAttribute('data-views-label');
+                    const duration = 900;
+                    const startTime = performance.now();
+
+                    if (animId) cancelAnimationFrame(animId);
+
+                    function updateCounter(now) {
+                        const elapsed = now - startTime;
+                        const progress = Math.min(elapsed / duration, 1);
+                        const easeOutProgress = 1 - Math.pow(1 - progress, 3);
+                        const currentVal = Math.floor(easeOutProgress * targetViews);
+
+                        if (progress < 1) {
+                            counterEl.textContent = currentVal.toLocaleString();
+                            animId = requestAnimationFrame(updateCounter);
+                        } else {
+                            counterEl.textContent = targetViews.toLocaleString();
+                        }
+                    }
+
+                    animId = requestAnimationFrame(updateCounter);
+                });
+
+                item.addEventListener('mouseleave', () => {
+                    if (animId) cancelAnimationFrame(animId);
+                    const counterEl = item.querySelector('.yt-views-counter');
+                    if (counterEl) counterEl.textContent = '0';
+                });
+            });
         }
 
         // ─── QUIZ SYSTEM ───
@@ -4620,6 +4591,38 @@
             }
         };
 
+
+        // ─── YOUTUBE INTERACTIVE HUB LOGIC ───
+        window.toggleYtCard = function (idx) {
+            const container = document.getElementById('yt-detail-box');
+            const items = document.querySelectorAll('.yt-icon-item');
+            const cards = document.querySelectorAll('.yt-detail-card');
+
+            if (!container) return;
+
+            const isCurrentActive = items[idx] && items[idx].classList.contains('active') && container.style.display !== 'none';
+            if (isCurrentActive) {
+                closeYtCard();
+                return;
+            }
+
+            items.forEach((item, i) => {
+                item.classList.toggle('active', i === idx);
+            });
+
+            cards.forEach((card, i) => {
+                card.classList.toggle('active', i === idx);
+            });
+
+            container.style.display = 'block';
+            container.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        };
+
+        window.closeYtCard = function () {
+            const container = document.getElementById('yt-detail-box');
+            if (container) container.style.display = 'none';
+            document.querySelectorAll('.yt-icon-item').forEach(item => item.classList.remove('active'));
+        };
 
         // ─── GAME MENU LOGIC ───
         const menuSections = [
